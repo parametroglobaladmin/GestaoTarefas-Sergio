@@ -1,0 +1,5344 @@
+2025-06-30 14:48:45 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:48:45 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:36:00
+Hora limite de envio: 14:37:00
+Janela de envio: de 14:37:00 até 14:47:00
+Hora atual: 14:48:45
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 04:36:00
+Hora limite de envio: 04:37:00
+Janela de envio: de 04:37:00 até 04:47:00
+Hora atual: 14:48:45
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 14:49:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:49:01 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:36:00
+Hora limite de envio: 14:37:00
+Janela de envio: de 14:37:00 até 14:47:00
+Hora atual: 14:49:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 04:36:00
+Hora limite de envio: 04:37:00
+Janela de envio: de 04:37:00 até 04:47:00
+Hora atual: 14:49:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 14:49:26 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:49:26 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:49:26
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 04:49:00
+Hora limite de envio: 04:50:00
+Janela de envio: de 04:50:00 até 05:00:00
+Hora atual: 14:49:26
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 14:50:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:50:01 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:50:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Não
+A enviar email para a14381@oficina.pt...
+Aviso registado na base de dados.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 04:49:00
+Hora limite de envio: 04:50:00
+Janela de envio: de 04:50:00 até 05:00:00
+Hora atual: 14:50:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 14:50:35 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:50:35 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:50:35
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 04:49:00
+Hora limite de envio: 04:50:00
+Janela de envio: de 04:50:00 até 05:00:00
+Hora atual: 14:50:35
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 14:51:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:51:01 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:51:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 04:49:00
+Hora limite de envio: 04:50:00
+Janela de envio: de 04:50:00 até 05:00:00
+Hora atual: 14:51:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 14:51:17 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:51:17 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:51:17
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:51:17
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rafael: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Não
+A enviar email para a14356@oficina.pt...
+Aviso registado na base de dados.
+
+Processo concluído!
+2025-06-30 14:52:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:52:01 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:52:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:52:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rafael: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-06-30 14:53:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:53:01 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:53:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:53:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rafael: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-06-30 14:54:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:54:01 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:54:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:54:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rafael: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-06-30 14:55:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:55:01 | Dia da semana: Monday
+Total de funcionários: 2
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:55:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:55:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rafael: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-06-30 14:56:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:56:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:56:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:56:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Não
+A enviar email para andreccarneiro@icloud.com...
+Aviso registado na base de dados.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:56:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rafael: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-06-30 14:57:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:57:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:57:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:57:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:57:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rafael: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-06-30 14:58:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:58:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:58:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:58:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 1
+Já existe tarefa iniciada hoje. Nenhum aviso necessário.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:58:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rafael: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-06-30 14:59:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 14:59:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:59:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:59:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 1
+Já existe tarefa iniciada hoje. Nenhum aviso necessário.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:59:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rafael: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-06-30 15:00:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:00:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:00:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:00:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:00:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:01:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:01:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:02:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:02:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:03:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:03:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:04:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:04:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Funcionário está ausente hoje (2025-06-30). Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:04:56 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:04:56 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:04:56
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:04:56
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:04:56
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:05:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:05:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:06:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:06:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:06:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:06:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:06:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:06:32 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:06:32 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:06:32
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:06:32
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:06:32
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:06:50 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:06:50 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:06:50
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:06:50
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Não
+A enviar email para andreccarneiro@icloud.com...
+Aviso registado na base de dados.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:06:50
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:07:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:07:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:07:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:07:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:07:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:08:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:08:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:08:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:08:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:08:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:09:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:09:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:09:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:09:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:09:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:10:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:10:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:10:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:10:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:10:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:11:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:11:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:11:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:11:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:11:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:12:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:12:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:12:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:12:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:12:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:13:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:13:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:13:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:13:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:13:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:14:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:14:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:14:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:14:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:14:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:15:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:15:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:15:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:15:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joaquim: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:15:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:16:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:16:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:16:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:16:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:16:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:17:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:17:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:17:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:17:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:17:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:18:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:18:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:18:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:18:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:18:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:19:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:19:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:19:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:19:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:19:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:20:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:20:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:20:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:20:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:20:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:21:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:21:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:21:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:21:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:21:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:22:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:22:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:22:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:22:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:22:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:23:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:23:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:23:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:23:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:23:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:24:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:24:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:24:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:24:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:24:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:25:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:25:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:25:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:25:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:25:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:26:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:26:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:26:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:26:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:26:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 15:27:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 15:27:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:27:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 15:27:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:27:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 17:00:15 - Script iniciado
+Data: 2025-06-30 | Hora agora: 17:00:15 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:00:15
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:00:15
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:00:15
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 17:01:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 17:01:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 17:02:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 17:02:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 17:03:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 17:03:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-06-30 17:04:01 - Script iniciado
+Data: 2025-06-30 | Hora agora: 17:04:01 | Dia da semana: Monday
+Total de funcionários: 3
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 17:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rafael (rafael) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 09:51:15 - Script iniciado
+Data: 2025-07-02 | Hora agora: 09:51:15 | Dia da semana: Wednesday
+Total de funcionários: 3
+
+--- Verificando funcionário: adada (Administrador) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 09:51:15
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 09:51:15
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 09:51:15
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 09:52:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 09:52:01 | Dia da semana: Wednesday
+Total de funcionários: 3
+
+--- Verificando funcionário: adada (Administrador) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 09:52:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 09:52:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 09:52:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 09:53:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 09:53:01 | Dia da semana: Wednesday
+Total de funcionários: 3
+
+--- Verificando funcionário: aaaaaaa (aaaaaaaaadae) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:49:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 09:53:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: André (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 09:53:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: joaquim (joaquim) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 15:05:00
+Hora limite de envio: 15:06:00
+Janela de envio: de 15:06:00 até 15:16:00
+Hora atual: 09:53:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 09:54:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 09:54:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 09:55:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 09:55:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 09:56:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 09:56:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 09:57:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 09:57:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 09:58:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 09:58:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 09:59:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 09:59:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:00:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:00:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:01:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:01:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:02:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:02:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:03:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:03:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:04:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:04:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:05:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:05:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:06:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:06:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:07:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:07:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:08:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:08:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:09:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:09:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:10:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:10:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:11:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:11:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:12:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:12:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:13:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:13:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 10:14:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 10:14:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 12:22:26 - Script iniciado
+Data: 2025-07-02 | Hora agora: 12:22:27 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: aaa (aaaaa) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:22:27
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: andre (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:22:27
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 12:23:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 12:23:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: aaa (aaaaa) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:23:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: andre (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:23:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 12:24:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 12:24:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: aaa (aaaaa) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:24:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para aaaaa: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Não
+A enviar email para aaa@aaa...
+Aviso registado na base de dados.
+
+--- Verificando funcionário: andre (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:24:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Não
+A enviar email para a14356@oficina.pt...
+Aviso registado na base de dados.
+
+Processo concluído!
+2025-07-02 12:25:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 12:25:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: aaa (aaaaa) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:25:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para aaaaa: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: andre (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:25:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-02 12:26:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 12:26:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: aaa (aaaaa) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:26:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para aaaaa: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+--- Verificando funcionário: andre (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 12:26:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para andre: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-02 14:04:19 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:04:19 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: aaa (aaaaa) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 14:04:19
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: andre (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 14:04:19
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 14:05:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:05:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: aaa (aaaaa) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 14:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: andre (andre) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 12:23:00
+Hora limite de envio: 12:24:00
+Janela de envio: de 12:24:00 até 12:34:00
+Hora atual: 14:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 14:06:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:06:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:07:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:07:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:08:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:08:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:09:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:09:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:10:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:10:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:11:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:11:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:12:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:12:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:13:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:13:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:14:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:14:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:15:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:15:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:16:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:16:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:17:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:17:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:18:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:18:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:19:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:19:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:20:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:20:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:21:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:21:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:22:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:22:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:23:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:23:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:24:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:24:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:25:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:25:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:26:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:26:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:27:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:27:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:28:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:28:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:29:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:29:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:30:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:30:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:31:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:31:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:32:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:32:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:33:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:33:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:34:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:34:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:35:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:35:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:36:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:36:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:37:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:37:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:38:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:38:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:39:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:39:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:40:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:40:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:41:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:41:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:42:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:42:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:43:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:43:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:44:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:44:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:45:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:45:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:46:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:46:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:47:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:47:01 | Dia da semana: Wednesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-02 14:48:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:48:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 08:00:00
+Hora limite de envio: 08:05:00
+Janela de envio: de 08:05:00 até 08:15:00
+Hora atual: 14:48:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 14:49:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:49:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 08:00:00
+Hora limite de envio: 08:05:00
+Janela de envio: de 08:05:00 até 08:15:00
+Hora atual: 14:49:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 14:49:58 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:49:58 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:49:58
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 14:50:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:50:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:50:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Não
+A enviar email para vitormrcosta@gmail.com...
+Aviso registado na base de dados.
+
+Processo concluído!
+2025-07-02 14:51:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:51:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:51:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-02 14:52:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:52:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:52:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-02 14:53:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:53:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:53:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-02 14:54:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:54:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:54:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 1
+Já existe tarefa iniciada hoje. Nenhum aviso necessário.
+
+Processo concluído!
+2025-07-02 14:55:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:55:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:55:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 1
+Já existe tarefa iniciada hoje. Nenhum aviso necessário.
+
+Processo concluído!
+2025-07-02 14:56:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:56:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:56:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 2
+Já existe tarefa iniciada hoje. Nenhum aviso necessário.
+
+Processo concluído!
+2025-07-02 14:57:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:57:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:57:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 2
+Já existe tarefa iniciada hoje. Nenhum aviso necessário.
+
+Processo concluído!
+2025-07-02 14:58:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:58:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:58:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 2
+Já existe tarefa iniciada hoje. Nenhum aviso necessário.
+
+Processo concluído!
+2025-07-02 14:59:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 14:59:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 14:59:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para joao: 2
+Já existe tarefa iniciada hoje. Nenhum aviso necessário.
+
+Processo concluído!
+2025-07-02 15:00:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:00:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:00:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:01:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:01:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:02:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:02:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:03:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:03:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:04:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:04:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:05:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:05:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:06:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:06:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:06:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:07:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:07:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:07:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:08:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:08:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:08:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:09:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:09:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:09:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:10:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:10:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:10:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:11:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:11:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:11:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:12:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:12:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:12:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:13:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:13:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:13:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:14:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:14:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:14:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:15:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:15:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:15:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:16:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:16:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:16:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:17:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:17:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:17:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:18:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:18:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:18:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:19:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:19:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:19:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:20:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:20:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:20:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:21:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:21:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:21:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:22:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:22:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:22:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:23:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:23:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:23:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:24:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:24:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:24:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:25:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:25:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:25:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:26:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:26:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:26:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:27:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:27:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:27:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:28:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:28:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:28:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:29:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:29:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:29:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:30:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:30:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:30:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:31:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:31:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:31:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:32:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:32:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:32:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:33:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:33:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:33:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:34:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:34:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:34:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:35:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:35:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:35:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:36:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:36:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:36:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 15:37:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 15:37:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 15:37:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 17:14:54 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:14:54 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:14:54
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 17:15:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:15:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:15:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 17:16:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:16:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:16:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Pedro Coelho (P) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 17:15:00
+Hora limite de envio: 17:16:00
+Janela de envio: de 17:16:00 até 17:26:00
+Hora atual: 17:16:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para P: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Não
+A enviar email para pedro.coelho@parametro.global...
+Aviso registado na base de dados.
+
+Processo concluído!
+2025-07-02 17:17:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:17:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:17:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 17:18:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:18:01 | Dia da semana: Wednesday
+Total de funcionários: 1
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:18:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 17:19:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:19:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:19:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Pedro Coelho (pedro) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Funcionário está ausente hoje (2025-07-02). Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 17:20:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:20:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:20:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Pedro Coelho (pedro) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Funcionário está ausente hoje (2025-07-02). Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 17:21:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:21:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:21:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Pedro Coelho (pedro) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Funcionário está ausente hoje (2025-07-02). Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 17:22:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:22:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:22:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Pedro Coelho (pedro) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Funcionário está ausente hoje (2025-07-02). Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-02 17:23:01 - Script iniciado
+Data: 2025-07-02 | Hora agora: 17:23:01 | Dia da semana: Wednesday
+Total de funcionários: 2
+
+--- Verificando funcionário: joao (joao) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta,Sabado
+Hora início configurada: 14:45:00
+Hora limite de envio: 14:50:00
+Janela de envio: de 14:50:00 até 15:00:00
+Hora atual: 17:23:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Pedro Coelho (pedro) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Funcionário está ausente hoje (2025-07-02). Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 11:54:35 - Script iniciado
+Data: 2025-07-22 | Hora agora: 11:54:35 | Dia da semana: Tuesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-22 11:55:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 11:55:01 | Dia da semana: Tuesday
+Total de funcionários: 0
+
+Processo concluído!
+2025-07-22 11:56:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 11:56:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:30:00
+Janela de envio: de 14:30:00 até 14:40:00
+Hora atual: 11:56:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 11:57:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 11:57:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 11:57:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 11:58:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 11:58:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 11:58:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 11:59:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 11:59:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 11:59:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:00:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:00:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:00:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:01:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:01:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:02:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:02:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:03:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:03:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:04:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:04:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:05:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:05:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:06:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:06:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:06:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:07:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:07:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:07:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:08:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:08:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:08:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:09:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:09:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:09:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:10:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:10:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:10:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:11:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:11:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:11:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:12:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:12:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:12:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:13:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:13:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:13:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:14:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:14:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:14:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:15:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:15:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:15:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:16:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:16:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:16:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:17:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:17:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:17:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:18:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:18:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:18:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:19:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:19:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:19:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:20:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:20:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:20:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:21:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:21:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:21:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:22:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:22:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:22:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:23:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:23:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:23:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:24:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:24:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:24:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:25:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:25:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:25:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:26:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:26:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:26:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:27:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:27:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:27:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:28:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:28:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:28:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:29:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:29:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:29:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:30:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:30:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:30:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:31:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:31:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:31:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:32:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:32:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:32:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:33:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:33:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:33:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:34:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:34:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:34:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:35:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:35:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:35:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:36:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:36:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:36:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:37:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:37:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:37:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:38:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:38:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:38:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:39:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:39:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:39:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:40:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:40:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:40:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:41:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:41:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:41:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:42:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:42:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:42:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:43:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:43:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:43:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:44:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:44:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:44:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:45:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:45:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:45:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:46:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:46:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:46:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:47:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:47:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:47:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:48:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:48:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:48:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:49:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:49:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:49:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:50:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:50:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:50:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:51:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:51:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:51:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:52:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:52:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:52:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:53:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:53:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:53:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:54:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:54:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:54:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:55:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:55:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:55:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:56:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:56:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:56:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:57:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:57:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:57:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:58:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:58:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:58:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 12:59:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 12:59:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 12:59:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:00:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:00:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:00:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:01:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:01:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:02:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:02:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:03:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:03:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:04:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:04:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:05:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:05:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:06:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:06:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:06:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:07:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:07:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:07:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:08:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:08:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:08:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:09:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:09:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:09:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:10:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:10:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:10:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:11:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:11:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:11:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:12:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:12:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:12:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:13:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:13:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:13:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:14:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:14:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:14:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:15:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:15:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:15:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:16:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:16:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:16:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:17:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:17:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:17:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:18:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:18:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:18:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:19:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:19:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:19:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:20:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:20:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:20:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:21:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:21:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:21:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:22:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:22:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:22:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:23:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:23:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:23:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:24:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:24:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:24:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:25:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:25:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:25:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:26:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:26:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:26:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:27:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:27:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:27:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:28:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:28:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:28:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:29:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:29:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:29:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:30:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:30:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:30:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:31:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:31:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:31:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:32:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:32:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:32:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:33:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:33:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:33:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:34:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:34:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:34:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:35:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:35:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:35:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:36:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:36:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:36:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:37:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:37:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:37:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:38:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:38:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:38:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:39:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:39:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:39:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:40:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:40:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:40:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:41:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:41:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:41:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:42:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:42:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:42:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:43:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:43:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:43:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:44:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:44:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:44:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:45:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:45:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:45:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:46:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:46:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:46:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:47:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:47:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:47:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:48:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:48:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:48:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:49:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:49:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:49:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:50:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:50:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:50:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:51:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:51:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:51:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:52:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:52:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:52:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:53:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:53:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:53:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:54:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:54:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:54:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:55:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:55:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:55:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:56:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:56:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:56:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:57:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:57:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:57:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:58:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:58:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:58:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 13:59:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 13:59:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 13:59:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 14:00:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:00:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:00:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 14:01:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:01:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 14:02:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:02:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:02:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 14:03:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:03:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 14:04:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:04:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 14:05:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:05:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:05:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Não
+A enviar email para sergiodanielmoreira20@hotmail.com...
+Aviso registado na base de dados.
+
+Processo concluído!
+2025-07-22 14:06:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:06:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:06:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-22 14:07:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:07:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:07:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-22 14:08:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:08:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:08:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-22 14:09:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:09:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:09:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-22 14:10:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:10:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:10:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-22 14:11:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:11:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:11:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-22 14:12:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:12:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:12:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-22 14:13:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:13:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:13:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 0
+Ainda não iniciou nenhuma tarefa hoje.
+Aviso já enviado hoje? Sim
+Aviso já foi enviado anteriormente. Nenhum novo envio.
+
+Processo concluído!
+2025-07-22 14:14:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 14:14:01 | Dia da semana: Tuesday
+Total de funcionários: 1
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 14:00:00
+Hora limite de envio: 14:05:00
+Janela de envio: de 14:05:00 até 14:15:00
+Hora atual: 14:14:01
+Estamos dentro do intervalo de envio.
+Registo de tarefas hoje para rui: 1
+Já existe tarefa iniciada hoje. Nenhum aviso necessário.
+
+Processo concluído!
+2025-07-22 17:56:52 - Script iniciado
+Data: 2025-07-22 | Hora agora: 17:56:52 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:10:00
+Janela de envio: de 09:10:00 até 09:20:00
+Hora atual: 17:56:52
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:10:00
+Janela de envio: de 09:10:00 até 09:20:00
+Hora atual: 17:56:52
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 17:57:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 17:57:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:10:00
+Janela de envio: de 09:10:00 até 09:20:00
+Hora atual: 17:57:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:10:00
+Janela de envio: de 09:10:00 até 09:20:00
+Hora atual: 17:57:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 17:58:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 17:58:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 17:58:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 17:58:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 17:59:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 17:59:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 17:59:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 17:59:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:00:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:00:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:00:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:00:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:01:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:01:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:01:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:02:00 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:02:00 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:02:00
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:02:00
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:03:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:03:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:03:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:04:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:04:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:04:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:05:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:05:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:05:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:06:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:06:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:06:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:06:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:07:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:07:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:07:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:07:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:08:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:08:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:08:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:08:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:09:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:09:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:09:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:09:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:10:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:10:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:10:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:10:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:11:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:11:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:11:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:11:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:12:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:12:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:12:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:12:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:13:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:13:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:13:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:13:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:14:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:14:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:14:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:14:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:15:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:15:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:15:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:15:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:16:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:16:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:16:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:16:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:17:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:17:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:17:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:17:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
+2025-07-22 18:18:01 - Script iniciado
+Data: 2025-07-22 | Hora agora: 18:18:01 | Dia da semana: Tuesday
+Total de funcionários: 2
+
+--- Verificando funcionário: Luis Sousa (luis) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:18:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+--- Verificando funcionário: Rui Nunes (rui) ---
+Dias permitidos: Segunda,Terca,Quarta,Quinta,Sexta
+Hora início configurada: 09:00:00
+Hora limite de envio: 09:05:00
+Janela de envio: de 09:05:00 até 09:15:00
+Hora atual: 18:18:01
+Fora da janela de envio. Nenhuma ação será tomada.
+
+Processo concluído!
