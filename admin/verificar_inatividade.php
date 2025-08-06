@@ -90,8 +90,8 @@ foreach ($funcionarios as $func) {
         $log .= "Estamos dentro do intervalo de envio.\n";
 
         $stmtCheck = $ligacao->prepare("
-            SELECT COUNT(*) FROM registo_diario 
-            WHERE utilizador = ? AND data_trabalho = ?
+            SELECT COUNT(*) FROM utilizador_entradaesaida 
+            WHERE utilizador = ? AND DATE(hora_entrada) = ?
         ");
         $stmtCheck->execute([$utilizador, $dataHoje]);
         $totalInicios = $stmtCheck->fetchColumn();

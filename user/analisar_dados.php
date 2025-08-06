@@ -536,12 +536,12 @@ foreach ($diasEntradaSaida as $dia) {
           {
             label: 'Utilizador (min)',
             data: tempoMedioUser,
-            backgroundColor: '#28a745'
+            backgroundColor: '#0116fbff'
           },
           {
             label: 'Todos os Utilizadores (min)',
             data: tempoMedioGlobal,
-            backgroundColor: '#cfa728'
+            backgroundColor: '#f40000ff'
           }
         ]
       },
@@ -577,7 +577,7 @@ foreach ($diasEntradaSaida as $dia) {
         datasets: [{
           label: 'Tipos de Pausa',
           data: <?= json_encode(array_values($pausasUtilizador)) ?>,
-          backgroundColor: ['#cfa728', '#999', '#ff6361', '#6a5acd', '#28a745', '#ffc107']
+          backgroundColor: ['#cfa728', '#0941faff', '#ff6361', '#1be514ff', '#28a745', '#ffc107', '#ff0707ff']
         }]
       },
       options: {

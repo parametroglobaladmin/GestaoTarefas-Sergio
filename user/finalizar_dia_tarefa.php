@@ -10,21 +10,18 @@ if (!isset($_SESSION['utilizador_logado'])) {
 $utilizador = $_SESSION['utilizador_logado'];
 $dataHoje = date('Y-m-d');
 $horaAgora = date('H:i:s');
+$tempo = $_POST['tempo'] ?? '00:00:00';
+$idTarefa = $_POST['id'] ?? null;
 
-if (isset($_POST['id'], $_POST['tempo'])) {
-    $idTarefa = $_POST['id'];
-    $tempo = $_POST['tempo'];
-
-    if($idTarefa!==null){
-        // Atualiza o tempo da tarefa antes de mudar o estado
-        $stmt = $ligacao->prepare("
-            UPDATE tarefas 
-            SET tempo_decorrido_utilizador = ?,
-                data_inicio_cronometro = NULL
-            WHERE id = ? AND utilizador = ?
-        ");
-        $stmt->execute([$tempo, $idTarefa, $utilizador]);
-    }
+if ($idTarefa !== null) {
+    // Atualiza o tempo da tarefa antes de mudar o estado
+    $stmt = $ligacao->prepare("
+        UPDATE tarefas
+        SET tempo_decorrido_utilizador = ?,
+            data_inicio_cronometro = NULL
+        WHERE id = ? AND utilizador = ?
+    ");
+    $stmt->execute([$tempo, $idTarefa, $utilizador]);
 }
 
 
@@ -185,6 +182,7 @@ try {
         $stmtAtualiza = $ligacao->prepare("
             UPDATE tarefas 
             SET tempo_decorrido = ?,
+                tempo_decorrido_utilizador = '00:00:00',
                 ultima_modificacao = NOW(),
                 estado_cronometro = 'inativa', 
                 data_fim = NOW(),
@@ -192,6 +190,8 @@ try {
             WHERE id = ?
         ");
         $stmtAtualiza->execute([$tempoNovoTotal, $idTarefaExec]);
+
+        $tarefaEmExecucao['tempo_decorrido_utilizador'] = '00:00:00';
 
         // Atualiza o registo diário
         $stmtInicio = $ligacao->prepare("
