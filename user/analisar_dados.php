@@ -268,6 +268,64 @@ foreach ($diasEntradaSaida as $dia) {
         'duracao' => $fimMin - $inicioMin
     ];
 }
+$pausasPorTipoPorDia = [];
+
+// janela = hoje-6 ... hoje  (7 dias no total; se quiser "hoje-7 ... hoje", muda -6 para -7 e o ciclo para 8)
+$hojeStr = date('Y-m-d');
+$inicioStr = date('Y-m-d', strtotime('-6 days'));
+
+$diasJanela = [];
+$cursor = new DateTime($inicioStr);
+for ($i = 0; $i < 7; $i++) {
+  $diasJanela[] = $cursor->format('Y-m-d');
+  $cursor->modify('+1 day');
+}
+
+if ($utilizadorSelecionado) {
+  $sql = "
+    SELECT
+      mp.descricao AS tipo_pausa,
+      DATE(pt.data_pausa) AS dia,
+      SUM(
+        COALESCE(
+          TIME_TO_SEC(pt.tempo_pausa),
+          TIMESTAMPDIFF(SECOND, pt.data_pausa, COALESCE(pt.data_retorno, NOW()))
+        )
+      ) AS segundos
+    FROM pausas_tarefas pt
+    JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+    WHERE pt.funcionario = ?
+      AND pt.data_pausa IS NOT NULL
+      AND (mp.descricao <> 'Intergabinete') -- remove se quiseres incluir
+      AND DATE(pt.data_pausa) BETWEEN ? AND ?
+    GROUP BY mp.descricao, DATE(pt.data_pausa)
+    ORDER BY mp.descricao, dia
+  ";
+
+  $stmt = $ligacao->prepare($sql);
+  $stmt->execute([$utilizadorSelecionado, $inicioStr, $hojeStr]);
+  $pausasDiariasRaw = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach ($pausasDiariasRaw as $r) {
+    $tipo = $r['tipo_pausa'] ?? 'Sem tipo';
+    $dia  = $r['dia'];
+    $seg  = (int)$r['segundos'];
+    if (!isset($pausasPorTipoPorDia[$tipo])) {
+      $pausasPorTipoPorDia[$tipo] = array_fill_keys($diasJanela, 0);
+    }
+    // garante chave do dia, mesmo que a query só devolva alguns dias
+    if (!isset($pausasPorTipoPorDia[$tipo][$dia])) {
+      $pausasPorTipoPorDia[$tipo][$dia] = 0;
+    }
+    $pausasPorTipoPorDia[$tipo][$dia] += $seg;
+  }
+
+  // garante que todos os tipos têm todos os dias da janela com 0 quando faltam
+  foreach ($pausasPorTipoPorDia as $tipo => $linhaDias) {
+    $pausasPorTipoPorDia[$tipo] = array_replace(array_fill_keys($diasJanela, 0), $linhaDias);
+    ksort($pausasPorTipoPorDia[$tipo]); // ordenar por data
+  }
+}
 
 ?>
 
@@ -492,12 +550,42 @@ foreach ($diasEntradaSaida as $dia) {
               <canvas id="graficoEntradaSaida" width="400" height="400"></canvas>
             </div>
 
-            <div style="flex: 1; min-width: 300px;">
-              <canvas id="graficoExecucaoMensal" width="300" height="250"></canvas>
-            </div>
-
-            <div style="flex: 1; min-width: 300px;">
-              <canvas id="graficoExtra" width="300" height="250"></canvas>
+            <div style="flex: 1.2; min-width: 520px; max-height: 400px; overflow: auto;">
+              <table class="tabela-pausas-mensal" style="border-collapse: collapse; width: 100%;">
+                <thead>
+                  <tr>
+                    <th style="position: sticky; left: 0; background: #fff; z-index: 2; border: 1px solid #ddd; padding: 8px; white-space:nowrap;">
+                      Tipo de Pausa (últimos 7 dias)<br>
+                      <small><?= htmlspecialchars(date('d/m/Y', strtotime($inicioStr))) ?> – <?= htmlspecialchars(date('d/m/Y', strtotime($hojeStr))) ?></small>
+                    </th>
+                    <?php foreach ($diasJanela as $d): ?>
+                      <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap;">
+                        <?= htmlspecialchars(date('d/m', strtotime($d))) ?>
+                      </th>
+                    <?php endforeach; ?>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap;">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($pausasPorTipoPorDia as $tipo => $linhaDias): ?>
+                    <?php $totalTipo = array_sum($linhaDias); ?>
+                    <tr>
+                      <td style="position: sticky; left: 0; background: #fff; z-index: 1; border: 1px solid #ddd; padding: 8px; font-weight:600;">
+                        <?= htmlspecialchars($tipo) ?>
+                      </td>
+                      <?php foreach ($diasJanela as $d): ?>
+                        <?php $seg = (int)($linhaDias[$d] ?? 0); ?>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align:center; font-variant-numeric: tabular-nums;">
+                          <?= fmt_hms($seg) ?>
+                        </td>
+                      <?php endforeach; ?>
+                      <td style="border: 1px solid #ddd; padding: 8px; text-align:center; font-weight:600;">
+                        <?= fmt_hms($totalTipo) ?>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -527,20 +615,28 @@ foreach ($diasEntradaSaida as $dia) {
       tempoMedioGlobal.push(mapaGlobal[tipo] ?? 0);
     });
 
-    // Gráfico de tempo médio por tipo de pausa
+    function formatTimeFromMinutes(mins) {
+      const totalSeconds = Math.round((Number(mins) || 0) * 60);
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      const pad = n => n.toString().padStart(2, '0');
+      return `${pad(h)}:${pad(m)}:${pad(s)}`;
+    }
+
     new Chart(document.getElementById('graficoHoras'), {
       type: 'bar',
       data: {
         labels: tiposPausa,
         datasets: [
           {
-            label: 'Utilizador (min)',
-            data: tempoMedioUser,
+            label: 'Utilizador',
+            data: tempoMedioUser, // minutos
             backgroundColor: '#0116fbff'
           },
           {
-            label: 'Todos os Utilizadores (min)',
-            data: tempoMedioGlobal,
+            label: 'Todos os Utilizadores',
+            data: tempoMedioGlobal, // minutos
             backgroundColor: '#f40000ff'
           }
         ]
@@ -554,8 +650,18 @@ foreach ($diasEntradaSaida as $dia) {
           },
           tooltip: {
             callbacks: {
-              label: function(context) {
-                return `${context.dataset.label}: ${context.raw} min`;
+              label: function (context) {
+                const mins = context.raw; // valor em minutos
+                return `${context.dataset.label}: ${formatTimeFromMinutes(mins)}`;
+              }
+            }
+          },
+          legend: {
+            labels: {
+              // opcional: mostrar exemplo do formato na legenda
+              generateLabels(chart) {
+                const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                return labels.map(l => ({ ...l, text: l.text }));
               }
             }
           }
@@ -563,7 +669,12 @@ foreach ($diasEntradaSaida as $dia) {
         scales: {
           y: {
             beginAtZero: true,
-            title: { display: true, text: 'Minutos' }
+            title: { display: true, text: 'Tempo (hh:mm:ss)' },
+            ticks: {
+              callback: function (value /* em minutos */) {
+                return formatTimeFromMinutes(value);
+              }
+            }
           }
         }
       }
@@ -613,7 +724,16 @@ foreach ($diasEntradaSaida as $dia) {
           tooltip: {
             callbacks: {
               label: function(context) {
-                return `${context.dataset.label}: ${context.raw.toFixed(2)}h`;
+                const horasDecimais = context.raw;
+                const totalMinutos = Math.round(horasDecimais * 60);
+
+                const horas = Math.floor(totalMinutos / 60);
+                const minutos = totalMinutos % 60;
+
+                const horasFormatadas = String(horas).padStart(2, '0');
+                const minutosFormatados = String(minutos).padStart(2, '0');
+
+                return `${context.dataset.label}: ${horasFormatadas}:${minutosFormatados}`;
               }
             }
           }
