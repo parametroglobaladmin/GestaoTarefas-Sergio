@@ -8,7 +8,13 @@ if (!isset($_SESSION["utilizador_logado"])) {
 $funcionariosEntradasESaidas = [];
 
 // Carregar lista de funcionários
-$stmt = $ligacao->prepare("SELECT utilizador FROM funcionarios");
+$stmt = $ligacao->prepare("
+  SELECT
+    utilizador,
+    nome AS nome_exibir
+  FROM funcionarios
+  ORDER BY nome_exibir ASC
+");
 $stmt->execute();
 $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -327,6 +333,246 @@ if ($utilizadorSelecionado) {
   }
 }
 
+$entradaHoje = null;
+$saidaHoje   = null;
+
+$hoje = date('Y-m-d');
+$stmt = $ligacao->prepare("
+  SELECT hora_entrada, hora_saida
+  FROM utilizador_entradaesaida
+  WHERE utilizador = ?
+    AND data = ?
+  ORDER BY hora_entrada DESC
+  LIMIT 1
+");
+$stmt->execute([$utilizadorSelecionado, $hoje]);
+$regHoje = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($regHoje) {
+  $entradaHoje = $regHoje['hora_entrada'] ?? null;
+  $saidaHoje   = $regHoje['hora_saida'] ?? null;
+}
+
+// Estado dinâmico de hoje
+$estadoHoje = 'Inativo';                          // default
+if (!empty($entradaHoje) && empty($saidaHoje)) {
+    $estadoHoje = 'Ativo';                        // entrou e ainda não saiu
+} // se tiver as duas horas, mantém 'inativo' (dia fechado)
+$iconChar  = ($estadoHoje === 'Ativo') ? '▶' : '⏸';
+$iconClass = ($estadoHoje === 'Ativo') ? 'icon-ativo' : 'icon-inativo';
+
+// Texto (podes usar "Em execução" se preferires)
+$estadoHojeText = ($estadoHoje === 'Ativo') ? 'Em execução' : 'Inativo';
+
+function nomeFeriadoPT($dataYmd) {
+    $year = (int)substr($dataYmd, 0, 4);
+
+    // Feriados fixos nacionais
+    $feriados = [
+        sprintf('%04d-01-01', $year) => 'Ano Novo',
+        sprintf('%04d-04-25', $year) => 'Dia da Liberdade',
+        sprintf('%04d-05-01', $year) => 'Dia do Trabalhador',
+        sprintf('%04d-06-10', $year) => 'Dia de Portugal',
+        sprintf('%04d-08-15', $year) => 'Assunção de Nossa Senhora',
+        sprintf('%04d-10-05', $year) => 'Implantação da República',
+        sprintf('%04d-11-01', $year) => 'Dia de Todos os Santos',
+        sprintf('%04d-12-01', $year) => 'Restauração da Independência',
+        sprintf('%04d-12-08', $year) => 'Imaculada Conceição',
+        sprintf('%04d-12-25', $year) => 'Natal',
+    ];
+
+    // Feriados móveis (base: Páscoa ocidental)
+    if (function_exists('easter_date')) {
+        $easterTs = easter_date($year); // timestamp UTC da Páscoa (domingo)
+        $tz = new DateTimeZone('Europe/Lisbon');
+        $easter = (new DateTime("@$easterTs"))->setTimezone($tz);
+
+        $carnaval       = (clone $easter)->modify('-47 days')->format('Y-m-d'); // terça de Carnaval (não é feriado nacional obrigatório, mas é comum)
+        $sextaFeiraSanta= (clone $easter)->modify('-2 days')->format('Y-m-d');
+        $corpoDeDeus    = (clone $easter)->modify('+60 days')->format('Y-m-d');
+
+        // adicionar os móveis (se quiseres excluir Carnaval, comenta a linha correspondente)
+        $feriados[$carnaval]        = 'Carnaval';
+        $feriados[$sextaFeiraSanta] = 'Sexta-Feira Santa';
+        $feriados[$corpoDeDeus]     = 'Corpo de Deus';
+    }
+
+    return $feriados[$dataYmd] ?? null;
+}
+$faltasPassado = [];
+$faltasFuturo  = [];
+$faltasPassadoRows = [];
+
+if ($utilizadorSelecionado) {
+    // 0) limites do ANO ATUAL
+    $year        = date('Y');
+    $yearStart   = "$year-01-01";
+    $yearEnd     = "$year-12-31";
+    $today       = date('Y-m-d');
+    $tomorrow    = date('Y-m-d', strtotime('+1 day'));
+
+    // 1) descobrir o 1.º dia iniciado pelo utilizador (em toda a história)
+    $stmt = $ligacao->prepare("
+        SELECT MIN(data) AS primeiro
+        FROM utilizador_entradaesaida
+        WHERE utilizador = ?
+    ");
+    $stmt->execute([$utilizadorSelecionado]);
+    $primeiroRegisto = $stmt->fetchColumn() ?: null;
+
+    // Se nunca iniciou dia, não há faltas a listar
+    if ($primeiroRegisto) {
+        // 2) início/ fim de análise dentro do ANO ATUAL
+        $analysisStart = max($yearStart, $primeiroRegisto);
+        $analysisEnd   = min($today, $yearEnd);
+
+        // Só calcula passado se o intervalo fizer sentido
+        if ($analysisStart <= $analysisEnd) {
+            // 2.1) dias com presença no período
+            $stmt = $ligacao->prepare("
+                SELECT DISTINCT data
+                FROM utilizador_entradaesaida
+                WHERE utilizador = ?
+                  AND data BETWEEN ? AND ?
+            ");
+            $stmt->execute([$utilizadorSelecionado, $analysisStart, $analysisEnd]);
+            $datasComRegisto = array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'data');
+            $presencasSet = array_fill_keys($datasComRegisto, true);
+
+            // 2.2) dias não permitidos no período
+            $stmt = $ligacao->prepare("
+                SELECT data
+                FROM dias_nao_permitidos
+                WHERE data BETWEEN ? AND ?
+            ");
+            $stmt->execute([$analysisStart, $analysisEnd]);
+            $dnpSetPeriodo = array_fill_keys(array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'data'), true);
+
+            // 2.3) varrer calendário e marcar faltas (sem domingos e sem DNP)
+            $c = new DateTime($analysisStart);
+            $lim = new DateTime($analysisEnd);
+            while ($c <= $lim) {
+                $diaStr = $c->format('Y-m-d');
+                $diaSemana = (int)$c->format('N'); // 1..7 (7=Domingo)
+
+                $eDomingo      = ($diaSemana === 7);
+                $eNaoPermitido = isset($dnpSetPeriodo[$diaStr]);
+                $temPresenca   = isset($presencasSet[$diaStr]);
+
+                if (!$eDomingo && !$eNaoPermitido && !$temPresenca) {
+                    $faltasPassado[] = $diaStr;
+                }
+                $c->modify('+1 day');
+            }
+
+            // 2.4) AUSÊNCIAS PASSADAS (justificadas) e união com faltas sem registo
+            //    - Busca as ausências do utilizador no período analisado (analysisStart..analysisEnd)
+            //    - Junta com os dias sem registo; se houver ausência registada, marca como justificada com o motivo
+            $faltasPassadoDetalhe = [];  // ['Y-m-d' => 'tipo/descrição']
+
+            // 2.4.1) ausências registadas (passado)
+            $stmt = $ligacao->prepare("
+                SELECT 
+                    af.data_falta AS data,
+                    COALESCE(ma.descricao, '') AS motivo
+                FROM ausencia_funcionarios af
+                LEFT JOIN motivos_ausencia ma ON ma.id = af.motivo_id
+                WHERE af.funcionario_utilizador = ?
+                  AND af.data_falta BETWEEN ? AND ?
+                  AND af.data_falta <= CURDATE()
+                  AND WEEKDAY(af.data_falta) <> 6 
+                ORDER BY af.data_falta ASC
+            ");
+            $stmt->execute([$utilizadorSelecionado, $analysisStart, $analysisEnd]);
+            $ausenciasPassadas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // 2.4.2) preenche as justificadas primeiro (evita duplicados)
+            foreach ($ausenciasPassadas as $a) {
+                $d = $a['data'];
+                $motivo = trim($a['motivo']);
+                $faltasPassadoDetalhe[$d] = $motivo !== '' ? "Falta Justificada ({$motivo})" : "Falta Justificada";
+            }
+
+            // 2.4.3) adiciona as injustificadas (dias sem registo e sem ausência registada)
+            foreach ($faltasPassado as $d) {
+                if (!isset($faltasPassadoDetalhe[$d])) {
+                    $faltasPassadoDetalhe[$d] = "Falta Injustificada";
+                }
+            }
+
+            // 2.4.4) ordena por data e transforma em array de linhas para o HTML
+            ksort($faltasPassadoDetalhe);
+            $faltasPassadoRows = [];
+            foreach ($faltasPassadoDetalhe as $d => $tipo) {
+                $faltasPassadoRows[] = ['data' => $d, 'tipo' => $tipo];
+            }
+
+        }
+
+        // 3) FUTURO: de amanhã até 31/dez do ano atual
+        $futureStart = max($tomorrow, $analysisStart); // só faz sentido após começar a usar o sistema
+        if ($futureStart <= $yearEnd) {
+            // 3.1) ausências futuras do utilizador
+            $stmt = $ligacao->prepare("
+                SELECT 
+                    af.data_falta,
+                    COALESCE(ma.descricao, '') AS motivo_descricao
+                FROM ausencia_funcionarios af
+                LEFT JOIN motivos_ausencia ma ON ma.id = af.motivo_id
+                WHERE af.funcionario_utilizador = ?
+                  AND af.data_falta > CURDATE()
+                  AND af.data_falta BETWEEN ? AND ?
+                ORDER BY af.data_falta ASC
+            ");
+            $stmt->execute([$utilizadorSelecionado, $futureStart, $yearEnd]);
+            $ausenciasFuturas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // 3.2) dias não permitidos futuros (empresa)
+            $stmt = $ligacao->prepare("
+                SELECT data
+                FROM dias_nao_permitidos
+                WHERE data > CURDATE()
+                  AND data BETWEEN ? AND ?
+                ORDER BY data ASC
+            ");
+            $stmt->execute([$futureStart, $yearEnd]);
+            $dnpFuturos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // 3.3) unir por dia
+            $mapFuturo = [];
+            foreach ($ausenciasFuturas as $r) {
+                $d = $r['data_falta']; // <- mantém data correta
+                if (!isset($mapFuturo[$d])) $mapFuturo[$d] = [];
+                $desc = trim($r['motivo_descricao']);
+                $mapFuturo[$d][] = ($desc !== '')
+                    ? "Ausência ({$desc})"
+                    : "Ausência programada";
+            }
+
+            foreach ($dnpFuturos as $r) {
+                $d = $r['data'];
+                if (!isset($mapFuturo[$d])) $mapFuturo[$d] = [];
+
+                // Se descricao vier "Feriado" (ou vazio), tenta descobrir o nome do feriado pela data
+                $motivo = '';
+                if ($motivo === '' || strcasecmp($motivo, 'Feriado') === 0) {
+                    $nome = nomeFeriadoPT($d);
+                    $motivo = $nome ?: 'Feriado';
+                }
+
+                $mapFuturo[$d][] = "Dia não permitido ({$motivo})";
+            }
+
+            ksort($mapFuturo);
+            foreach ($mapFuturo as $d => $tipos) {
+                $faltasFuturo[] = [
+                    'data'  => $d,
+                    'tipos' => implode(', ', array_unique($tipos))
+                ];
+            }
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -459,6 +705,34 @@ if ($utilizadorSelecionado) {
       display: none;
       z-index: 9999;
   }
+
+  .estado-inline{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    color: #dc3545;          /* texto SEMPRE vermelho */
+  }
+  .estado-inline .icon{
+    font-size: 16px;
+    line-height: 1;
+  }
+  .icon-ativo   { color: #28a745; } /* ícone verde quando ativo */
+  .icon-inativo { color: #dc3545; } /* ícone vermelho quando inativo */
+
+  .faltas-wrapper{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(380px, 1fr));
+    gap: 30px;
+    align-items: start;
+    margin-top: 30px;
+  }
+  @media (max-width: 1100px){
+    .faltas-wrapper{ grid-template-columns: 1fr; }
+  }
+  .txt-vermelho { color:#dc3545; font-weight:600; }
+  .txt-verde    { color:#28a745; font-weight:600; }
+
   </style>
 </head>
 
@@ -482,10 +756,19 @@ if ($utilizadorSelecionado) {
             </thead>
             <tbody>
               <?php foreach ($funcionarios as $f): ?>
+                <?php
+                  $u    = $f['utilizador'];
+                  $nome = $f['nome_exibir'];
+                  // Se quiseres destacar o selecionado:
+                  $isAtivo = isset($utilizadorSelecionado) && $utilizadorSelecionado === $u;
+                ?>
                 <tr>
                   <td>
-                    <a class="selecionar-btn" href="analisar_dados.php?utilizador=<?= urlencode($f['utilizador']) ?>">
-                      <?= htmlspecialchars($f['utilizador']) ?>
+                    <a class="selecionar-btn"
+                      href="analisar_dados.php?utilizador=<?= urlencode($u) ?>"
+                      title="<?= htmlspecialchars($u) ?>"
+                      style="<?= $isAtivo ? 'outline: 2px solid #cfa728;' : '' ?>">
+                      <?= htmlspecialchars($nome) ?>
                     </a>
                   </td>
                 </tr>
@@ -528,6 +811,21 @@ if ($utilizadorSelecionado) {
           <h2>Dados de <?= htmlspecialchars($dadosUtilizador['nome'] ?? 'N/A') ?></h2>
           <p><strong>Email:</strong> <?= htmlspecialchars($dadosUtilizador['email'] ?? 'N/A') ?></p>
           <p><strong>Departamento do Funcionário:</strong> <?= htmlspecialchars($dadosUtilizador['nome_departamento'] ?? 'N/A') ?></p>
+          <p><strong>Hora de entrada (Hoje):</strong>
+            <?= $entradaHoje ? date('H:i', strtotime($entradaHoje)) : '—' ?>
+          </p>
+
+          <p><strong>Hora de saída (Hoje):</strong>
+            <?= $saidaHoje ? date('H:i', strtotime($saidaHoje)) : '—' ?>
+          </p>
+
+          <p><strong>Estado do Funcionário:</strong>
+            <span class="estado-inline">
+              <span class="icon <?= $iconClass ?>"><?= $iconChar ?></span>
+              <span><?= htmlspecialchars($estadoHojeText) ?></span>
+            </span>
+          </p>
+
 
           <!-- Gráficos lado a lado -->
           <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 20px;">
@@ -584,6 +882,77 @@ if ($utilizadorSelecionado) {
                       </td>
                     </tr>
                   <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="faltas-wrapper">
+            <!-- Coluna: Faltas Passadas -->
+            <div>
+              <h3 style="margin:0 0 10px;">Faltas Passadas</h3>
+              <p style="margin-top:0;color:#666;">
+                Faltas injustificadas e justificadas
+              </p>
+
+              <table class="tabela-funcionarios" style="width:100%; border-collapse:collapse;">
+                <thead>
+                  <tr>
+                    <th style="background:#cfa728; padding:10px; text-align:left;">Data</th>
+                    <th style="background:#cfa728; padding:10px; text-align:left;">Observação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php if (!empty($faltasPassadoRows)): ?>
+                    <?php foreach ($faltasPassadoRows as $row): ?>
+                      <?php
+                        $d = $row['data'];
+                        $tipo = $row['tipo']; // "Falta injustificada" ou "Falta justificada (...)""
+                        $classe = (stripos($tipo, 'Injustificada') !== false) ? 'txt-vermelho' : 'txt-verde';
+                      ?>
+                      <tr>
+                        <td style="padding:8px; border-bottom:1px solid #eee;">
+                          <?= htmlspecialchars(date('d/m/Y', strtotime($d))) ?>
+                        </td>
+                        <td class="<?= $classe ?>" style="padding:8px; border-bottom:1px solid #eee;">
+                          <?= htmlspecialchars($tipo) ?>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    <tr>
+                      <td colspan="2" style="padding:12px; text-align:center; color:#666;">Sem faltas no período.</td>
+                    </tr>
+                  <?php endif; ?>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Coluna: Faltas Futuras -->
+            <div>
+              <h3 style="margin:0 0 10px;">Faltas Previstas</h3>
+              <p style="margin-top:0;color:#666;">Inclui ausências futuras do utilizador e Feriados futuros.</p>
+
+              <table class="tabela-funcionarios" style="width:100%; border-collapse:collapse;">
+                <thead>
+                  <tr>
+                    <th style="background:#cfa728; padding:10px; text-align:left;">Data</th>
+                    <th style="background:#cfa728; padding:10px; text-align:left;">Tipo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php if (!empty($faltasFuturo)): ?>
+                    <?php foreach ($faltasFuturo as $row): ?>
+                      <tr>
+                        <td style="padding:8px; border-bottom:1px solid #eee;"><?= htmlspecialchars(date('d/m/Y', strtotime($row['data']))) ?></td>
+                        <td style="padding:8px; border-bottom:1px solid #eee;"><?= htmlspecialchars($row['tipos']) ?></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    <tr>
+                      <td colspan="2" style="padding:12px; text-align:center; color:#666;">Sem registos futuros.</td>
+                    </tr>
+                  <?php endif; ?>
                 </tbody>
               </table>
             </div>

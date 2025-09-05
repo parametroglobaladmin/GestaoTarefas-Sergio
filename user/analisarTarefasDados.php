@@ -70,10 +70,17 @@ foreach ($registos as $linha) {
 }
 
 $queryPausas = "
-  SELECT DATE_FORMAT(p.data_pausa, '%Y-%m-%d %H:00:00') as hora, COUNT(*) as total
+  SELECT
+    DATE_FORMAT(p.data_pausa, '%Y-%m-%d %H:00:00') AS hora,
+    COUNT(*) AS total
   FROM pausas_tarefas p
-  JOIN departamento_tarefa dt ON dt.tarefa_id = p.tarefa_id
-    AND p.data_pausa BETWEEN dt.data_entrada AND COALESCE(dt.data_saida, NOW())
+  JOIN motivos_pausa mp
+    ON mp.id = p.motivo_id
+   AND (mp.tipo = 'PararContadores'
+        OR mp.tipo = 'SemOpcao')
+  JOIN departamento_tarefa dt
+    ON dt.tarefa_id = p.tarefa_id
+   AND p.data_pausa BETWEEN dt.data_entrada AND COALESCE(dt.data_saida, NOW())
   $where
   GROUP BY hora
   ORDER BY hora ASC

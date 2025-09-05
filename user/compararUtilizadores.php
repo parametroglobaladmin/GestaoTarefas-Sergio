@@ -8,9 +8,40 @@ if (!isset($_SESSION["utilizador_logado"])) {
 
 $utilizador=$_SESSION["utilizador_logado"];
 
-$stmt = $ligacao->prepare("SELECT utilizador FROM funcionarios ORDER BY utilizador ASC");
+// Substitui a tua query atual por esta
+$stmt = $ligacao->prepare("
+  SELECT
+    utilizador,
+    nome AS nome_exibir,
+    departamento
+  FROM funcionarios
+  ORDER BY nome_exibir ASC
+");
 $stmt->execute();
 $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+$stmtDept = $ligacao->prepare("
+  SELECT
+    id   AS departamento_id,
+    nome AS nome_departamento
+  FROM departamento
+  ORDER BY nome_departamento ASC
+");
+$stmtDept->execute();
+$departamentos = $stmtDept->fetchAll(PDO::FETCH_ASSOC);
+
+// Seleções vindas por GET  (mantém só estas 4 linhas)
+$utilizadoresSelecionados = $_GET['utilizadores'] ?? [];
+$dataInicio = $_GET['data_inicio'] ?? null;
+$dataFim = $_GET['data_fim'] ?? null;
+$departamentoSelecionado = $_GET['departamento'] ?? '';
+
+// Opcional: se houver departamento, ignora utilizadores no backend também
+if (!empty($departamentoSelecionado)) {
+    $utilizadoresSelecionados = [];
+}
 
 
 $utilizadoresSelecionados = $_GET['utilizadores'] ?? [];
@@ -124,6 +155,22 @@ if (!empty($utilizadoresSelecionados)) {
       z-index: 9999;
     }
 
+    .caixa-funcionarios{
+      max-height: 300px; 
+      overflow-y: auto; 
+      border: 1px solid #bfa55f;          /* tom do dourado */
+      padding: 10px; 
+      border-radius: 6px; 
+      background-color: #d0bc78;          /* cor da caixa */
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.03);
+    }
+    .caixa-funcionarios .linha {
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+    .caixa-funcionarios .linha:hover {
+      background: rgba(255,255,255,0.35);
+    }
   </style>
 </head>
 <body>
@@ -145,23 +192,51 @@ if (!empty($utilizadoresSelecionados)) {
         <form method="get" action="compararUtilizadores.php" id="formComparar">
           <div style="margin-bottom: 20px;">
             <label><strong>Selecionar Funcionários:</strong></label>
-            <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 6px; background-color: #d0bc78ff;">
-              <?php
-              $stmt = $ligacao->prepare("SELECT utilizador FROM funcionarios ORDER BY utilizador ASC");
-              $stmt->execute();
-              $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-              foreach ($funcionarios as $f): ?>
+            <div style="max-height: 220px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 6px; background-color: #bfa55f;">
+              <?php foreach ($funcionarios as $f):
+                $u    = $f['utilizador'];
+                $nome = $f['nome_exibir'];
+                $dep  = isset($f['departamento']) ? (string)$f['departamento'] : '';
+                $isChecked = in_array($u, $utilizadoresSelecionados, true) ? 'checked' : '';
+              ?>
                 <div>
-                  <input type="checkbox" id="user_<?= htmlspecialchars($f['utilizador']) ?>"
-                        name="utilizadores[]" value="<?= htmlspecialchars($f['utilizador']) ?>">
-                  <label for="user_<?= htmlspecialchars($f['utilizador']) ?>">
-                    <?= htmlspecialchars($f['utilizador']) ?>
+                  <input type="checkbox"
+                        id="user_<?= htmlspecialchars($u) ?>"
+                        name="utilizadores[]"
+                        value="<?= htmlspecialchars($u) ?>"
+                        data-departamento="<?= htmlspecialchars($dep) ?>"
+                        <?= $isChecked ?>>
+                  <label for="user_<?= htmlspecialchars($u) ?>" title="<?= htmlspecialchars($u) ?>">
+                    <?= htmlspecialchars($nome) ?>
                   </label>
                 </div>
               <?php endforeach; ?>
             </div>
           </div>
-
+          <div style="margin-bottom: 20px;">
+            <label><strong>Selecionar Departamento:</strong></label>
+            <div style="max-height: 220px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 6px; background-color: #bfa55f;">
+              <?php foreach ($departamentos as $d): 
+                $id = (string)$d['departamento_id'];
+                $nome = $d['nome_departamento'];
+                $checked = ($departamentoSelecionado !== '' && $departamentoSelecionado == $id) ? 'checked' : '';
+              ?>
+                <div>
+                  <input type="radio"
+                        id="dep_<?= htmlspecialchars($id) ?>"
+                        name="departamento"      
+                        value="<?= htmlspecialchars($id) ?>"
+                        <?= $checked ?>>
+                  <label for="dep_<?= htmlspecialchars($id) ?>">
+                    <?= htmlspecialchars($nome) ?>
+                  </label>
+                </div>
+              <?php endforeach; ?>
+            </div>
+            <small style="display:block; margin-top:6px; color:#555;">
+              Ao escolher um departamento, os funcionários serão desmarcados.
+            </small>
+          </div>
 
           <div style="margin-bottom: 20px;">
             <label for="data_inicio"><strong>Data Início:</strong></label><br>
@@ -193,12 +268,45 @@ if (!empty($utilizadoresSelecionados)) {
 </body>
 
 <script>
+  const form            = document.getElementById('formComparar');
+  const userCheckboxes  = document.querySelectorAll('input[name="utilizadores[]"]');
+  const depRadios       = document.querySelectorAll('input[name="departamento"]');
+  const depSelecionado  = "<?= htmlspecialchars($departamentoSelecionado) ?>"; // do PHP
 
-  document.getElementById('formComparar').addEventListener('submit', function(e) {
-    const checkboxes = document.querySelectorAll('input[name="utilizadores[]"]:checked');
-    if (checkboxes.length < 2) {
-      mostrarNotificacao('Por favor, selecione pelo menos dois utilizadores para comparar.','erro');
-      e.preventDefault(); // Impede o envio do formulário
+  function selecionarUtilizadoresDoDepartamento(depId) {
+    userCheckboxes.forEach(cb => {
+      const depUser = cb.dataset.departamento || '';
+      cb.checked = (depId && depUser === depId); // marca só os que pertencem ao dept
+    });
+  }
+
+  // Quando escolheres um departamento -> marcar/desmarcar utilizadores
+  depRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.checked) selecionarUtilizadoresDoDepartamento(radio.value);
+    });
+  });
+
+  // Se marcares um utilizador manualmente -> limpar a seleção de departamento
+  userCheckboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      if (cb.checked) depRadios.forEach(r => r.checked = false);
+    });
+  });
+
+  // Se vier um departamento já selecionado por GET, aplicar a seleção ao carregar
+  document.addEventListener('DOMContentLoaded', () => {
+    if (depSelecionado) selecionarUtilizadoresDoDepartamento(depSelecionado);
+  });
+
+  // Validação: OU (≥2 utilizadores) OU (1 departamento)
+  form.addEventListener('submit', function(e) {
+    const selectedUsers = Array.from(userCheckboxes).filter(cb => cb.checked).length;
+    const selectedDept  = Array.from(depRadios).some(r => r.checked);
+
+    if (!selectedDept && selectedUsers < 2) {
+      mostrarNotificacao('Selecione pelo menos dois utilizadores OU um departamento.','erro');
+      e.preventDefault();
     }
   });
 
@@ -207,17 +315,11 @@ if (!empty($utilizadoresSelecionados)) {
     const span  = document.getElementById("notificacao-texto");
 
     let bg, corTexto, borda;
-
     if (tipo === 'erro') {
-      bg = "#f8d7da";
-      corTexto = "#721c24";
-      borda = "#dc3545";
+      bg = "#f8d7da"; corTexto = "#721c24"; borda = "#dc3545";
     } else {
-      bg = "#d4edda";
-      corTexto = "#155724";
-      borda = "#28a745";
+      bg = "#d4edda"; corTexto = "#155724"; borda = "#28a745";
     }
-
     toast.style.backgroundColor = bg;
     toast.style.color = corTexto;
     toast.style.borderLeft = `5px solid ${borda}`;
@@ -235,4 +337,5 @@ if (!empty($utilizadoresSelecionados)) {
     }, 4000);
   }
 </script>
+
 </html>
