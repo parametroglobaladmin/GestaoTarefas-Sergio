@@ -1057,7 +1057,7 @@ if ($utilizadorSelecionado) {
         datasets: [{
           label: 'Tipos de Pausa',
           data: <?= json_encode(array_values($pausasUtilizador)) ?>,
-          backgroundColor: ['#cfa728', '#0941faff', '#ff6361', '#1be514ff', '#28a745', '#ffc107', '#ff0707ff']
+          backgroundColor: ['#cfa728', '#0941faff', '#ff6361', '#1be514ff', '#28a745', '#ffc107', '#ff0707ff','#f103f5ff','#ff00003b']
         }]
       },
       options: {
