@@ -411,7 +411,23 @@ foreach ($agregado as &$dados) {
                   <td><?= htmlspecialchars($linha['tempo_jornada']) ?></td>
                   <td><?= htmlspecialchars($linha['tempo_pausa']) ?></td>
                   <td><?= htmlspecialchars($linha['tempo_liquido']) ?></td>
-                  <td><?= htmlspecialchars($linha['percentual_util']) ?>%</td>
+                  <?php
+                    $percentual = $linha['percentual_util'];
+
+                    if ($percentual > 80) {
+                        $corFundo = '#fff3cd';  // dourado claro (tipo Bootstrap alert-warning)
+                        $corTexto = '#856404';  // dourado escuro
+                    } elseif ($percentual > 70) {
+                        $corFundo = '#d4edda';  // verde claro
+                        $corTexto = '#155724';  // verde escuro
+                    } else {
+                        $corFundo = '#f8d7da';  // vermelho claro
+                        $corTexto = '#721c24';  // vermelho escuro
+                    }
+                  ?>
+                  <td style="background-color: <?= $corFundo ?>; color: <?= $corTexto ?>; font-weight: bold;">
+                    <?= htmlspecialchars($percentual) ?>%
+                  </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
@@ -439,7 +455,23 @@ foreach ($agregado as &$dados) {
                   <td><?= htmlspecialchars($dados['tempo_jornada']) ?></td>
                   <td><?= htmlspecialchars($dados['tempo_pausa']) ?></td>
                   <td><?= htmlspecialchars($dados['tempo_liquido']) ?></td>
-                  <td><?= htmlspecialchars($dados['percentual_util']) ?>%</td>
+                  <?php
+                    $percentual = $dados['percentual_util'];
+
+                    if ($percentual > 80) {
+                        $corFundo = '#fff3cd';  // dourado claro
+                        $corTexto = '#856404';  // dourado escuro
+                    } elseif ($percentual > 70) {
+                        $corFundo = '#d4edda';  // verde claro
+                        $corTexto = '#155724';  // verde escuro
+                    } else {
+                        $corFundo = '#f8d7da';  // vermelho claro
+                        $corTexto = '#721c24';  // vermelho escuro
+                    }
+                  ?>
+                  <td style="background-color: <?= $corFundo ?>; color: <?= $corTexto ?>; font-weight: bold;">
+                    <?= htmlspecialchars($percentual) ?>%
+                  </td>
                   <td><?= htmlspecialchars($dados['media_liquido_dia']) ?></td>
                 </tr>
               <?php endforeach; ?>
