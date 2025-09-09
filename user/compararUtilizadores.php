@@ -48,6 +48,16 @@ $utilizadoresSelecionados = $_GET['utilizadores'] ?? [];
 $dataInicio = $_GET['data_inicio'] ?? null;
 $dataFim = $_GET['data_fim'] ?? null;
 
+// Se nenhuma data for passada por GET, usar últimos 7 dias
+/*if (empty($_GET['data_inicio']) && empty($_GET['data_fim'])) {
+    $dataFim = date('Y-m-d');
+    $dataInicio = date('Y-m-d', strtotime('-6 days'));
+} else {
+    $dataInicio = $_GET['data_inicio'] ?? null;
+    $dataFim = $_GET['data_fim'] ?? null;
+}*/
+
+
 if (!empty($utilizadoresSelecionados)) {
     foreach ($utilizadoresSelecionados as $user) {
         // Aqui poderás tratar os dados individualmente (carregar tempos, pausas, etc)
@@ -104,7 +114,6 @@ LEFT JOIN (
 ) pv
   ON pv.funcionario = ue.utilizador AND pv.dia = DATE(ue.hora_entrada)
 
--- Pausas PararContadores agrupadas por blocos de 3 minutos
 LEFT JOIN (
   SELECT funcionario, dia,
          SUM(duracao_agrupada) AS total
@@ -186,7 +195,7 @@ foreach ($agregado as &$dados) {
 <head>
   <meta charset="UTF-8">
   <title>Comparar Utilizadores da Empresa</title>
-  <link rel="stylesheet" href="../style.css"> <!-- se quiseres manter separado -->
+  <link rel="stylesheet" href="../style.css">
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -295,6 +304,18 @@ foreach ($agregado as &$dados) {
     .caixa-funcionarios .linha:hover {
       background: rgba(255,255,255,0.35);
     }
+    table th,
+table td {
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid #939292ff;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+
   </style>
 </head>
 <body>
@@ -405,7 +426,7 @@ foreach ($agregado as &$dados) {
               <?php
                 // Gerar cores únicas por data
                 $coresPorData = [];
-                $coresDisponiveis = ['#fef9e7', '#f0f8ff', '#f6f8e2', '#eef5fb', '#f9e2ef', '#fce4d6', '#e6f2e6', '#fff0f0', '#e3f2fd', '#f3e5f5'];
+                $coresDisponiveis = ['#fef9e7', '#f0f8ff', '#f6f8e2', '#eef5fb', '#d8f1eeff', '#fce4d6', '#e6f2e6', '#ddedd7ff', '#e3f2fd', '#f3e5f5'];
                 $i = 0;
 
                 foreach ($resultados as $linha) {
@@ -427,7 +448,7 @@ foreach ($agregado as &$dados) {
                     if ($horaEntrada > '08:10:00' && $horaEntrada <= '09:00:00') {
                         $styleEntrada = 'background-color: #f8d7da; color: #721c24; font-weight: bold;';
                     }else if($horaEntrada < '08:00:00'){
-                        $styleEntrada = 'background-color: #f2cb54ff; color: #856404; font-weight: bold;';
+                        $styleEntrada = 'background-color: #f2cb54ff; color: #4f3c02ff; font-weight: bold;';
                     }
                   ?>
                   <td style="<?= $styleEntrada ?>"><?= htmlspecialchars($horaEntrada) ?></td>
@@ -463,7 +484,6 @@ foreach ($agregado as &$dados) {
             <thead style="background-color: #f2f2f2;">
               <tr>
                 <th>Funcionário</th>
-                <th>Dias com Registo</th>
                 <th>Total Jornada</th>
                 <th>Total Pausas</th>
                 <th>Total Líquido</th>
@@ -472,10 +492,23 @@ foreach ($agregado as &$dados) {
               </tr>
             </thead>
             <tbody>
+              <?php
+                // Gerar cores únicas por data
+                $coresPorDat = [];
+                $coresDisponiveis = ['#fef9e7', '#f0f8ff', '#f6f8e2', '#eef5fb', '#d8f1eeff', '#fce4d6', '#e6f2e6', '#cdecc3ff', '#e3f2fd', '#f3e5f5'];
+                $i = 0;
+
+                foreach ($agregado as $linha) {
+                    $data = $linha['nome'];
+                    if (!isset($coresPorDat[$data])) {
+                        $coresPorDat[$data] = $coresDisponiveis[$i % count($coresDisponiveis)];
+                        $i++;
+                    }
+                }
+                ?>
               <?php foreach ($agregado as $dados): ?>
-                <tr>
+                <tr style="background-color: <?= $coresPorDat[$dados['nome']] ?>;">
                   <td><?= htmlspecialchars($dados['nome']) ?></td>
-                  <td><?= htmlspecialchars($dados['dias']) ?></td>
                   <td><?= htmlspecialchars($dados['tempo_jornada']) ?></td>
                   <td><?= htmlspecialchars($dados['tempo_pausa']) ?></td>
                   <td><?= htmlspecialchars($dados['tempo_liquido']) ?></td>
