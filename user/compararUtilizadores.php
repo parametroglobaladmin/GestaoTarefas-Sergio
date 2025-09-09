@@ -56,6 +56,130 @@ if (!empty($utilizadoresSelecionados)) {
     }
 }
 
+$whereClauses = [];
+$params = [];
+
+if (!empty($departamentoSelecionado)) {
+    $whereClauses[] = 'f.departamento = ?';
+    $params[] = $departamentoSelecionado;
+} elseif (!empty($utilizadoresSelecionados)) {
+    $placeholders = implode(',', array_fill(0, count($utilizadoresSelecionados), '?'));
+    $whereClauses[] = "ue.utilizador IN ($placeholders)";
+    $params = array_merge($params, $utilizadoresSelecionados);
+}
+
+if ($dataInicio) {
+    $whereClauses[] = 'DATE(ue.hora_entrada) >= ?';
+    $params[] = $dataInicio;
+}
+if ($dataFim) {
+    $whereClauses[] = 'DATE(ue.hora_saida) <= ?';
+    $params[] = $dataFim;
+}
+
+$whereSQL = $whereClauses ? 'WHERE ' . implode(' AND ', $whereClauses) : '';
+
+$query = "
+SELECT
+    ue.utilizador,
+    f.nome AS nome_funcionario,
+    DATE(ue.hora_entrada) AS dia,
+    TIME(ue.hora_entrada) AS hora_entrada,
+    TIME(ue.hora_saida) AS hora_saida,
+    TIMESTAMPDIFF(SECOND, ue.hora_entrada, ue.hora_saida) AS jornada_bruta_segundos,
+    IFNULL(pv.total, 0) + IFNULL(pc.total, 0) AS total_pausa_segundos
+FROM utilizador_entradaesaida ue
+JOIN funcionarios f ON f.utilizador = ue.utilizador
+
+LEFT JOIN (
+  SELECT
+    pt.funcionario,
+    DATE(pt.data_pausa) AS dia,
+    SUM(TIMESTAMPDIFF(SECOND, pt.data_pausa, pt.data_retorno)) AS total
+  FROM pausas_tarefas pt
+  JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+  WHERE mp.tipo NOT IN ('PararContadores', 'IniciarTarefas')
+    AND pt.data_retorno IS NOT NULL
+  GROUP BY pt.funcionario, DATE(pt.data_pausa)
+) pv
+  ON pv.funcionario = ue.utilizador AND pv.dia = DATE(ue.hora_entrada)
+
+-- Pausas PararContadores agrupadas por blocos de 3 minutos
+LEFT JOIN (
+  SELECT funcionario, dia,
+         SUM(duracao_agrupada) AS total
+  FROM (
+    SELECT
+      pt.funcionario,
+      DATE(pt.data_pausa) AS dia,
+      MIN(pt.data_pausa) AS inicio_pausa,
+      MAX(pt.data_retorno) AS fim_pausa,
+      TIMESTAMPDIFF(SECOND, MIN(pt.data_pausa), MAX(pt.data_retorno)) AS duracao_agrupada
+    FROM pausas_tarefas pt
+    JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+    WHERE mp.tipo = 'PararContadores'
+      AND pt.data_retorno IS NOT NULL
+    GROUP BY pt.funcionario, DATE(pt.data_pausa),
+             FLOOR(UNIX_TIMESTAMP(pt.data_pausa) / 180)
+  ) AS pausas_agrupadas
+  GROUP BY funcionario, dia
+) pc
+  ON pc.funcionario = ue.utilizador AND pc.dia = DATE(ue.hora_entrada)
+
+$whereSQL
+GROUP BY ue.utilizador, dia
+ORDER BY dia ASC, f.nome ASC
+";
+
+
+$stmtResultados = $ligacao->prepare($query);
+$stmtResultados->execute($params);
+$resultados = $stmtResultados->fetchAll(PDO::FETCH_ASSOC);
+
+
+foreach ($resultados as &$linha) {
+    $jornada = $linha['jornada_bruta_segundos'];
+    $pausas = $linha['total_pausa_segundos'];
+    $liquido = max(0, $jornada - $pausas);
+    $percentual = $jornada > 0 ? round(($liquido / $jornada) * 100, 2) : 0;
+
+    $linha['tempo_jornada'] = gmdate("H:i:s", $jornada);
+    $linha['tempo_pausa'] = gmdate("H:i:s", $pausas);
+    $linha['tempo_liquido'] = gmdate("H:i:s", $liquido);
+    $linha['percentual_util'] = $percentual;
+}
+
+$agregado = [];
+
+foreach ($resultados as $linha) {
+    $user = $linha['utilizador'];
+
+    if (!isset($agregado[$user])) {
+        $agregado[$user] = [
+            'nome' => $linha['nome_funcionario'],
+            'jornada' => 0,
+            'pausas' => 0,
+            'dias' => 0
+        ];
+    }
+
+    $agregado[$user]['jornada'] += $linha['jornada_bruta_segundos'];
+    $agregado[$user]['pausas'] += $linha['total_pausa_segundos'];
+    $agregado[$user]['dias'] += 1;
+}
+
+// Calcula médias
+foreach ($agregado as &$dados) {
+    $liquido = max(0, $dados['jornada'] - $dados['pausas']);
+    $percentual = $dados['jornada'] > 0 ? round(($liquido / $dados['jornada']) * 100, 2) : 0;
+
+    $dados['tempo_jornada'] = gmdate("H:i:s", $dados['jornada']);
+    $dados['tempo_pausa'] = gmdate("H:i:s", $dados['pausas']);
+    $dados['tempo_liquido'] = gmdate("H:i:s", $liquido);
+    $dados['percentual_util'] = $percentual;
+    $dados['media_liquido_dia'] = gmdate("H:i:s", $liquido / $dados['dias']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -262,6 +386,67 @@ if (!empty($utilizadoresSelecionados)) {
 
       <!-- Coluna direita -->
       <div class="coluna-direita">
+        <?php if (!empty($resultados)): ?>
+          <h2>Estatísticas Diárias</h2>
+          <table cellpadding="6" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+            <thead style="background-color: #f2f2f2;">
+              <tr>
+                <th>Data</th>
+                <th>Funcionário</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+                <th>Jornada Bruta</th>
+                <th>Total de Pausas</th>
+                <th>Tempo Líquido</th>
+                <th>% Tempo Útil</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($resultados as $linha): ?>
+                <tr>
+                  <td><?= htmlspecialchars($linha['dia']) ?></td>
+                  <td><?= htmlspecialchars($linha['nome_funcionario']) ?></td>
+                  <td><?= htmlspecialchars($linha['hora_entrada']) ?></td>
+                  <td><?= htmlspecialchars($linha['hora_saida']) ?></td>
+                  <td><?= htmlspecialchars($linha['tempo_jornada']) ?></td>
+                  <td><?= htmlspecialchars($linha['tempo_pausa']) ?></td>
+                  <td><?= htmlspecialchars($linha['tempo_liquido']) ?></td>
+                  <td><?= htmlspecialchars($linha['percentual_util']) ?>%</td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        <?php endif; ?>
+        <?php if (!empty($agregado)): ?>
+          <h2 style="margin-top: 40px;">Resumo Agregado por Funcionário</h2>
+          <table cellpadding="6" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+            <thead style="background-color: #f2f2f2;">
+              <tr>
+                <th>Funcionário</th>
+                <th>Dias com Registo</th>
+                <th>Total Jornada</th>
+                <th>Total Pausas</th>
+                <th>Total Líquido</th>
+                <th>% Tempo Útil</th>
+                <th>Média Diária de Trabalho</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($agregado as $dados): ?>
+                <tr>
+                  <td><?= htmlspecialchars($dados['nome']) ?></td>
+                  <td><?= htmlspecialchars($dados['dias']) ?></td>
+                  <td><?= htmlspecialchars($dados['tempo_jornada']) ?></td>
+                  <td><?= htmlspecialchars($dados['tempo_pausa']) ?></td>
+                  <td><?= htmlspecialchars($dados['tempo_liquido']) ?></td>
+                  <td><?= htmlspecialchars($dados['percentual_util']) ?>%</td>
+                  <td><?= htmlspecialchars($dados['media_liquido_dia']) ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        <?php endif; ?>
+
       </div>
     </div>
   </div>
