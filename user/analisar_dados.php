@@ -7,6 +7,14 @@ if (!isset($_SESSION["utilizador_logado"])) {
 }
 $funcionariosEntradasESaidas = [];
 
+function fmt_hms($segundos) {
+    $horas = floor($segundos / 3600);
+    $minutos = floor(($segundos % 3600) / 60);
+    $seg = $segundos % 60;
+
+    return sprintf('%02d:%02d:%02d', $horas, $minutos, $seg);
+}
+
 // Carregar lista de funcionários
 $stmt = $ligacao->prepare("
   SELECT
@@ -277,8 +285,13 @@ foreach ($diasEntradaSaida as $dia) {
 $pausasPorTipoPorDia = [];
 
 // janela = hoje-6 ... hoje  (7 dias no total; se quiser "hoje-7 ... hoje", muda -6 para -7 e o ciclo para 8)
-$hojeStr = date('Y-m-d');
-$inicioStr = date('Y-m-d', strtotime('-6 days'));
+if ($dataFim) {
+    $hojeStr = $dataFim;
+    $inicioStr = date('Y-m-d', strtotime("$dataFim -6 days"));
+} else {
+    $hojeStr = date('Y-m-d');
+    $inicioStr = date('Y-m-d', strtotime('-6 days'));
+}
 
 $diasJanela = [];
 $cursor = new DateTime($inicioStr);
