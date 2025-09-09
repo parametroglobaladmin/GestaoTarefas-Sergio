@@ -43,19 +43,19 @@ if (!empty($departamentoSelecionado)) {
     $utilizadoresSelecionados = [];
 }
 
-
+/*
 $utilizadoresSelecionados = $_GET['utilizadores'] ?? [];
 $dataInicio = $_GET['data_inicio'] ?? null;
 $dataFim = $_GET['data_fim'] ?? null;
-
-// Se nenhuma data for passada por GET, usar últimos 7 dias
-/*if (empty($_GET['data_inicio']) && empty($_GET['data_fim'])) {
-    $dataFim = date('Y-m-d');
-    $dataInicio = date('Y-m-d', strtotime('-6 days'));
+*/
+// Se nenhuma data for passada por GET, usar últimos 60 dias
+if (empty($_GET['data_inicio']) && empty($_GET['data_fim'])) {
+    $dataFim = date('Y-m-d'); 
+    $dataInicio = date('Y-m-d', strtotime('-59 days')); // Últimos 60 dias incluindo hoje
 } else {
     $dataInicio = $_GET['data_inicio'] ?? null;
     $dataFim = $_GET['data_fim'] ?? null;
-}*/
+}
 
 
 if (!empty($utilizadoresSelecionados)) {
@@ -137,7 +137,7 @@ LEFT JOIN (
 
 $whereSQL
 GROUP BY ue.utilizador, dia
-ORDER BY dia ASC, f.nome ASC
+ORDER BY dia DESC, f.nome ASC
 ";
 
 
@@ -309,6 +309,8 @@ table td {
   text-align: center;
   vertical-align: middle;
   border-bottom: 1px solid #939292ff;
+  border-right: 1px solid #dedcdcff;
+  border-left: 1px solid #e4e3e3ff;
 }
 
 table {
