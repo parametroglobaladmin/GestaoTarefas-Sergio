@@ -390,7 +390,7 @@ foreach ($agregado as &$dados) {
           <h2>Estatísticas Diárias</h2>
           <table cellpadding="6" cellspacing="0" style="width: 100%; border-collapse: collapse;">
             <thead style="background-color: #f2f2f2;">
-              <tr>
+              <tr style="background-color: #ffc107;">
                 <th>Data</th>
                 <th>Funcionário</th>
                 <th>Entrada</th>
@@ -398,15 +398,39 @@ foreach ($agregado as &$dados) {
                 <th>Jornada Bruta</th>
                 <th>Total de Pausas</th>
                 <th>Tempo Líquido</th>
-                <th>% Tempo Útil</th>
+                <th>% Tempo Útil (+70%)</th>
               </tr>
             </thead>
             <tbody>
+              <?php
+                // Gerar cores únicas por data
+                $coresPorData = [];
+                $coresDisponiveis = ['#fef9e7', '#f0f8ff', '#f6f8e2', '#eef5fb', '#f9e2ef', '#fce4d6', '#e6f2e6', '#fff0f0', '#e3f2fd', '#f3e5f5'];
+                $i = 0;
+
+                foreach ($resultados as $linha) {
+                    $data = $linha['dia'];
+                    if (!isset($coresPorData[$data])) {
+                        $coresPorData[$data] = $coresDisponiveis[$i % count($coresDisponiveis)];
+                        $i++;
+                    }
+                }
+                ?>
               <?php foreach ($resultados as $linha): ?>
-                <tr>
+                <tr style="background-color: <?= $coresPorData[$linha['dia']] ?>;">
                   <td><?= htmlspecialchars($linha['dia']) ?></td>
                   <td><?= htmlspecialchars($linha['nome_funcionario']) ?></td>
-                  <td><?= htmlspecialchars($linha['hora_entrada']) ?></td>
+                  <?php
+                    $horaEntrada = $linha['hora_entrada'];
+                    $styleEntrada = '';
+
+                    if ($horaEntrada > '08:10:00' && $horaEntrada <= '09:00:00') {
+                        $styleEntrada = 'background-color: #f8d7da; color: #721c24; font-weight: bold;';
+                    }else if($horaEntrada < '08:00:00'){
+                        $styleEntrada = 'background-color: #f2cb54ff; color: #856404; font-weight: bold;';
+                    }
+                  ?>
+                  <td style="<?= $styleEntrada ?>"><?= htmlspecialchars($horaEntrada) ?></td>
                   <td><?= htmlspecialchars($linha['hora_saida']) ?></td>
                   <td><?= htmlspecialchars($linha['tempo_jornada']) ?></td>
                   <td><?= htmlspecialchars($linha['tempo_pausa']) ?></td>
