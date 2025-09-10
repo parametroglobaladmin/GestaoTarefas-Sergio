@@ -109,6 +109,7 @@ LEFT JOIN (
   FROM pausas_tarefas pt
   JOIN motivos_pausa mp ON mp.id = pt.motivo_id
   WHERE mp.tipo NOT IN ('PararContadores', 'IniciarTarefas')
+    AND mp.codigo <> 'Producao'
     AND pt.data_retorno IS NOT NULL
   GROUP BY pt.funcionario, DATE(pt.data_pausa)
 ) pv

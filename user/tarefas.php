@@ -331,9 +331,12 @@ if ($tarefaAtiva) {
     body {
       margin: 0;
       height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      align-items: flex-start;
+      overflow-y: auto;
       background-color: #f4f4f4;
     }
 
@@ -342,7 +345,7 @@ if ($tarefaAtiva) {
       flex-direction: column;
       align-items: center;
       width: 100%;
-      padding-top:65px;
+      margin-top: 20vh
     }
 
     .top-buttons {
