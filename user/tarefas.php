@@ -345,7 +345,7 @@ if ($tarefaAtiva) {
       flex-direction: column;
       align-items: center;
       width: 100%;
-      margin-top: 20vh
+      margin-top: 20vh;
     }
 
     .top-buttons {
@@ -593,6 +593,7 @@ if ($tarefaAtiva) {
       top: 10px;
       left: 20px;
       right:20px;
+      z-index: 100;
     }
 
     .lado-esquerdo {
@@ -678,6 +679,7 @@ if ($tarefaAtiva) {
     </div>
   <?php endif; ?>
 
+  
   <div class="top-buttons">
     <?php
 
@@ -718,7 +720,7 @@ if ($tarefaAtiva) {
     <button type="submit" class="botao-buscar">Procurar</button>
   </form>
 
-  <table>
+  <table style="margin-bottom: 20px;">
     <thead>
       <tr>
         <th style="width: 30%;">Tarefa</th>

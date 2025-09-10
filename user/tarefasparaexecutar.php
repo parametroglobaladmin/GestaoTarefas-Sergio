@@ -154,14 +154,15 @@ try {
     }
 
     .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 40px 20px 60px;
-  box-sizing: border-box;
-  margin-top: 80px; /* Evita sobreposição da barra superior fixa */
-}
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 40px 20px 60px;
+      box-sizing: border-box;
+      margin-top: 80px; /* Evita sobreposição da barra superior fixa */
+      margin-top: 20vh;
+    }
 
 
     .top-buttons {
@@ -354,6 +355,7 @@ try {
       top: 10px;
       left: 20px;
       right:20px;
+      z-index: 100;
     }
 
     .utilizador-info {

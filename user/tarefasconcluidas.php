@@ -141,6 +141,7 @@ try {
       flex-direction: column;
       align-items: center;
       width: 100%;
+      margin-top: 30vh;
     }
 
     .top-buttons {
@@ -330,6 +331,7 @@ try {
       top: 10px;
       left: 20px;
       right:20px;
+      z-index: 100;
     }
 
     .utilizador-info {
