@@ -15,6 +15,13 @@ $anoSelecionado = $anoAtual;
 $stmt = $ligacao->prepare("SELECT data FROM dias_nao_permitidos WHERE YEAR(data) = :ano");
 $stmt->execute([':ano' => $anoSelecionado]);
 $linhas = $stmt->fetchAll(PDO::FETCH_COLUMN);
+// Buscar dias de ausência do utilizador logado (ou de todos se necessário)
+$stmtAusencias = $ligacao->prepare("SELECT data_falta FROM ausencia_funcionarios WHERE YEAR(data_falta) = :ano");
+$stmtAusencias->execute([':ano' => $anoSelecionado]);
+$linhasAusencias = $stmtAusencias->fetchAll(PDO::FETCH_COLUMN);
+
+// Limpar espaços e guardar como array
+$diasAusenciasBD = array_map('trim', $linhasAusencias);
 
 $diasBloqueadosBD = array_map('trim', $linhas);
 ?>
@@ -61,6 +68,13 @@ $diasBloqueadosBD = array_map('trim', $linhas);
       padding: 10px;
       background: #fff;
     }
+
+    .ausente {
+      background-color: #cce5ff;
+      color: #004085;
+      font-weight: bold;
+    }
+
 
     .mes-bloco h4 {
       text-align: center;
@@ -136,7 +150,7 @@ $diasBloqueadosBD = array_map('trim', $linhas);
 
           echo "<div class='mes-bloco'>";
           echo "<h4>{$meses[$mes - 1]}</h4>";
-          echo "<div class='dias-semana'><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div><div>D</div></div>";
+          echo "<div class='dias-semana'><div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div></div>";
           echo "<div class='dias-grid'>";
 
           // Espaços em branco antes do primeiro dia
@@ -148,7 +162,16 @@ $diasBloqueadosBD = array_map('trim', $linhas);
           for ($dia = 1; $dia <= $diasNoMes; $dia++) {
               $dataCompleta = sprintf('%04d-%02d-%02d', $anoSelecionado, $mes, $dia);
               $isBloqueado = in_array($dataCompleta, $diasBloqueadosBD);
-              $class = $isBloqueado ? 'dia nao-permitido' : 'dia';
+              $isAusente   = in_array($dataCompleta, $diasAusenciasBD);
+
+              if ($isBloqueado) {
+                  $class = 'dia nao-permitido';
+              } elseif ($isAusente) {
+                  $class = 'dia ausente';
+              } else {
+                  $class = 'dia';
+              }
+
               echo "<div class='$class'>{$dia}</div>";
           }
 
