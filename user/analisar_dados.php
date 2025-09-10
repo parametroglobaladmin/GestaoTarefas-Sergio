@@ -535,6 +535,7 @@ if ($utilizadorSelecionado) {
                 WHERE af.funcionario_utilizador = ?
                   AND af.data_falta > CURDATE()
                   AND af.data_falta BETWEEN ? AND ?
+                  AND WEEKDAY(af.data_falta) <> 6
                 ORDER BY af.data_falta ASC
             ");
             $stmt->execute([$utilizadorSelecionado, $futureStart, $yearEnd]);
@@ -546,6 +547,7 @@ if ($utilizadorSelecionado) {
                 FROM dias_nao_permitidos
                 WHERE data > CURDATE()
                   AND data BETWEEN ? AND ?
+                  AND WEEKDAY(data) <> 6
                 ORDER BY data ASC
             ");
             $stmt->execute([$futureStart, $yearEnd]);
@@ -578,6 +580,9 @@ if ($utilizadorSelecionado) {
 
             ksort($mapFuturo);
             foreach ($mapFuturo as $d => $tipos) {
+                if (date('N', strtotime($d)) == 7) {
+                    continue;
+                }
                 $faltasFuturo[] = [
                     'data'  => $d,
                     'tipos' => implode(', ', array_unique($tipos))
