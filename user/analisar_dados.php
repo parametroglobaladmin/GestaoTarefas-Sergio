@@ -368,7 +368,7 @@ if ($regHoje) {
 
 // Estado dinâmico de hoje
 $estadoHoje = 'Inativo';                          // default
-if (!empty($entradaHoje) && empty($saidaHoje)) {
+if (!empty($entradaHoje) && $saidaHoje='00:00') {
     $estadoHoje = 'Ativo';                        // entrou e ainda não saiu
 } // se tiver as duas horas, mantém 'inativo' (dia fechado)
 $iconChar  = ($estadoHoje === 'Ativo') ? '▶' : '⏸';
