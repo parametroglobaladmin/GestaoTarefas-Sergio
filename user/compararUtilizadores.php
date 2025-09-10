@@ -6,64 +6,38 @@ if (!isset($_SESSION["utilizador_logado"])) {
     exit();
 }
 
-$utilizador=$_SESSION["utilizador_logado"];
+$utilizador = $_SESSION["utilizador_logado"];
 
-// Substitui a tua query atual por esta
+// Carregar utilizadores e departamentos
 $stmt = $ligacao->prepare("
-  SELECT
-    utilizador,
-    nome AS nome_exibir,
-    departamento
+  SELECT utilizador, nome AS nome_exibir, departamento
   FROM funcionarios
   ORDER BY nome_exibir ASC
 ");
 $stmt->execute();
 $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-
 $stmtDept = $ligacao->prepare("
-  SELECT
-    id   AS departamento_id,
-    nome AS nome_departamento
+  SELECT id AS departamento_id, nome AS nome_departamento
   FROM departamento
   ORDER BY nome_departamento ASC
 ");
 $stmtDept->execute();
 $departamentos = $stmtDept->fetchAll(PDO::FETCH_ASSOC);
 
-// Seleções vindas por GET  (mantém só estas 4 linhas)
+// Seleções por GET
 $utilizadoresSelecionados = $_GET['utilizadores'] ?? [];
 $dataInicio = $_GET['data_inicio'] ?? null;
 $dataFim = $_GET['data_fim'] ?? null;
 $departamentoSelecionado = $_GET['departamento'] ?? '';
 
-// Opcional: se houver departamento, ignora utilizadores no backend também
 if (!empty($departamentoSelecionado)) {
     $utilizadoresSelecionados = [];
 }
 
-/*
-$utilizadoresSelecionados = $_GET['utilizadores'] ?? [];
-$dataInicio = $_GET['data_inicio'] ?? null;
-$dataFim = $_GET['data_fim'] ?? null;
-*/
-// Se nenhuma data for passada por GET, usar últimos 60 dias
-if (empty($_GET['data_inicio']) && empty($_GET['data_fim'])) {
-    $dataFim = date('Y-m-d'); 
-    $dataInicio = date('Y-m-d', strtotime('-59 days')); // Últimos 60 dias incluindo hoje
-} else {
-    $dataInicio = $_GET['data_inicio'] ?? null;
-    $dataFim = $_GET['data_fim'] ?? null;
-}
-
-
-if (!empty($utilizadoresSelecionados)) {
-    foreach ($utilizadoresSelecionados as $user) {
-        // Aqui poderás tratar os dados individualmente (carregar tempos, pausas, etc)
-        echo "<p>Selecionado: " . htmlspecialchars($user) . "</p>";
-        // Usar $dataInicio e $dataFim nos filtros se existirem
-    }
+if (empty($dataInicio) && empty($dataFim)) {
+    $dataFim = date('Y-m-d');
+    $dataInicio = date('Y-m-d', strtotime('-59 days'));
 }
 
 $whereClauses = [];
@@ -77,120 +51,133 @@ if (!empty($departamentoSelecionado)) {
     $whereClauses[] = "ue.utilizador IN ($placeholders)";
     $params = array_merge($params, $utilizadoresSelecionados);
 }
-
-if ($dataInicio) {
-    $whereClauses[] = 'DATE(ue.hora_entrada) >= ?';
-    $params[] = $dataInicio;
-}
-if ($dataFim) {
-    $whereClauses[] = 'DATE(ue.hora_saida) <= ?';
-    $params[] = $dataFim;
-}
+if ($dataInicio) { $whereClauses[] = 'DATE(ue.hora_entrada) >= ?'; $params[] = $dataInicio; }
+if ($dataFim)    { $whereClauses[] = 'DATE(ue.hora_entrada) <= ?'; $params[] = $dataFim; }
 
 $whereSQL = $whereClauses ? 'WHERE ' . implode(' AND ', $whereClauses) : '';
 
 $query = "
-SELECT
+  SELECT
     ue.utilizador,
     f.nome AS nome_funcionario,
     DATE(ue.hora_entrada) AS dia,
-    TIME(ue.hora_entrada) AS hora_entrada,
-    TIME(ue.hora_saida) AS hora_saida,
-    TIMESTAMPDIFF(SECOND, ue.hora_entrada, ue.hora_saida) AS jornada_bruta_segundos,
-    IFNULL(pv.total, 0) + IFNULL(pc.total, 0) AS total_pausa_segundos
-FROM utilizador_entradaesaida ue
-JOIN funcionarios f ON f.utilizador = ue.utilizador
-
-LEFT JOIN (
-  SELECT
-    pt.funcionario,
-    DATE(pt.data_pausa) AS dia,
-    SUM(TIMESTAMPDIFF(SECOND, pt.data_pausa, pt.data_retorno)) AS total
-  FROM pausas_tarefas pt
-  JOIN motivos_pausa mp ON mp.id = pt.motivo_id
-  WHERE mp.tipo NOT IN ('PararContadores', 'IniciarTarefas')
-    AND mp.codigo <> 'Producao'
-    AND pt.data_retorno IS NOT NULL
-  GROUP BY pt.funcionario, DATE(pt.data_pausa)
-) pv
-  ON pv.funcionario = ue.utilizador AND pv.dia = DATE(ue.hora_entrada)
-
-LEFT JOIN (
-  SELECT funcionario, dia,
-         SUM(duracao_agrupada) AS total
-  FROM (
-    SELECT
-      pt.funcionario,
-      DATE(pt.data_pausa) AS dia,
-      MIN(pt.data_pausa) AS inicio_pausa,
-      MAX(pt.data_retorno) AS fim_pausa,
-      TIMESTAMPDIFF(SECOND, MIN(pt.data_pausa), MAX(pt.data_retorno)) AS duracao_agrupada
-    FROM pausas_tarefas pt
-    JOIN motivos_pausa mp ON mp.id = pt.motivo_id
-    WHERE mp.tipo = 'PararContadores'
-      AND pt.data_retorno IS NOT NULL
-    GROUP BY pt.funcionario, DATE(pt.data_pausa),
-             FLOOR(UNIX_TIMESTAMP(pt.data_pausa) / 180)
-  ) AS pausas_agrupadas
-  GROUP BY funcionario, dia
-) pc
-  ON pc.funcionario = ue.utilizador AND pc.dia = DATE(ue.hora_entrada)
-
-$whereSQL
-GROUP BY ue.utilizador, dia
-ORDER BY dia DESC, f.nome ASC
+    TIME(MIN(ue.hora_entrada)) AS hora_entrada,
+    TIME(MAX(ue.hora_saida)) AS hora_saida,
+    SUM(TIMESTAMPDIFF(SECOND, ue.hora_entrada, ue.hora_saida)) AS jornada_bruta_segundos
+  FROM utilizador_entradaesaida ue
+  JOIN funcionarios f ON f.utilizador = ue.utilizador
+  $whereSQL
+  GROUP BY ue.utilizador, DATE(ue.hora_entrada), f.nome
+  ORDER BY dia DESC, f.nome ASC
 ";
-
 
 $stmtResultados = $ligacao->prepare($query);
 $stmtResultados->execute($params);
 $resultados = $stmtResultados->fetchAll(PDO::FETCH_ASSOC);
 
+// Função para fundir pausas sobrepostas
+function fundirIntervalosSobrepostos($pausas) {
+    usort($pausas, fn($a, $b) => strtotime($a['inicio']) <=> strtotime($b['inicio']));
+    $fundidas = [];
 
-foreach ($resultados as &$linha) {
-    $jornada = $linha['jornada_bruta_segundos'];
-    $pausas = $linha['total_pausa_segundos'];
-    $liquido = max(0, $jornada - $pausas);
-    $percentual = $jornada > 0 ? round(($liquido / $jornada) * 100, 2) : 0;
+    foreach ($pausas as $p) {
+        $inicio = strtotime($p['inicio']);
+        $fim    = strtotime($p['fim']);
 
-    $linha['tempo_jornada'] = gmdate("H:i:s", $jornada);
-    $linha['tempo_pausa'] = gmdate("H:i:s", $pausas);
-    $linha['tempo_liquido'] = gmdate("H:i:s", $liquido);
-    $linha['percentual_util'] = $percentual;
-}
+        if (empty($fundidas)) {
+            $fundidas[] = ['inicio' => $inicio, 'fim' => $fim];
+            continue;
+        }
 
-$agregado = [];
+        $ultimo = &$fundidas[count($fundidas) - 1];
 
-foreach ($resultados as $linha) {
-    $user = $linha['utilizador'];
-
-    if (!isset($agregado[$user])) {
-        $agregado[$user] = [
-            'nome' => $linha['nome_funcionario'],
-            'jornada' => 0,
-            'pausas' => 0,
-            'dias' => 0
-        ];
+        if ($inicio <= $ultimo['fim']) {
+            $ultimo['fim'] = max($ultimo['fim'], $fim);
+        } else {
+            $fundidas[] = ['inicio' => $inicio, 'fim' => $fim];
+        }
     }
 
-    $agregado[$user]['jornada'] += $linha['jornada_bruta_segundos'];
-    $agregado[$user]['pausas'] += $linha['total_pausa_segundos'];
-    $agregado[$user]['dias'] += 1;
+    $total = 0;
+    foreach ($fundidas as $f) {
+        $total += $f['fim'] - $f['inicio'];
+    }
+
+    return $total;
 }
 
-// Calcula médias
-foreach ($agregado as &$dados) {
-    $liquido = max(0, $dados['jornada'] - $dados['pausas']);
-    $percentual = $dados['jornada'] > 0 ? round(($liquido / $dados['jornada']) * 100, 2) : 0;
+// Carregar todas as pausas válidas
+$pausasBrutas = $ligacao->query("
+  SELECT
+    pt.funcionario,
+    DATE(pt.data_pausa) AS dia,
+    pt.data_pausa AS inicio,
+    pt.data_retorno AS fim,
+    mp.tipo
+  FROM pausas_tarefas pt
+  JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+  WHERE pt.data_retorno IS NOT NULL
+    AND mp.tipo NOT IN ('IniciarTarefas')
+    AND mp.codigo <> 'Producao'
+")->fetchAll(PDO::FETCH_ASSOC);
 
-    $dados['tempo_jornada'] = gmdate("H:i:s", $dados['jornada']);
-    $dados['tempo_pausa'] = gmdate("H:i:s", $dados['pausas']);
-    $dados['tempo_liquido'] = gmdate("H:i:s", $liquido);
-    $dados['percentual_util'] = $percentual;
-    $dados['media_liquido_dia'] = gmdate("H:i:s", $liquido / $dados['dias']);
+// Agrupar pausas por utilizador e dia
+$pausasPorUserDia = [];
+foreach ($pausasBrutas as $p) {
+    $u = $p['funcionario'];
+    $dia = $p['dia'];
+    if (!isset($pausasPorUserDia[$u])) $pausasPorUserDia[$u] = [];
+    if (!isset($pausasPorUserDia[$u][$dia])) $pausasPorUserDia[$u][$dia] = [];
+    $pausasPorUserDia[$u][$dia][] = ['inicio' => $p['inicio'], 'fim' => $p['fim']];
 }
 
+// Aplicar pausas fundidas por linha de resultado
+foreach ($resultados as &$linha) {
+    $u = $linha['utilizador'];
+    $dia = $linha['dia'];
+    $fundidas = $pausasPorUserDia[$u][$dia] ?? [];
+    $linha['total_pausa_segundos'] = fundirIntervalosSobrepostos($fundidas);
+}
+unset($linha);
+
+// Cálculos finais por linha
+foreach ($resultados as &$linha) {
+    $jornada   = (int)$linha['jornada_bruta_segundos'];
+    $pausas    = (int)$linha['total_pausa_segundos'];
+    $liquido   = max(0, $jornada - $pausas);
+    $percentual= $jornada > 0 ? round(($liquido / $jornada) * 100, 2) : 0;
+
+    $linha['tempo_jornada']  = gmdate("H:i:s", $jornada);
+    $linha['tempo_pausa']    = gmdate("H:i:s", $pausas);
+    $linha['tempo_liquido']  = gmdate("H:i:s", $liquido);
+    $linha['percentual_util']= $percentual;
+}
+unset($linha);
+
+// Agregado por utilizador
+$agregado = [];
+foreach ($resultados as $linha) {
+    $u = $linha['utilizador'];
+    if (!isset($agregado[$u])) {
+        $agregado[$u] = ['nome'=>$linha['nome_funcionario'], 'jornada'=>0, 'pausas'=>0, 'dias'=>0];
+    }
+    $agregado[$u]['jornada'] += (int)$linha['jornada_bruta_segundos'];
+    $agregado[$u]['pausas']  += (int)$linha['total_pausa_segundos'];
+    $agregado[$u]['dias']    += 1;
+}
+
+// Cálculo final agregado
+foreach ($agregado as &$d) {
+    $liq = max(0, $d['jornada'] - $d['pausas']);
+    $d['tempo_jornada']     = gmdate("H:i:s", $d['jornada']);
+    $d['tempo_pausa']       = gmdate("H:i:s", $d['pausas']);
+    $d['tempo_liquido']     = gmdate("H:i:s", $liq);
+    $d['percentual_util']   = $d['jornada']>0 ? round(($liq/$d['jornada'])*100, 2) : 0;
+    $d['media_liquido_dia'] = gmdate("H:i:s", (int) round($liq / max(1,$d['dias'])));
+}
+unset($d);
 ?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -542,7 +529,6 @@ table {
       </div>
     </div>
   </div>
-</body>
 
 <script>
   const form            = document.getElementById('formComparar');
@@ -614,5 +600,5 @@ table {
     }, 4000);
   }
 </script>
-
+</body>
 </html>
