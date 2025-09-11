@@ -75,6 +75,20 @@ foreach ($acumuladoPorDia as $data => $valores) {
 $utilizadorSelecionado = isset($_GET['utilizador']) ? $_GET['utilizador'] : null;
 $dataInicio = $_GET['data_inicio'] ?? null;
 $dataFim = $_GET['data_fim'] ?? null;
+$dataFiltrar = $_GET['data_filtrar'] ?? null;
+
+// Ajuste das datas com base nos filtros fornecidos
+if ($dataFiltrar) {
+    // Quando uma data específica é informada, considera apenas esse dia
+    $dataInicio = $dataFiltrar;
+    $dataFim = $dataFiltrar;
+} elseif ($dataInicio && !$dataFim) {
+    // Data inicial sem data final: do dia inicial até hoje
+    $dataFim = date('Y-m-d');
+} elseif ($dataFim && !$dataInicio) {
+    // Data final sem inicial: últimos 15 dias até a data final
+    $dataInicio = date('Y-m-d', strtotime("$dataFim -14 days"));
+}
 $dadosUtilizador = [];
 $pausasUtilizador = [];
 $trabalhoPorDia = [];
@@ -285,9 +299,9 @@ foreach ($diasEntradaSaida as $dia) {
 $pausasPorTipoPorDia = [];
 
 // janela = hoje-6 ... hoje  (7 dias no total; se quiser "hoje-7 ... hoje", muda -6 para -7 e o ciclo para 8)
-if ($dataFim) {
+if ($dataInicio && $dataFim) {
+    $inicioStr = $dataInicio;
     $hojeStr = $dataFim;
-    $inicioStr = date('Y-m-d', strtotime("$dataFim -6 days"));
 } else {
     $hojeStr = date('Y-m-d');
     $inicioStr = date('Y-m-d', strtotime('-6 days'));
@@ -295,9 +309,10 @@ if ($dataFim) {
 
 $diasJanela = [];
 $cursor = new DateTime($inicioStr);
-for ($i = 0; $i < 7; $i++) {
-  $diasJanela[] = $cursor->format('Y-m-d');
-  $cursor->modify('+1 day');
+$limite = new DateTime($hojeStr);
+while ($cursor <= $limite) {
+    $diasJanela[] = $cursor->format('Y-m-d');
+    $cursor->modify('+1 day');
 }
 
 if ($utilizadorSelecionado) {
@@ -799,15 +814,14 @@ if ($utilizadorSelecionado) {
         <form method="get" style="margin-top: 20px;">
           <input type="hidden" name="utilizador" value="<?= htmlspecialchars($utilizadorSelecionado ?? '') ?>">
 
-          <div>
-            <label for="data_filtro">Data Para Filtrar:</label><br>
-            <input type="date" name="data_filtro" id="data_filtro"
-                  value="<?= htmlspecialchars($_GET['data_filtro'] ?? '') ?>"
+           <div>
+            <label for="data_filtrar">Data Específica:</label><br>
+            <input type="date" name="data_filtrar" id="data_filtrar"
+                  value="<?= htmlspecialchars($_GET['data_filtrar'] ?? '') ?>"
                   style="padding: 6px; border: 1px solid #ccc; border-radius: 6px; width: 100%;">
           </div>
-          <br>
           
-          <div>
+          <div style="margin-top: 30px;">
             <label for="data_inicio">Data Início:</label><br>
             <input type="date" name="data_inicio" id="data_inicio"
                   value="<?= htmlspecialchars($_GET['data_inicio'] ?? '') ?>"
@@ -874,13 +888,13 @@ if ($utilizadorSelecionado) {
               <canvas id="graficoEntradaSaida" width="400" height="400"></canvas>
             </div>
 
+            <?php $temFiltro = !empty($_GET['data_filtrar']); ?>
             <div style="flex: 1.2; min-width: 520px; max-height: 400px; overflow: auto;">
               <table class="tabela-pausas-mensal" style="border-collapse: collapse; width: 100%;">
                 <thead>
                   <tr>
                     <th style="position: sticky; left: 0; background: #fff; z-index: 2; border: 1px solid #ddd; padding: 8px; white-space:nowrap;">
-                      Tipo de Pausa (últimos 7 dias)<br>
-                      <small><?= htmlspecialchars(date('d/m/Y', strtotime($inicioStr))) ?> – <?= htmlspecialchars(date('d/m/Y', strtotime($hojeStr))) ?></small>
+                      Tipo de Pausa
                     </th>
                     <?php foreach ($diasJanela as $d): ?>
                       <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap;">
@@ -888,6 +902,9 @@ if ($utilizadorSelecionado) {
                       </th>
                     <?php endforeach; ?>
                     <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap;">Total</th>
+                    <?php if ($temFiltro): ?>
+                      <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap;">Detalhes</th>
+                    <?php endif; ?>
                   </tr>
                 </thead>
                 <tbody>
@@ -906,11 +923,59 @@ if ($utilizadorSelecionado) {
                       <td style="border: 1px solid #ddd; padding: 8px; text-align:center; font-weight:600;">
                         <?= fmt_hms($totalTipo) ?>
                       </td>
+                      <?php if ($temFiltro): ?>
+                        <td style="text-align:center; border: 1px solid #ddd;">
+                          <button type="button" class="toggle-detalhes" data-target="detalhes-<?= md5($tipo) ?>" 
+                                  style="background:none; border:none; cursor:pointer; font-size:16px;">
+                            ▼
+                          </button>
+                        </td>
+                      <?php endif; ?>
                     </tr>
+
+                    <!-- Dropdown oculto com detalhes -->
+                    <?php if ($temFiltro): ?>
+                      <!-- Dropdown oculto -->
+                      <tr id="detalhes-<?= md5($tipo) ?>" class="detalhes-row" style="display:none;">
+                        <td colspan="<?= count($diasJanela) + 3 ?>" style="border:1px solid #ddd; padding: 8px; background:#f9f9f9;">
+                          <table style="width:100%; border-collapse: collapse;">
+                            <thead>
+                              <tr>
+                                <th style="border:1px solid #ddd; padding:6px;">Tarefa</th>
+                                <th style="border:1px solid #ddd; padding:6px;">Tempo</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php foreach ($detalhesPorTipo[$tipo] ?? [] as $det): ?>
+                                <tr>
+                                  <td style="border:1px solid #ddd; padding:6px;"><?= htmlspecialchars($det['tarefa']) ?></td>
+                                  <td style="border:1px solid #ddd; padding:6px;"><?= fmt_hms($det['tempo']) ?></td>
+                                </tr>
+                              <?php endforeach; ?>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    <?php endif; ?>
                   <?php endforeach; ?>
                 </tbody>
               </table>
             </div>
+
+            <script>
+            document.querySelectorAll('.toggle-detalhes').forEach(btn => {
+              btn.addEventListener('click', () => {
+                const target = document.getElementById(btn.dataset.target);
+                if (target.style.display === 'none') {
+                  target.style.display = 'table-row';
+                  btn.textContent = '▲';
+                } else {
+                  target.style.display = 'none';
+                  btn.textContent = '▼';
+                }
+              });
+            });
+            </script>
           </div>
 
           <div class="faltas-wrapper">
@@ -1001,7 +1066,7 @@ if ($utilizadorSelecionado) {
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      const dataFiltro = document.getElementById("data_filtro");
+      const dataFiltro = document.getElementById("data_filtrar");
       const dataInicio = document.getElementById("data_inicio");
       const dataFim    = document.getElementById("data_fim");
 
