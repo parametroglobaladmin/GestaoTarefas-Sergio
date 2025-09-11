@@ -155,7 +155,7 @@ if (empty($erroUtilizador) && ($acesso === 'todos' || !empty($utilizadorSelecion
         $params[] = $dataFim;
     }
 
-    $query .= " ORDER BY rd.data_trabalho ASC";
+    $query .= " ORDER BY rd.data_trabalho DESC";
 
     $stmt = $ligacao->prepare($query);
     $stmt->execute($params);
