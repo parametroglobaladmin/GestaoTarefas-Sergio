@@ -798,6 +798,14 @@ if ($utilizadorSelecionado) {
         <!-- Formulário de filtro por datas -->
         <form method="get" style="margin-top: 20px;">
           <input type="hidden" name="utilizador" value="<?= htmlspecialchars($utilizadorSelecionado ?? '') ?>">
+
+          <div>
+            <label for="data_filtro">Data Para Filtrar:</label><br>
+            <input type="date" name="data_filtro" id="data_filtro"
+                  value="<?= htmlspecialchars($_GET['data_filtro'] ?? '') ?>"
+                  style="padding: 6px; border: 1px solid #ccc; border-radius: 6px; width: 100%;">
+          </div>
+          <br>
           
           <div>
             <label for="data_inicio">Data Início:</label><br>
@@ -990,6 +998,39 @@ if ($utilizadorSelecionado) {
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const dataFiltro = document.getElementById("data_filtro");
+      const dataInicio = document.getElementById("data_inicio");
+      const dataFim    = document.getElementById("data_fim");
+
+      dataFiltro.addEventListener("change", function() {
+        if (this.value) {
+          dataInicio.value = "";
+          dataFim.value = "";
+          dataInicio.disabled = true;
+          dataFim.disabled = true;
+        } else {
+          dataInicio.disabled = false;
+          dataFim.disabled = false;
+        }
+      });
+
+      function clearDataFiltroIfRange() {
+        if (dataInicio.value || dataFim.value) {
+          dataFiltro.value = "";
+          dataFiltro.disabled = true;
+        } else {
+          dataFiltro.disabled = false;
+        }
+      }
+
+      dataInicio.addEventListener("change", clearDataFiltroIfRange);
+      dataFim.addEventListener("change", clearDataFiltroIfRange);
+    });
+  </script>
+
 
   <?php if ($utilizadorSelecionado): ?>
   <script>
