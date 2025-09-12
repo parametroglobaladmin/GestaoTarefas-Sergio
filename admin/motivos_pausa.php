@@ -229,6 +229,24 @@ try {
 
     </style>
 </head>
+
+<div id="notificacao" style="
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px 18px;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 9999;
+    align-items: center;
+    font-size: 14px;
+    border-left: 5px solid #28a745;
+">
+  <span id="notificacao-texto">Mensagem</span>
+</div>
 <body>
 <div class="container">
     <?php if (!empty($mensagem)): ?>
@@ -252,6 +270,7 @@ try {
             <th>Descrição</th>
             <th>Tipo</th>
             <th>Ações</th>
+            <th>Conta como Pausa para Estatistica?</th>
         </tr>
         </thead>
         <tbody>
@@ -269,7 +288,13 @@ try {
 
                         <a href="#" class="botao" style="background:#c0392b; color:white; padding:6px 14px; font-size:0.9em;"
                         onclick="abrirModalEliminar(<?= $motivo['id'] ?>)">Eliminar</a>
-
+                    </td>
+                    <td style="text-align:center;">
+                        <input 
+                            type="checkbox" 
+                            <?php echo (isset($motivo['estatistica']) && $motivo['estatistica'] === 'ativo' ? 'checked' : ''); ?>
+                            onchange="atualizarEstadoPausa(this, '<?php echo $motivo['codigo']; ?>')"
+                        >
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -365,6 +390,63 @@ try {
             }
         });
     });
+</script>
+<script>
+    function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+        const toast = document.getElementById("notificacao");
+        const span  = document.getElementById("notificacao-texto");
+
+        let bg, corTexto, borda;
+
+        if (tipo === 'erro') {
+        bg = "#f8d7da";
+        corTexto = "#721c24";
+        borda = "#dc3545";
+        } else {
+        bg = "#d4edda";
+        corTexto = "#155724";
+        borda = "#28a745";
+        }
+
+        toast.style.backgroundColor = bg;
+        toast.style.color = corTexto;
+        toast.style.borderLeft = `5px solid ${borda}`;
+        span.textContent = mensagem;
+        toast.style.display = "flex";
+        toast.style.opacity = "1";
+
+        setTimeout(() => {
+        toast.style.transition = 'opacity 0.5s';
+        toast.style.opacity = "0";
+        setTimeout(() => {
+            toast.style.display = "none";
+            toast.style.transition = '';
+        }, 500);
+        }, 4000);
+    }
+
+    function atualizarEstadoPausa(checkbox, codigo) {
+        const novoEstado = checkbox.checked ? 1 : 0;
+
+        fetch('atualizar_estado_pausa.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `codigo=${encodeURIComponent(codigo)}&estatistica=${novoEstado}`
+        })
+        .then(res => res.text())
+        .then(res => {
+            if (res.includes('sucesso')) {
+                mostrarNotificacao("Estado atualizado com sucesso.", 'sucesso');
+            } else {
+                mostrarNotificacao("Erro ao atualizar estado.", 'erro');
+                checkbox.checked = !checkbox.checked; // Reverter estado visual
+            }
+        })
+        .catch(() => {
+            mostrarNotificacao("Erro ao comunicar com o servidor.", 'erro');
+            checkbox.checked = !checkbox.checked; // Reverter
+        });
+    }
 </script>
 </body>
 </html>
