@@ -340,7 +340,7 @@ if ($utilizadorSelecionado) {
     JOIN motivos_pausa mp ON mp.id = pt.motivo_id
     WHERE pt.funcionario = ?
       AND pt.data_pausa IS NOT NULL
-      AND mp.tipo NOT IN ('IniciarTarefas')
+      AND mp.codigo NOT IN ('Intergabinete')
       AND DATE(pt.data_pausa) BETWEEN ? AND ?
     GROUP BY mp.descricao, DATE(pt.data_pausa)
     ORDER BY mp.descricao, dia
@@ -619,7 +619,7 @@ if ($utilizadorSelecionado) {
 
 $sqlDetalhes = "
   SELECT 
-    mp.codigo       AS tipo_pausa,
+    mp.descricao      AS tipo_pausa,
     t.tarefa        AS tarefa,
     pt.tempo_pausa AS tempo
   FROM pausas_tarefas pt
