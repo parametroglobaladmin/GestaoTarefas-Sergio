@@ -103,24 +103,34 @@ if ($utilizadorSelecionado) {
     $stmt->execute([$utilizadorSelecionado]);
     $dadosUtilizador = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $stmt = $ligacao->prepare("
-        SELECT pt.*, mp.descricao AS tipo_pausa
+    $queryPausasUtilizador = "
+        SELECT mp.descricao, COUNT(*)
         FROM pausas_tarefas pt
         JOIN motivos_pausa mp ON pt.motivo_id = mp.id
-        WHERE pt.funcionario = ? AND mp.descricao!='Intergabinete'
-    ");
-    $stmt->execute([$utilizadorSelecionado]);
-    $rawPausas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $pausasUtilizador = [];
+        WHERE pt.funcionario = ? AND mp.descricao!='Intergabinete'";
 
-    foreach ($rawPausas as $p) {
-        $tipo = $p['tipo_pausa'];
-        if (!isset($pausasUtilizador[$tipo])) {
-            $pausasUtilizador[$tipo] = 0;
+    $params = [$utilizadorSelecionado];
+    if ($dataInicio && $dataFim) {
+        if ($dataInicio === $dataFim) {
+            $queryPausasUtilizador .= " AND DATE(pt.data_pausa) = ?";
+            $params[] = $dataInicio;
+        } else {
+            $queryPausasUtilizador .= " AND DATE(pt.data_pausa) BETWEEN ? AND ?";
+            $params[] = $dataInicio;
+            $params[] = $dataFim;
         }
-        $pausasUtilizador[$tipo]++;
+    } elseif ($dataInicio) {
+        $queryPausasUtilizador .= " AND DATE(pt.data_pausa) >= ?";
+        $params[] = $dataInicio;
+    } elseif ($dataFim) {
+        $queryPausasUtilizador .= " AND DATE(pt.data_pausa) <= ?";
+        $params[] = $dataFim;
     }
+    $queryPausasUtilizador .= " GROUP BY mp.descricao";
 
+    $stmt = $ligacao->prepare($queryPausasUtilizador);
+    $stmt->execute($params);
+    $pausasUtilizador = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
     // 1. Obter entradas e saídas por dia
     $queryES = "

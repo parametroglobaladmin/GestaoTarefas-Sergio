@@ -117,8 +117,7 @@ $pausasBrutas = $ligacao->query("
   FROM pausas_tarefas pt
   JOIN motivos_pausa mp ON mp.id = pt.motivo_id
   WHERE pt.data_retorno IS NOT NULL
-    AND mp.tipo NOT IN ('IniciarTarefas')
-    AND mp.codigo <> 'Producao'
+    AND mp.estatistica <> 'inativo'
 ")->fetchAll(PDO::FETCH_ASSOC);
 
 // Agrupar pausas por utilizador e dia
