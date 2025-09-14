@@ -340,7 +340,7 @@ if ($utilizadorSelecionado) {
     JOIN motivos_pausa mp ON mp.id = pt.motivo_id
     WHERE pt.funcionario = ?
       AND pt.data_pausa IS NOT NULL
-      AND (mp.descricao <> 'Intergabinete') -- remove se quiseres incluir
+      AND mp.tipo NOT IN ('IniciarTarefas')
       AND DATE(pt.data_pausa) BETWEEN ? AND ?
     GROUP BY mp.descricao, DATE(pt.data_pausa)
     ORDER BY mp.descricao, dia
@@ -616,6 +616,36 @@ if ($utilizadorSelecionado) {
         }
     }
 }
+
+$sqlDetalhes = "
+  SELECT 
+    mp.codigo       AS tipo_pausa,
+    t.tarefa        AS tarefa,
+    pt.tempo_pausa AS tempo
+  FROM pausas_tarefas pt
+  JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+  JOIN tarefas t        ON t.id = pt.tarefa_id
+  WHERE pt.data_retorno IS NOT NULL
+    AND pt.funcionario = :funcionario
+    AND DATE(pt.data_pausa) = :dia
+  ORDER BY mp.codigo, t.tarefa, pt.data_pausa
+";
+
+$detalhesStmt = $ligacao->prepare($sqlDetalhes);
+$detalhesStmt->execute([
+    'funcionario' => $utilizadorSelecionado,
+    'dia'         => $dataFiltrar // podes trocar pela data do filtro
+]);
+
+$detalhesPorTipo = [];
+while ($row = $detalhesStmt->fetch(PDO::FETCH_ASSOC)) {
+    $detalhesPorTipo[$row['tipo_pausa']][] = [
+        'tarefa' => $row['tarefa'],
+        'tempo'  => $row['tempo'], // já vem HH:MM:SS
+    ];
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -959,7 +989,7 @@ if ($utilizadorSelecionado) {
                               <?php foreach ($detalhesPorTipo[$tipo] ?? [] as $det): ?>
                                 <tr>
                                   <td style="border:1px solid #ddd; padding:6px;"><?= htmlspecialchars($det['tarefa']) ?></td>
-                                  <td style="border:1px solid #ddd; padding:6px;"><?= fmt_hms($det['tempo']) ?></td>
+                                  <td style="border:1px solid #ddd; padding:6px;"><?= htmlspecialchars($det['tempo']) ?></td>
                                 </tr>
                               <?php endforeach; ?>
                             </tbody>
