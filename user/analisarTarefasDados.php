@@ -101,33 +101,48 @@ $dataReferencia = !empty($_GET['mes'])
   : date('Y-m-d', strtotime('-31 days'));
 
 $queryGantt = "
-  SELECT 
-    t.id AS tarefa_id,
-    t.tarefa AS nome_tarefa,
-    d.nome AS nome_departamento,
-    dt.data_entrada,
-    COALESCE(dt.data_saida, NOW()) AS data_saida
-  FROM tarefas t
-  JOIN departamento_tarefa dt ON dt.tarefa_id = t.id
-  JOIN departamento d ON d.id = dt.departamento_id
-  WHERE dt.data_entrada >= :inicio
-  ORDER BY dt.data_entrada ASC
+SELECT 
+  t.id AS tarefa_id,
+  t.tarefa AS nome_tarefa,
+  MIN(dt.data_entrada) AS data_inicio,
+  MAX(COALESCE(dt.data_saida, NOW())) AS data_fim
+FROM tarefas t
+JOIN departamento_tarefa dt ON dt.tarefa_id = t.id
+WHERE dt.data_entrada >= :inicio
+GROUP BY t.id, t.tarefa
+ORDER BY data_inicio ASC;
 ";
 
 $stmt = $ligacao->prepare($queryGantt);
 $stmt->execute([':inicio' => $dataReferencia]);
 $resultadosGantt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Preparar dados para JS
+// Preparar dados para JS (usar epoch ms para evitar datas inválidas)
 $tarefasGantt = [];
 foreach ($resultadosGantt as $linha) {
-    $id = $linha['tarefa_id'];
-    $nome = $linha['nome_tarefa'];
-    $dep = $linha['nome_departamento'];
-    $entrada = date('Y, n-1, j, G, i, s', strtotime($linha['data_entrada']));
-    $saida = date('Y, n-1, j, G, i, s', strtotime($linha['data_saida']));
-    $tarefasGantt[] = [$id, $nome, $dep, $entrada, $saida];
+    $id   = (string)$linha['tarefa_id'];
+    $nome = (string)$linha['nome_tarefa'];
+
+    $startTs = strtotime((string)$linha['data_inicio']);
+    $endTs   = strtotime((string)$linha['data_fim']);
+
+    // Se não houver início válido, ignora a linha
+    if (!$startTs) {
+        continue;
+    }
+    // Se o fim for inválido ou anterior ao início, força +60s
+    if (!$endTs || $endTs < $startTs) {
+        $endTs = $startTs + 60;
+    }
+
+    // Converte para milissegundos (inteiros)
+    $startMs = $startTs * 1000;
+    $endMs   = $endTs * 1000;
+
+    $tarefasGantt[] = [$id, $nome, '', $startMs, $endMs];
 }
+
+
 ?>
 
 
@@ -270,7 +285,7 @@ foreach ($resultadosGantt as $linha) {
       <div>
         <label for="mes">Selecione o Mês da tarefa:</label><br>
         <input type="month" name="mes" id="mes" 
-              value="<?= htmlspecialchars(date('Y-m', strtotime($dataInicio))) ?>" 
+              value="<?= htmlspecialchars(date('Y-m', strtotime($dataReferencia))) ?>" 
               style="width: 250px;">
       </div>
       <div>
@@ -317,11 +332,123 @@ foreach ($resultadosGantt as $linha) {
 
       const chart = new google.visualization.Gantt(document.getElementById('gantt_chart'));
       chart.draw(data, options);
+      google.visualization.events.addListener(chart, 'select', function() {
+      const sel = chart.getSelection();
+        if (sel.length > 0) {
+          const tarefaId = data.getValue(sel[0].row, 0);  // o ID que passaste
+          const nomeTarefa = data.getValue(sel[0].row, 1);
+          abrirOverlay(tarefaId, nomeTarefa);
+        }
+      });
     }
   </script>
 
 
+<!-- Overlay fullscreen -->
+<div id="overlay" style="
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  z-index:9999;
+  justify-content:center;
+  align-items:center;
+">
+  <div style="
+    background:#fff;
+    width:90%;
+    height:90%;
+    padding:20px;
+    border-radius:10px;
+    overflow:auto;
+    position:relative;
+  ">
+    <button onclick="fecharOverlay()" style="
+      position:absolute;
+      top:10px;
+      right:20px;
+      padding:5px 10px;
+      background:red;
+      color:white;
+      border:none;
+      border-radius:5px;
+      cursor:pointer;
+    ">Fechar</button>
 
+    <h2 id="overlayTitulo"></h2>
+    <div id="overlayGantt" style="width:100%; height:80%;"></div>
+  </div>
+</div>
+<script>
+  function abrirOverlay(tarefaId, nomeTarefa) {
+  document.getElementById("overlay").style.display = "flex";
+  document.getElementById("overlayTitulo").innerText = "Departamentos da tarefa: " + nomeTarefa;
+
+  // Buscar os dados via AJAX (chama PHP que devolve departamentos dessa tarefa)
+  fetch("obterDepartamentosTarefa.php?tarefa_id=" + tarefaId)
+    .then(r => r.json())
+    .then(dados => {
+      drawOverlayGantt(dados);
+    });
+}
+
+function fecharOverlay() {
+  document.getElementById("overlay").style.display = "none";
+}
+
+</script>
+<script>
+  function drawOverlayGantt(dados) {
+  google.charts.load('current', {'packages':['gantt']});
+  google.charts.setOnLoadCallback(() => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'ID');
+    data.addColumn('string', 'Departamento');
+    data.addColumn('string', 'Dummy');
+    data.addColumn('date', 'Início');
+    data.addColumn('date', 'Fim');
+    data.addColumn('number', 'Duração');
+    data.addColumn('number', '% Concluído');
+    data.addColumn('string', 'Dependência');
+
+    let rows = [];
+    let minDate = null;
+    let maxDate = null;
+
+    dados.forEach((d, idx) => {
+      const start = new Date(d.data_entrada);
+      const end   = new Date(d.data_saida);
+
+      if (!minDate || start < minDate) minDate = start;
+      if (!maxDate || end > maxDate)   maxDate = end;
+
+      rows.push([ 'dep'+idx, d.nome_departamento, d.nome_departamento, start, end, null, 0, null ]);
+    });
+
+    data.addRows(rows);
+
+    // expandir escala em ±3 dias
+    const minView = new Date(minDate);
+    minView.setDate(minView.getDate() - 3);
+
+    const maxView = new Date(maxDate);
+    maxView.setDate(maxView.getDate() + 3);
+
+    const chart = new google.visualization.Gantt(document.getElementById('overlayGantt'));
+    chart.draw(data, { 
+      height: Math.max(400, rows.length*40+100),
+      hAxis: {
+        minValue: minView,
+        maxValue: maxView
+      }
+    });
+  });
+}
+
+</script>
 
 </body>
 </html>
