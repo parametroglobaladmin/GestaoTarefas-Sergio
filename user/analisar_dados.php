@@ -928,13 +928,18 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
           <h2>Dados de <?= htmlspecialchars($dadosUtilizador['nome'] ?? 'N/A') ?></h2>
           <p><strong>Email:</strong> <?= htmlspecialchars($dadosUtilizador['email'] ?? 'N/A') ?></p>
           <p><strong>Departamento do Funcionário:</strong> <?= htmlspecialchars($dadosUtilizador['nome_departamento'] ?? 'N/A') ?></p>
+          <?php $temFiltro1 = empty($_GET['data_filtrar']); ?>
+          <?php if ($temFiltro1): ?>
           <p><strong>Hora de entrada (Hoje):</strong>
             <?= $entradaHoje ? date('H:i', strtotime($entradaHoje)) : '—' ?>
           </p>
-
+          <?php endif; ?>
+          <?php $temFiltro2 = empty($_GET['data_filtrar']); ?>
+          <?php if ($temFiltro2): ?>
           <p><strong>Hora de saída (Hoje):</strong>
             <?= $saidaHoje ? date('H:i', strtotime($saidaHoje)) : '—' ?>
           </p>
+          <?php endif; ?>
           <?php $temFiltro = !empty($_GET['data_filtrar']); ?>
           <?php if ($temFiltro): ?>
             <p><strong>Número de Tarefas Executadas:</strong>

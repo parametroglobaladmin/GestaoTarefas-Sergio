@@ -227,17 +227,6 @@ foreach ($pausasPorHora as $linha) {
     </div>
     <form method="get">
       <div>
-        <label for="departamento">Departamento:</label><br>
-        <select name="departamento" id="departamento" class="campo-filtro">
-          <option value="">Todos</option>
-          <?php foreach ($departamentos as $id => $nome): ?>
-            <option value="<?= $id ?>" <?= isset($_GET['departamento']) && $_GET['departamento'] == $id ? 'selected' : '' ?>>
-              <?= htmlspecialchars($nome) ?>
-            </option>
-          <?php endforeach; ?>
-        </select>
-      </div>
-      <div>
         <label for="tarefa">Tarefa:</label><br>
         <input class="campo-filtro" list="listaTarefas" name="tarefa_nome" id="tarefa" value="<?= htmlspecialchars($tarefaSelecionadaNome ?? '') ?>" placeholder="Digite ou selecione a tarefa">
         <datalist id="listaTarefas">
@@ -258,7 +247,6 @@ foreach ($pausasPorHora as $linha) {
         <button type="submit">Pesquisar</button>
       </div>
     </form>
-
   </div>
 
 
