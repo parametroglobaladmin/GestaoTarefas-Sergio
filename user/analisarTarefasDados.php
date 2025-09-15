@@ -141,11 +141,7 @@ foreach ($resultadosGantt as $linha) {
 
     $tarefasGantt[] = [$id, $nome, '', $startMs, $endMs];
 }
-
-
 ?>
-
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
