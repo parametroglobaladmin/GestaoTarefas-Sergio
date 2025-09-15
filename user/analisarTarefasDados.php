@@ -92,9 +92,6 @@ foreach ($pausasPorHora as $linha) {
     $hora = $linha['hora'];
     $dadosPausas[$hora] = $linha['total'];
 }
-
-// Assumir ligação já feita ($ligacao)
-
 // Definir o início do mês ou 31 dias antes
 $dataReferencia = !empty($_GET['mes'])
   ? date('Y-m-01', strtotime($_GET['mes']))
@@ -293,51 +290,60 @@ foreach ($resultadosGantt as $linha) {
   </div>
   
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script>
-    google.charts.load('current', {'packages':['gantt']});
-    google.charts.setOnLoadCallback(drawGanttChart);
+<script>
+  google.charts.load('current', {'packages':['gantt']});
+  google.charts.setOnLoadCallback(drawGanttChart);
 
-    function drawGanttChart() {
-      const data = new google.visualization.DataTable();
-      data.addColumn('string', 'ID');
-      data.addColumn('string', 'Tarefa');
-      data.addColumn('string', 'Departamento');
-      data.addColumn('date', 'Início');
-      data.addColumn('date', 'Fim');
-      data.addColumn('number', 'Duração');
-      data.addColumn('number', '% Concluído');
-      data.addColumn('string', 'Dependência');
+  function drawGanttChart() {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'ID');
+    data.addColumn('string', 'Tarefa');
+    data.addColumn('string', 'Departamento');
+    data.addColumn('date', 'Início');
+    data.addColumn('date', 'Fim');
+    data.addColumn('number', 'Duração');
+    data.addColumn('number', '% Concluído');
+    data.addColumn('string', 'Dependência');
+    data.addColumn({ type: 'string', role: 'style' }); // <- nova coluna para cores
 
-      data.addRows([
-        <?php foreach ($tarefasGantt as $index => $linha): ?>
-          ['<?= $linha[0] ?>', '<?= addslashes($linha[1]) ?>', '<?= addslashes($linha[2]) ?>',
-          new Date(<?= $linha[3] ?>), new Date(<?= $linha[4] ?>),
-          null, 0, null]<?= $index < count($tarefasGantt) - 1 ? ',' : '' ?>
+    data.addRows([
+      <?php foreach ($tarefasGantt as $index => $linha): 
+        // $linha[5] deve conter o estado da tarefa vindo do PHP
+        $estado = strtolower($linha[5] ?? '');
+        $cor = 'gray';
+        if ($estado === 'concluida') $cor = 'green';
+        elseif ($estado === 'pendente') $cor = 'blue';
+        elseif ($estado === 'espera') $cor = 'red';
+      ?>
+        ['<?= $linha[0] ?>', '<?= addslashes($linha[1]) ?>', '<?= addslashes($linha[2]) ?>',
+        new Date(<?= $linha[3] ?>), new Date(<?= $linha[4] ?>),
+        null, 0, null, '<?= $cor ?>']<?= $index < count($tarefasGantt) - 1 ? ',' : '' ?>
 
-        <?php endforeach; ?>
-      ]);
+      <?php endforeach; ?>
+    ]);
 
-      const options = {
-        height: <?= max(400, count($tarefasGantt) * 40 + 100) ?>,
-        gantt: {
-          trackHeight: 30,
-          labelStyle: { fontSize: 14 },
-          sortTasks: false
-        }
-      };
+    const options = {
+      height: <?= max(400, count($tarefasGantt) * 40 + 100) ?>,
+      gantt: {
+        trackHeight: 30,
+        labelStyle: { fontSize: 14 },
+        sortTasks: false
+      }
+    };
 
-      const chart = new google.visualization.Gantt(document.getElementById('gantt_chart'));
-      chart.draw(data, options);
-      google.visualization.events.addListener(chart, 'select', function() {
+    const chart = new google.visualization.Gantt(document.getElementById('gantt_chart'));
+    chart.draw(data, options);
+
+    google.visualization.events.addListener(chart, 'select', function() {
       const sel = chart.getSelection();
-        if (sel.length > 0) {
-          const tarefaId = data.getValue(sel[0].row, 0);  // o ID que passaste
-          const nomeTarefa = data.getValue(sel[0].row, 1);
-          abrirOverlay(tarefaId, nomeTarefa);
-        }
-      });
-    }
-  </script>
+      if (sel.length > 0) {
+        const tarefaId = data.getValue(sel[0].row, 0);
+        const nomeTarefa = data.getValue(sel[0].row, 1);
+        abrirOverlay(tarefaId, nomeTarefa);
+      }
+    });
+  }
+</script>
 
 
 <!-- Overlay fullscreen -->
