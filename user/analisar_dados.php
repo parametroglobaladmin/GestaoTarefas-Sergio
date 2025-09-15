@@ -645,7 +645,44 @@ while ($row = $detalhesStmt->fetch(PDO::FETCH_ASSOC)) {
     ];
 }
 
+$sql = "
+SELECT
+  (SELECT COUNT(*)
+   FROM pausas_tarefas pt
+   JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+   WHERE mp.descricao = 'Intergabinete'
+     AND pt.funcionario = :funcionario
+     AND DATE(pt.data_pausa) = :dia) AS total_intergabinete,
 
+  (SELECT COUNT(*)
+   FROM tarefas t
+   WHERE t.utilizador = :funcionario
+     AND t.estado = 'concluida'
+     AND DATE(t.data_fim) = :dia) AS total_concluidas,
+
+  (
+    (SELECT COUNT(*)
+     FROM pausas_tarefas pt
+     JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+     WHERE mp.descricao = 'Intergabinete'
+       AND pt.funcionario = :funcionario
+       AND DATE(pt.data_pausa) = :dia)
+    +
+    (SELECT COUNT(*)
+     FROM tarefas t
+     WHERE t.utilizador = :funcionario
+       AND t.estado = 'concluida'
+       AND DATE(t.data_fim) = :dia)
+  ) AS total_geral
+";
+
+$stmt = $ligacao->prepare($sql);
+$stmt->execute([
+  'funcionario' => $utilizadorSelecionado,
+  'dia' => $dataFiltrar
+]);
+$row= $stmt->fetch(PDO::FETCH_ASSOC);
+$result = $row['total_intergabinete'] + $row['total_concluidas'];
 ?>
 
 <!DOCTYPE html>
@@ -898,6 +935,12 @@ while ($row = $detalhesStmt->fetch(PDO::FETCH_ASSOC)) {
           <p><strong>Hora de saída (Hoje):</strong>
             <?= $saidaHoje ? date('H:i', strtotime($saidaHoje)) : '—' ?>
           </p>
+          <?php $temFiltro = !empty($_GET['data_filtrar']); ?>
+          <?php if ($temFiltro): ?>
+            <p><strong>Número de Tarefas Executadas:</strong>
+              <?= htmlspecialchars($result) ?>
+            </p>
+          <?php endif; ?>
 
           <p><strong>Estado do Funcionário:</strong>
             <span class="estado-inline">
