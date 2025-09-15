@@ -30,13 +30,9 @@ if (!empty($_GET['departamento'])) {
     $filtros[] = 'dt.departamento_id = :departamento';
     $parametros[':departamento'] = $_GET['departamento'];
 }
-if (!empty($_GET['data_inicio'])) {
-    $filtros[] = 't.data_inicio >= :data_inicio';
-    $parametros[':data_inicio'] = $_GET['data_inicio'];
-}
-if (!empty($_GET['data_fim'])) {
-    $filtros[] = 't.data_inicio <= :data_fim';
-    $parametros[':data_fim'] = $_GET['data_fim'];
+if (!empty($_GET['data'])) {
+    $filtros[] = 't.data >= :data';
+    $parametros[':data'] = $_GET['data'];
 }
 
 $where = $filtros ? 'AND ' . implode(' AND ', $filtros) : '';
@@ -97,7 +93,43 @@ foreach ($pausasPorHora as $linha) {
     $dadosPausas[$hora] = $linha['total'];
 }
 
+// Assumir ligação já feita ($ligacao)
+
+// Definir o início do mês ou 31 dias antes
+$dataReferencia = !empty($_GET['mes'])
+  ? date('Y-m-01', strtotime($_GET['mes']))
+  : date('Y-m-d', strtotime('-31 days'));
+
+$queryGantt = "
+  SELECT 
+    t.id AS tarefa_id,
+    t.tarefa AS nome_tarefa,
+    d.nome AS nome_departamento,
+    dt.data_entrada,
+    COALESCE(dt.data_saida, NOW()) AS data_saida
+  FROM tarefas t
+  JOIN departamento_tarefa dt ON dt.tarefa_id = t.id
+  JOIN departamento d ON d.id = dt.departamento_id
+  WHERE dt.data_entrada >= :inicio
+  ORDER BY dt.data_entrada ASC
+";
+
+$stmt = $ligacao->prepare($queryGantt);
+$stmt->execute([':inicio' => $dataReferencia]);
+$resultadosGantt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Preparar dados para JS
+$tarefasGantt = [];
+foreach ($resultadosGantt as $linha) {
+    $id = $linha['tarefa_id'];
+    $nome = $linha['nome_tarefa'];
+    $dep = $linha['nome_departamento'];
+    $entrada = date('Y, n-1, j, G, i, s', strtotime($linha['data_entrada']));
+    $saida = date('Y, n-1, j, G, i, s', strtotime($linha['data_saida']));
+    $tarefasGantt[] = [$id, $nome, $dep, $entrada, $saida];
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -236,18 +268,59 @@ foreach ($pausasPorHora as $linha) {
         </datalist>
       </div>
       <div>
-        <label for="data_inicio">Data Início:</label><br>
-        <input type="date" name="data_inicio" id="data_inicio" value="<?= htmlspecialchars($dataInicio) ?>">
-      </div>
-      <div>
-        <label for="data_fim">Data Fim:</label><br>
-        <input type="date" name="data_fim" id="data_fim" value="<?= htmlspecialchars($dataFim) ?>">
+        <label for="mes">Selecione o Mês da tarefa:</label><br>
+        <input type="month" name="mes" id="mes" 
+              value="<?= htmlspecialchars(date('Y-m', strtotime($dataInicio))) ?>" 
+              style="width: 250px;">
       </div>
       <div>
         <button type="submit">Pesquisar</button>
       </div>
     </form>
+    <h2>Gráfico de Gantt – Últimos 31 dias</h2>
+    <div id="gantt_chart" style="width: 100%; min-height: 400px;"></div>
   </div>
+  
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    google.charts.load('current', {'packages':['gantt']});
+    google.charts.setOnLoadCallback(drawGanttChart);
+
+    function drawGanttChart() {
+      const data = new google.visualization.DataTable();
+      data.addColumn('string', 'ID');
+      data.addColumn('string', 'Tarefa');
+      data.addColumn('string', 'Departamento');
+      data.addColumn('date', 'Início');
+      data.addColumn('date', 'Fim');
+      data.addColumn('number', 'Duração');
+      data.addColumn('number', '% Concluído');
+      data.addColumn('string', 'Dependência');
+
+      data.addRows([
+        <?php foreach ($tarefasGantt as $index => $linha): ?>
+          ['<?= $linha[0] ?>', '<?= addslashes($linha[1]) ?>', '<?= addslashes($linha[2]) ?>',
+          new Date(<?= $linha[3] ?>), new Date(<?= $linha[4] ?>),
+          null, 0, null]<?= $index < count($tarefasGantt) - 1 ? ',' : '' ?>
+
+        <?php endforeach; ?>
+      ]);
+
+      const options = {
+        height: <?= max(400, count($tarefasGantt) * 40 + 100) ?>,
+        gantt: {
+          trackHeight: 30,
+          labelStyle: { fontSize: 14 },
+          sortTasks: false
+        }
+      };
+
+      const chart = new google.visualization.Gantt(document.getElementById('gantt_chart'));
+      chart.draw(data, options);
+    }
+  </script>
+
+
 
 
 </body>
