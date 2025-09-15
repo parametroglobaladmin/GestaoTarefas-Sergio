@@ -406,13 +406,14 @@ function fecharOverlay() {
   google.charts.setOnLoadCallback(() => {
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'ID');
-    data.addColumn('string', 'Departamento');
+    data.addColumn('string', 'Departamento');  // label visível
     data.addColumn('string', 'Dummy');
     data.addColumn('date', 'Início');
     data.addColumn('date', 'Fim');
     data.addColumn('number', 'Duração');
     data.addColumn('number', '% Concluído');
     data.addColumn('string', 'Dependência');
+    data.addColumn({type: 'string', role: 'tooltip', p: {html: true}}); // tooltip customizado
 
     let rows = [];
     let minDate = null;
@@ -425,12 +426,26 @@ function fecharOverlay() {
       if (!minDate || start < minDate) minDate = start;
       if (!maxDate || end > maxDate)   maxDate = end;
 
-      rows.push([ 'dep'+idx, d.nome_departamento, d.nome_departamento, start, end, null, 0, null ]);
+      // tooltip formatado
+      const tooltip = `
+        <div style="padding:5px">
+          <b>${d.nome_departamento}</b><br>
+          ${d.data_entrada} → ${d.data_saida}
+        </div>
+      `;
+
+      rows.push([
+        'dep'+idx,                // ID
+        d.nome_departamento,      // label da linha → só o nome
+        d.nome_departamento,
+        start, end,
+        null, 0, null,
+        tooltip                   // tooltip HTML
+      ]);
     });
 
     data.addRows(rows);
 
-    // expandir escala em ±3 dias
     const minView = new Date(minDate);
     minView.setDate(minView.getDate() - 3);
 
@@ -440,13 +455,18 @@ function fecharOverlay() {
     const chart = new google.visualization.Gantt(document.getElementById('overlayGantt'));
     chart.draw(data, { 
       height: Math.max(400, rows.length*40+100),
+      gantt: { trackHeight: 30 },
+      tooltip: { isHtml: true },
       hAxis: {
         minValue: minView,
-        maxValue: maxView
+        maxValue: maxView,
+        format: 'dd/MM/yyyy HH:mm',
+        slantedText: true
       }
     });
   });
 }
+
 
 </script>
 
