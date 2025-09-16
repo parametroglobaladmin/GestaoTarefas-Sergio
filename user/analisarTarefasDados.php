@@ -382,7 +382,7 @@ foreach ($resultadosGantt as $linha) {
     ">Fechar</button>
 
     <h2 id="overlayTitulo"></h2>
-    <div id="overlayGantt" style="width:100%; height:80%;"></div>
+    <div id="overlayGantt" style="width:100%; height:35%;"></div>
     <div id="overlayResumo" style="margin-top:20px; font-weight:bold;"></div>
   </div>
 </div>
@@ -410,66 +410,58 @@ function fecharOverlay() {
   google.charts.setOnLoadCallback(() => {
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'ID');
-    data.addColumn('string', 'Departamento');  // label visível
+    data.addColumn('string', 'Departamento');
     data.addColumn('string', 'Dummy');
     data.addColumn('date', 'Início');
     data.addColumn('date', 'Fim');
     data.addColumn('number', 'Duração');
     data.addColumn('number', '% Concluído');
     data.addColumn('string', 'Dependência');
-    data.addColumn({type: 'string', role: 'tooltip', p: {html: true}}); // tooltip customizado
+    data.addColumn({type: 'string', role: 'tooltip', p: {html: true}});
 
     let rows = [];
-    let minDate = null;
-    let maxDate = null;
+    let resumo = "<h3>Resumo de tempos por departamento</h3><ul>";
 
     dados.forEach((d, idx) => {
       const start = new Date(d.data_entrada);
       const end   = new Date(d.data_saida);
 
-      if (!minDate || start < minDate) minDate = start;
-      if (!maxDate || end > maxDate)   maxDate = end;
+      // Converter segundos em formato legível
+      const seg = parseInt(d.duracao_segundos, 10);
+      const horas = Math.floor(seg / 3600);
+      const minutos = Math.floor((seg % 3600) / 60);
+      const segundos = seg % 60;
+      const tempoFmt = `${horas}h ${minutos}m ${segundos}s`;
 
-      // tooltip formatado
+      resumo += `<li><b>${d.nome_departamento}</b>: ${tempoFmt}</li>`;
+
       const tooltip = `
         <div style="padding:5px">
           <b>${d.nome_departamento}</b><br>
-          ${d.data_entrada} → ${d.data_saida}
+          ${d.data_entrada} → ${d.data_saida}<br>
+          Tempo: ${tempoFmt}
         </div>
       `;
 
       rows.push([
-        'dep'+idx,                // ID
-        d.nome_departamento,      // label da linha → só o nome
+        'dep'+idx,
+        d.nome_departamento,
         d.nome_departamento,
         start, end,
         null, 0, null,
-        tooltip                   // tooltip HTML
+        tooltip
       ]);
     });
 
+    resumo += "</ul>";
+    document.getElementById("overlayResumo").innerHTML = resumo;
+
     data.addRows(rows);
-
-    const minView = new Date(minDate);
-    minView.setDate(minView.getDate() - 3);
-
-    const maxView = new Date(maxDate);
-    maxView.setDate(maxView.getDate() + 3);
-
     const chart = new google.visualization.Gantt(document.getElementById('overlayGantt'));
-    chart.draw(data, { 
-      height: Math.max(400, rows.length*40+100),
-      gantt: { trackHeight: 30 },
-      tooltip: { trigger: 'none', isHtml: true },
-      hAxis: {
-        minValue: minView,
-        maxValue: maxView,
-        format: 'dd/MM/yyyy HH:mm',
-        slantedText: true
-      }
-    });
+    chart.draw(data, {height: Math.max(100, rows.length*40+100), gantt: { trackHeight: 30 }});
   });
 }
+
 
 </script>
 
