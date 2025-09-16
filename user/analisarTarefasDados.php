@@ -287,6 +287,7 @@ foreach ($resultadosGantt as $linha) {
     </form>
     <h2>Gráfico de Gantt – Últimos 31 dias</h2>
     <div id="gantt_chart" style="width: 100%; min-height: 400px;"></div>
+    
   </div>
   
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -382,6 +383,7 @@ foreach ($resultadosGantt as $linha) {
 
     <h2 id="overlayTitulo"></h2>
     <div id="overlayGantt" style="width:100%; height:80%;"></div>
+    <div id="overlayResumo" style="margin-top:20px; font-weight:bold;"></div>
   </div>
 </div>
 <script>
@@ -458,7 +460,7 @@ function fecharOverlay() {
     chart.draw(data, { 
       height: Math.max(400, rows.length*40+100),
       gantt: { trackHeight: 30 },
-      tooltip: { isHtml: true },
+      tooltip: { trigger: 'none', isHtml: true },
       hAxis: {
         minValue: minView,
         maxValue: maxView,
@@ -468,7 +470,6 @@ function fecharOverlay() {
     });
   });
 }
-
 
 </script>
 
