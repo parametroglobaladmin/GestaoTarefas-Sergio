@@ -387,17 +387,55 @@ foreach ($resultadosGantt as $linha) {
   </div>
 </div>
 <script>
-  function abrirOverlay(tarefaId, nomeTarefa) {
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("overlayTitulo").innerText = "Departamentos da tarefa: " + nomeTarefa;
+function abrirOverviewDepartamento(tarefaId, departamentoId, departamentoNome, nomeTarefa) {
+  document.getElementById("overlayTitulo").innerHTML = 
+    `Overview da tarefa: <u>${nomeTarefa}</u> no departamento <u>${departamentoNome}</u>
+     <button onclick="abrirOverlay(${tarefaId}, '${nomeTarefa.replace(/'/g,"\\'")}')" style="
+        margin-left:12px; padding:4px 10px; background:#cfa728; color:#000; border:none; border-radius:6px; cursor:pointer;">
+       ← Voltar
+     </button>`;
 
-  // Buscar os dados via AJAX (chama PHP que devolve departamentos dessa tarefa)
-  fetch("obterDepartamentosTarefa.php?tarefa_id=" + tarefaId)
-    .then(r => r.json())
-    .then(dados => {
-      drawOverlayGantt(dados);
+  const alvo = document.getElementById("overlayGantt");
+  alvo.innerHTML = "<div style='padding:12px'>A carregar overview…</div>";
+  document.getElementById("overlayResumo").innerHTML = "";
+
+  const url = `obterOverviewDepartamento.php?tarefa_id=${encodeURIComponent(tarefaId)}&departamento_id=${encodeURIComponent(departamentoId)}`;
+
+  fetch(url)
+    .then(async (r) => {
+      if (!r.ok) {
+        const msg = await r.text();
+        throw new Error(`HTTP ${r.status} — ${msg.substring(0,500)}`);
+      }
+      // tenta JSON; se não for JSON, atira erro com o corpo
+      const txt = await r.text();
+      try { return JSON.parse(txt); }
+      catch (e) { throw new Error(`Resposta não-JSON: ${txt.substring(0,500)}`); }
+    })
+    .then((payload) => {
+      if (payload && payload.erro) {
+        throw new Error(payload.erro);
+      }
+      renderOverviewDepartamento(payload);
+    })
+    .catch((err) => {
+      alvo.innerHTML = `<div style="color:red;padding:12px">Falha ao carregar overview.<br><small>${err.message}</small></div>`;
     });
 }
+</script>
+
+<script>
+  function abrirOverlay(tarefaId, nomeTarefa) {
+    document.getElementById("overlay").style.display = "flex";
+    document.getElementById("overlayTitulo").innerText = "Departamentos da tarefa: " + nomeTarefa;
+
+    fetch("obterDepartamentosTarefa.php?tarefa_id=" + tarefaId)
+      .then(r => r.json())
+      .then(dados => {
+        drawOverlayGantt(dados, tarefaId, nomeTarefa); // <-- passa tarefaId
+      });
+  }
+
 
 function fecharOverlay() {
   document.getElementById("overlay").style.display = "none";
@@ -405,19 +443,22 @@ function fecharOverlay() {
 
 </script>
 <script>
-  function drawOverlayGantt(dados) {
+  function drawOverlayGantt(dados, tarefaId, nomeTarefa) {
   google.charts.load('current', {'packages':['gantt']});
   google.charts.setOnLoadCallback(() => {
     const data = new google.visualization.DataTable();
-    data.addColumn('string', 'ID');
+    // colunas
+    data.addColumn('string', 'ID');              // usaremos 'dep{idx}'
     data.addColumn('string', 'Departamento');
     data.addColumn('string', 'Dummy');
-    data.addColumn('date', 'Início');
-    data.addColumn('date', 'Fim');
+    data.addColumn('date',   'Início');
+    data.addColumn('date',   'Fim');
     data.addColumn('number', 'Duração');
     data.addColumn('number', '% Concluído');
     data.addColumn('string', 'Dependência');
-    data.addColumn({type: 'string', role: 'tooltip', p: {html: true}});
+    data.addColumn({type:'string', role:'tooltip', p:{html:true}});
+    data.addColumn('number', 'DepartamentoID');  // <- hidden helper para mapear click
+    data.addColumn('string', 'DepartamentoNome');// <- hidden helper
 
     let rows = [];
     let resumo = "<h3>Resumo de tempos por departamento</h3><ul>";
@@ -426,7 +467,6 @@ function fecharOverlay() {
       const start = new Date(d.data_entrada);
       const end   = new Date(d.data_saida);
 
-      // Converter segundos em formato legível
       const seg = parseInt(d.duracao_segundos, 10);
       const horas = Math.floor(seg / 3600);
       const minutos = Math.floor((seg % 3600) / 60);
@@ -439,7 +479,8 @@ function fecharOverlay() {
         <div style="padding:5px">
           <b>${d.nome_departamento}</b><br>
           ${d.data_entrada} → ${d.data_saida}<br>
-          Tempo: ${tempoFmt}
+          Tempo: ${tempoFmt}<br>
+          <i>Clica para ver overview</i>
         </div>
       `;
 
@@ -449,7 +490,9 @@ function fecharOverlay() {
         d.nome_departamento,
         start, end,
         null, 0, null,
-        tooltip
+        tooltip,
+        Number(d.departamento_id),     // hidden dep id
+        d.nome_departamento            // hidden dep nome
       ]);
     });
 
@@ -457,12 +500,77 @@ function fecharOverlay() {
     document.getElementById("overlayResumo").innerHTML = resumo;
 
     data.addRows(rows);
+
     const chart = new google.visualization.Gantt(document.getElementById('overlayGantt'));
-    chart.draw(data, {height: Math.max(100, rows.length*40+100), gantt: { trackHeight: 30 }});
+    chart.draw(data, {height: Math.max(120, rows.length*40+100), gantt: { trackHeight: 30 }, tooltip: { isHtml: true }});
+
+    google.visualization.events.addListener(chart, 'select', function() {
+      const sel = chart.getSelection();
+      if (sel.length > 0) {
+        const row = sel[0].row;
+        const depId   = data.getValue(row, 9);  // hidden DepartamentoID
+        const depNome = data.getValue(row,10);  // hidden DepartamentoNome
+        abrirOverviewDepartamento(tarefaId, depId, depNome, nomeTarefa);
+      }
+    });
   });
 }
 
+function renderOverviewDepartamento(p) {
+  // p terá {resumo, funcionarios[], pausasPorTipo[], transicoes[]}
+  const wrap = [];
 
+  // Resumo topo
+  wrap.push(`
+    <div style="display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin-bottom:16px;">
+      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Tempo total no dept.</b><br>${p.resumo.tempo_total_fmt}</div>
+      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Primeira entrada</b><br>${p.resumo.primeira_entrada}</div>
+      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Última saída</b><br>${p.resumo.ultima_saida}</div>
+      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b># Transições</b><br>${p.transicoes.length}</div>
+    </div>
+  `);
+
+  // Funcionários
+  const funcRows = p.funcionarios.map(f => 
+    `<tr>
+      <td>${f.nome}</td>
+      <td>${f.total_fmt}</td>
+      <td>${f.pausas_fmt}</td>
+      <td>${f.liquido_fmt}</td>
+    </tr>`).join('');
+  wrap.push(`
+    <h3>Funcionários que trabalharam</h3>
+    <table>
+      <thead><tr><th>Funcionário</th><th>Tempo (bruto)</th><th>Pausas no dept.</th><th>Tempo líquido</th></tr></thead>
+      <tbody>${funcRows || '<tr><td colspan="4">Sem registos</td></tr>'}</tbody>
+    </table>
+  `);
+
+  // Pausas por tipo
+  const pausaRows = p.pausasPorTipo.map(x => 
+    `<tr><td>${x.tipo}</td><td>${x.qtd}</td><td>${x.total_fmt}</td></tr>`).join('');
+  wrap.push(`
+    <h3 style="margin-top:18px">Pausas (no intervalo deste departamento)</h3>
+    <table>
+      <thead><tr><th>Tipo</th><th>Ocorrências</th><th>Total</th></tr></thead>
+      <tbody>${pausaRows || '<tr><td colspan="3">Sem pausas</td></tr>'}</tbody>
+    </table>
+  `);
+
+  // Transições
+  const transRows = p.transicoes.map(t => 
+    `<tr><td>${t.de}</td><td>${t.para}</td><td>${t.data}</td><td>${t.hora}</td></tr>`).join('');
+  wrap.push(`
+    <h3 style="margin-top:18px">Transições dentro do dept.</h3>
+    <table>
+      <thead><tr><th>De</th><th>Para</th><th>Dia</th><th>Hora</th></tr></thead>
+      <tbody>${transRows || '<tr><td colspan="4">Sem transições</td></tr>'}</tbody>
+    </table>
+  `);
+
+  // coloca no overlay
+  document.getElementById("overlayGantt").innerHTML = wrap.join('');
+}
 </script>
 
 </body>
