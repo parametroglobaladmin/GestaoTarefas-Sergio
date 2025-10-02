@@ -515,29 +515,42 @@ function fecharOverlay() {
     });
   });
 }
+function renderOverviewDepartamento(payload) {
+  // aceita payload.overview OU payload plano
+  const p = payload && payload.overview ? payload.overview : (payload || {});
 
-function renderOverviewDepartamento(p) {
-  // p terá {resumo, funcionarios[], pausasPorTipo[], transicoes[]}
+  // fallbacks seguros
+  const resumo       = p.resumo || { tempo_total_fmt:'-', primeira_entrada:'-', ultima_saida:'-' };
+  const funcionarios = Array.isArray(p.funcionarios) ? p.funcionarios : [];
+  const transicoes   = Array.isArray(p.transicoes)   ? p.transicoes   : [];
+
   const wrap = [];
 
   // Resumo topo
   wrap.push(`
     <div style="display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin-bottom:16px;">
-      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Tempo total no dept.</b><br>${p.resumo.tempo_total_fmt}</div>
-      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Primeira entrada</b><br>${p.resumo.primeira_entrada}</div>
-      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Última saída</b><br>${p.resumo.ultima_saida}</div>
-      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b># Transições</b><br>${p.transicoes.length}</div>
+      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Tempo total no dept.</b><br>${resumo.tempo_total_fmt}</div>
+      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Primeira entrada</b><br>${resumo.primeira_entrada}</div>
+      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Última saída</b><br>${resumo.ultima_saida}</div>
+      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b># Transições</b><br>${transicoes.length}</div>
     </div>
   `);
 
-  // Funcionários
-  const funcRows = p.funcionarios.map(f => 
-    `<tr>
-      <td>${f.nome}</td>
-      <td>${f.total_fmt}</td>
-      <td>${f.pausas_fmt}</td>
-      <td>${f.liquido_fmt}</td>
-    </tr>`).join('');
+  // Funcionários (usa total_fmt; se não existir, usa total_trabalho_fmt)
+  const funcRows = funcionarios.map(f => {
+    const bruto   = f.total_fmt ?? f.total_trabalho_fmt ?? '-';
+    const pausas  = f.pausas_fmt ?? '-';
+    const liquido = f.liquido_fmt ?? '-';
+    const nome    = f.nome ?? '';
+    return `
+      <tr>
+        <td>${nome}</td>
+        <td>${bruto}</td>
+        <td>${pausas}</td>
+        <td>${liquido}</td>
+      </tr>`;
+  }).join('');
+
   wrap.push(`
     <h3>Funcionários que trabalharam</h3>
     <table>
@@ -546,20 +559,11 @@ function renderOverviewDepartamento(p) {
     </table>
   `);
 
-  // Pausas por tipo
-  const pausaRows = p.pausasPorTipo.map(x => 
-    `<tr><td>${x.tipo}</td><td>${x.qtd}</td><td>${x.total_fmt}</td></tr>`).join('');
-  wrap.push(`
-    <h3 style="margin-top:18px">Pausas (no intervalo deste departamento)</h3>
-    <table>
-      <thead><tr><th>Tipo</th><th>Ocorrências</th><th>Total</th></tr></thead>
-      <tbody>${pausaRows || '<tr><td colspan="3">Sem pausas</td></tr>'}</tbody>
-    </table>
-  `);
-
   // Transições
-  const transRows = p.transicoes.map(t => 
-    `<tr><td>${t.de}</td><td>${t.para}</td><td>${t.data}</td><td>${t.hora}</td></tr>`).join('');
+  const transRows = transicoes.map(t => 
+    `<tr><td>${t.de ?? ''}</td><td>${t.para ?? ''}</td><td>${t.data ?? ''}</td><td>${t.hora ?? ''}</td></tr>`
+  ).join('');
+
   wrap.push(`
     <h3 style="margin-top:18px">Transições dentro do dept.</h3>
     <table>

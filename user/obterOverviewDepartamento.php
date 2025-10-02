@@ -24,20 +24,6 @@ try {
         $s = $seg % 60;
         return "{$h}h {$m}m {$s}s";
     };
-    $detectCol = function(PDO $pdo, string $table, array $candidates): ?string {
-        if (!$candidates) return null;
-        $in = implode(",", array_fill(0, count($candidates), "?"));
-        $sql = "SELECT COLUMN_NAME 
-                FROM INFORMATION_SCHEMA.COLUMNS 
-                WHERE TABLE_SCHEMA = DATABASE() 
-                  AND TABLE_NAME = ? 
-                  AND COLUMN_NAME IN ($in)";
-        $st  = $pdo->prepare($sql);
-        $st->execute(array_merge([$table], $candidates));
-        $found = $st->fetchAll(PDO::FETCH_COLUMN);
-        foreach ($candidates as $c) if (in_array($c, $found, true)) return $c;
-        return null;
-    };
 
     // ---------- 1) Janelas desta tarefa neste departamento ----------
     $sqlJan = "
@@ -53,7 +39,7 @@ try {
     if (!$janelas) {
         echo json_encode([
             'resumo' => ['tempo_total_fmt' => '0h 0m 0s', 'primeira_entrada' => '-', 'ultima_saida' => '-'],
-            'funcionarios' => [], 'pausasPorTipo' => [], 'transicoes' => []
+            'funcionarios' => [], 'pausas' => [], 'transicoes' => []
         ]);
         exit;
     }
@@ -70,261 +56,302 @@ try {
     $stTot->execute([':t' => $tarefaId, ':d' => $depId]);
     $segTotal = (int)($stTot->fetchColumn() ?: 0);
 
-    // ---------- detetar colunas ----------
-    // possível coluna de utilizador em departamento_tarefa
-    $dtUserCol = $detectCol($ligacao, 'departamento_tarefa',
-        ['utilizador_id','funcionario_id','id_funcionario','user_id','numero','id_user','id_colaborador','colaborador_id']
-    );
-    // possível coluna de utilizador em pausas_tarefas
-    $pUserCol = $detectCol($ligacao, 'pausas_tarefas',
-        ['utilizador_id','funcionario_id','id_funcionario','user_id','numero','id_user','id_colaborador','colaborador_id']
-    );
+    // ---------- 3) Transições desta tarefa no período do departamento ----------
+    $trans = [];
 
-    // chave e nome em funcionarios
-    $funcKeyCol  = $detectCol($ligacao, 'funcionarios', ['numero','id','id_funcionario','id_func','codigo']) ?? 'id';
-    $funcNameCol = $detectCol($ligacao, 'funcionarios', ['nome','funcionario','acronimo']) ?? 'nome';
+    // 3.1) Tenta com coluna DATETIME: dataHora_transicao
+    try {
+        $sqlTr = "
+            SELECT utilizador_antigo AS de, utilizador_novo AS para, dataHora_transicao AS ts
+            FROM transicao_tarefas
+            WHERE tarefa_id = :t
+              AND dataHora_transicao BETWEEN :ini AND :fim
+            ORDER BY dataHora_transicao ASC
+        ";
+        $stTr = $ligacao->prepare($sqlTr);
+        $stTr->execute([
+            ':t'   => $tarefaId,
+            ':ini' => $primeiraEntrada,
+            ':fim' => $ultimaSaida
+        ]);
 
-    // ---------- 3) Funcionários (tempo bruto por utilizador) ----------
-    $funcs = [];
-    if ($dtUserCol !== null) {
-        // caminho A: temos utilizador na tabela departamento_tarefa
-        $sqlFunc = "
-            SELECT 
-              dt.`$dtUserCol` AS uid,
-              COALESCE(f.`$funcNameCol`, CONCAT('Utilizador #', dt.`$dtUserCol`)) AS nome,
-              SUM(TIMESTAMPDIFF(SECOND, dt.data_entrada, COALESCE(dt.data_saida, NOW()))) AS seg
-            FROM departamento_tarefa dt
-            LEFT JOIN funcionarios f 
-              ON f.`$funcKeyCol` = dt.`$dtUserCol`
-            WHERE dt.tarefa_id = :t AND dt.departamento_id = :d
-            GROUP BY uid, nome
-            ORDER BY seg DESC
-        ";
-        $stFunc = $ligacao->prepare($sqlFunc);
-        $stFunc->execute([':t' => $tarefaId, ':d' => $depId]);
-        $funcs = $stFunc->fetchAll(PDO::FETCH_ASSOC);
-    } elseif ($pUserCol !== null) {
-        // caminho B (fallback): inferir utilizadores a partir das pausas no intervalo do departamento
-        $sqlFuncFallback = "
-            SELECT 
-              p.`$pUserCol` AS uid,
-              COALESCE(f.`$funcNameCol`, CONCAT('Utilizador #', p.`$pUserCol`)) AS nome,
-              0 AS seg
-            FROM pausas_tarefas p
-            LEFT JOIN funcionarios f ON f.`$funcKeyCol` = p.`$pUserCol`
-            WHERE p.tarefa_id = :t
-              AND EXISTS (
-                SELECT 1
-                FROM departamento_tarefa dt
-                WHERE dt.tarefa_id = p.tarefa_id
-                  AND dt.departamento_id = :d
-                  AND p.data_pausa <= COALESCE(dt.data_saida, NOW())
-                  AND COALESCE(p.data_retorno, NOW()) >= dt.data_entrada
-              )
-              AND COALESCE(p.data_retorno, NOW()) > :ini
-              AND p.data_pausa < :fim
-            GROUP BY uid, nome
-            ORDER BY nome ASC
-        ";
-        $stFF = $ligacao->prepare($sqlFuncFallback);
-        $stFF->execute([':t' => $tarefaId, ':d' => $depId, ':ini' => $primeiraEntrada, ':fim' => $ultimaSaida]);
-        $funcs = $stFF->fetchAll(PDO::FETCH_ASSOC);
-    } else {
-        // sem forma de identificar utilizadores
-        $funcs = [];
+        while ($r = $stTr->fetch(PDO::FETCH_ASSOC)) {
+            $ts = (string)$r['ts'];
+            $trans[] = [
+                'de'   => (string)($r['de']   ?? ''),
+                'para' => (string)($r['para'] ?? ''),
+                'data' => substr($ts, 0, 10),
+                'hora' => substr($ts, 11, 8),
+            ];
+        }
+    } catch (Throwable $e1) {
+        // 3.2) Fallback: colunas separadas DIA+HORA
+        try {
+            $sqlTr2 = "
+                SELECT utilizador_antigo AS de, utilizador_novo AS para, dia, hora
+                FROM transicao_tarefas
+                WHERE tarefa_id = :t
+                  AND TIMESTAMP(dia, hora) BETWEEN :ini AND :fim
+                ORDER BY dia ASC, hora ASC
+            ";
+            $stTr2 = $ligacao->prepare($sqlTr2);
+            $stTr2->execute([
+                ':t'   => $tarefaId,
+                ':ini' => $primeiraEntrada,
+                ':fim' => $ultimaSaida
+            ]);
+
+            while ($r = $stTr2->fetch(PDO::FETCH_ASSOC)) {
+                $trans[] = [
+                    'de'   => (string)($r['de']   ?? ''),
+                    'para' => (string)($r['para'] ?? ''),
+                    'data' => (string)($r['dia']  ?? ''),
+                    'hora' => (string)($r['hora'] ?? ''),
+                ];
+            }
+        } catch (Throwable $e2) {
+            // Se ambas falharem, $trans fica vazio.
+        }
     }
 
-    // ---------- 4) Pausas por tipo dentro do depto ----------
-    $stP = $ligacao->prepare("
-        SELECT mp.tipo,
-               COUNT(*) AS qtd,
-               SUM(
-                 CASE 
-                   WHEN GREATEST(p.data_pausa, :ini) < LEAST(COALESCE(p.data_retorno, NOW()), :fim)
-                   THEN TIMESTAMPDIFF(
-                          SECOND,
-                          GREATEST(p.data_pausa, :ini),
-                          LEAST(COALESCE(p.data_retorno, NOW()), :fim)
-                        )
-                   ELSE 0
-                 END
-               ) AS seg_total
+    // ---------- 3.b) Pausas dessa tarefa no período (uma linha por pausa com utilizador) ----------
+    $pausas = [];
+    $sqlPausas = "
+        SELECT
+            p.funcionario AS uid,
+            COALESCE(f.nome, CONCAT('Utilizador #', p.funcionario)) AS nome,
+            mp.tipo AS tipo_pausa,
+            GREATEST(p.data_pausa, :ini) AS inicio,
+            LEAST(COALESCE(p.data_retorno, NOW()), :fim) AS fim
         FROM pausas_tarefas p
-        JOIN motivos_pausa mp ON mp.id = p.motivo_id
+        LEFT JOIN funcionarios   f  ON f.utilizador = p.funcionario
+        LEFT JOIN motivos_pausa  mp ON mp.id = p.motivo_id
         WHERE p.tarefa_id = :t
           AND EXISTS (
-            SELECT 1
-            FROM departamento_tarefa dt
-            WHERE dt.tarefa_id = p.tarefa_id
-              AND dt.departamento_id = :d
-              AND p.data_pausa <= COALESCE(dt.data_saida, NOW())
-              AND COALESCE(p.data_retorno, NOW()) >= dt.data_entrada
+              SELECT 1
+              FROM departamento_tarefa dt
+              WHERE dt.tarefa_id = p.tarefa_id
+                AND dt.departamento_id = :d
+                AND p.data_pausa <= COALESCE(dt.data_saida, NOW())
+                AND COALESCE(p.data_retorno, NOW()) >= dt.data_entrada
           )
           AND COALESCE(p.data_retorno, NOW()) > :ini
           AND p.data_pausa < :fim
-        GROUP BY mp.tipo
-        ORDER BY seg_total DESC
-    ");
-    $stP->execute([
-        ':t' => $tarefaId, ':d' => $depId,
-        ':ini' => $primeiraEntrada, ':fim' => $ultimaSaida
+        ORDER BY uid ASC, inicio ASC
+    ";
+    $stPausas = $ligacao->prepare($sqlPausas);
+    $stPausas->execute([
+        ':t'   => $tarefaId,
+        ':d'   => $depId,
+        ':ini' => $primeiraEntrada,
+        ':fim' => $ultimaSaida
     ]);
-    $pausasTipo = [];
-    while ($r = $stP->fetch(PDO::FETCH_ASSOC)) {
-        $seg = (int)($r['seg_total'] ?? 0);
-        if ($seg <= 0 && (int)$r['qtd'] === 0) continue;
-        $pausasTipo[] = [
-            'tipo' => $r['tipo'],
-            'qtd'  => (int)$r['qtd'],
-            'total_fmt' => $fmt($seg)
+
+    while ($row = $stPausas->fetch(PDO::FETCH_ASSOC)) {
+        $ini = (string)$row['inicio'];
+        $fim = (string)$row['fim'];
+
+        // calcular segundos da pausa já recortada ao intervalo
+        $stSeg = $ligacao->prepare("SELECT TIMESTAMPDIFF(SECOND, :a, :b)");
+        $stSeg->execute([':a' => $ini, ':b' => $fim]);
+        $seg = (int)$stSeg->fetchColumn();
+
+        if ($seg <= 0) continue;
+
+        $pausas[] = [
+            'id'          => (int)$row['uid'],
+            'nome'        => (string)$row['nome'],
+            'tipo'        => (string)($row['tipo_pausa'] ?? ''),
+            'inicio'      => $ini,
+            'fim'         => $fim,
+            'duracao_fmt' => $fmt($seg),
         ];
     }
 
-    // ---------- 5) Pausas por utilizador (para líquido) ----------
-    $pausasPorUser = [];
-    if ($pUserCol !== null) {
-        $stPF = $ligacao->prepare("
-            SELECT p.`$pUserCol` AS uid,
-                   SUM(
-                     CASE 
-                       WHEN GREATEST(p.data_pausa, :ini) < LEAST(COALESCE(p.data_retorno, NOW()), :fim)
-                       THEN TIMESTAMPDIFF(
-                              SECOND,
-                              GREATEST(p.data_pausa, :ini),
-                              LEAST(COALESCE(p.data_retorno, NOW()), :fim)
-                            )
-                       ELSE 0
-                     END
-                   ) AS seg
-            FROM pausas_tarefas p
-            WHERE p.tarefa_id = :t
-              AND EXISTS (
-                SELECT 1
-                FROM departamento_tarefa dt
-                WHERE dt.tarefa_id = p.tarefa_id
-                  AND dt.departamento_id = :d
-                  AND p.data_pausa <= COALESCE(dt.data_saida, NOW())
-                  AND COALESCE(p.data_retorno, NOW()) >= dt.data_entrada
-              )
-              AND COALESCE(p.data_retorno, NOW()) > :ini
-              AND p.data_pausa < :fim
-            GROUP BY uid
-        ");
-        $stPF->execute([
-            ':t' => $tarefaId, ':d' => $depId,
-            ':ini' => $primeiraEntrada, ':fim' => $ultimaSaida
-        ]);
-        foreach ($stPF->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $pausasPorUser[(int)$row['uid']] = (int)($row['seg'] ?? 0);
-        }
+    // ---------- 3.c) Tempo líquido por utilizador no departamento ----------
+    // Interseção de intervalos (strings datetime -> segundos)
+    $overlapSeconds = function(string $a1, string $a2, string $b1, string $b2): int {
+        $x1 = strtotime($a1); $x2 = strtotime($a2);
+        $y1 = strtotime($b1); $y2 = strtotime($b2);
+        if ($x1 === false || $x2 === false || $y1 === false || $y2 === false) return 0;
+        $start = max($x1, $y1);
+        $end   = min($x2, $y2);
+        return max(0, $end - $start);
+    };
+
+    // 1) Construir segmentos por utilizador com base nas transições
+    $segmentos = [];
+    $timeline = [];
+    foreach ($trans as $t) {
+        $timeline[] = [
+            'ts'   => $t['data'] . ' ' . $t['hora'],
+            'de'   => $t['de'],
+            'para' => $t['para'],
+        ];
     }
+    usort($timeline, function($a,$b){ return strcmp($a['ts'], $b['ts']); });
 
-        // ---------- 6) Transições dentro do período deste departamento ----------
-    // detetar nomes de colunas em transicao_tarefas
-    $trFromCol = $detectCol($ligacao, 'transicao_tarefas', [
-        'de','origem','de_departamento','depto_de','de_utilizador','de_user','depto_origem'
-    ]);
-    $trToCol = $detectCol($ligacao, 'transicao_tarefas', [
-        'para','destino','para_departamento','depto_para','para_utilizador','para_user','depto_destino'
-    ]);
+    if (!empty($timeline)) {
+        // [primeiraEntrada -> primeira transição] = 'de' da primeira
+        $first = $timeline[0];
+        $uidDe = (int)$first['de'];
+        $segmentos[] = ['uid'=>$uidDe, 'ini'=>$primeiraEntrada, 'fim'=>$first['ts']];
 
-    // data/hora podem estar numa coluna datetime única ou separadas (dia/hora)
-    $trDTCol   = $detectCol($ligacao, 'transicao_tarefas', ['data_transicao','datahora','timestamp']);
-    $trDateCol = $detectCol($ligacao, 'transicao_tarefas', ['dia','data','data_dia']);
-    $trTimeCol = $detectCol($ligacao, 'transicao_tarefas', ['hora','time','data_hora']);
+        // entre transições = 'para' da transição anterior
+        for ($i=0; $i < count($timeline)-1; $i++) {
+            $cur  = $timeline[$i];
+            $next = $timeline[$i+1];
+            $uidPara = (int)$cur['para'];
+            $segmentos[] = ['uid'=>$uidPara, 'ini'=>$cur['ts'], 'fim'=>$next['ts']];
+        }
 
-    $trans = [];
-
-    // Se não houver nenhuma forma de data, não conseguimos filtrar por período – devolvemos vazio
-    if ($trDTCol === null && ($trDateCol === null || $trTimeCol === null)) {
-        $trans = [];
+        // [última transição -> ultimaSaida] = 'para' da última
+        $last = $timeline[count($timeline)-1];
+        $uidParaLast = (int)$last['para'];
+        $segmentos[] = ['uid'=>$uidParaLast, 'ini'=>$last['ts'], 'fim'=>$ultimaSaida];
     } else {
-        if ($trDTCol !== null) {
-            // Caso 1: há uma coluna datetime (ex.: data_transicao)
-            $sqlTr = "
-                SELECT
-                    ".($trFromCol ? "`$trFromCol`" : "NULL")." AS col_de,
-                    ".($trToCol   ? "`$trToCol`"   : "NULL")." AS col_para,
-                    `$trDTCol` AS ts
-                FROM transicao_tarefas
-                WHERE tarefa_id = :t
-                  AND `$trDTCol` BETWEEN :ini AND :fim
-                ORDER BY `$trDTCol` ASC
-            ";
-            $stTr = $ligacao->prepare($sqlTr);
-            $stTr->execute([':t'=>$tarefaId, ':ini'=>$primeiraEntrada, ':fim'=>$ultimaSaida]);
+        // Sem transições: usar utilizadores de departamento_tarefa
+        $sqlUsersDT = "
+            SELECT DISTINCT utilizador AS uid
+            FROM departamento_tarefa
+            WHERE tarefa_id = :t AND departamento_id = :d
+              AND COALESCE(data_saida, NOW()) > :ini
+              AND data_entrada < :fim
+        ";
+        $stUDT = $ligacao->prepare($sqlUsersDT);
+        $stUDT->execute([
+            ':t'=>$tarefaId, ':d'=>$depId, ':ini'=>$primeiraEntrada, ':fim'=>$ultimaSaida
+        ]);
+        $uids = $stUDT->fetchAll(PDO::FETCH_COLUMN);
 
-            while ($r = $stTr->fetch(PDO::FETCH_ASSOC)) {
-                $ts = (string)$r['ts'];
-                $d  = substr($ts, 0, 10);
-                $h  = substr($ts, 11, 8);
-                $trans[] = [
-                    'de'   => $r['col_de'] ?? '',
-                    'para' => $r['col_para'] ?? '',
-                    'data' => $d,
-                    'hora' => $h
-                ];
+        if (!empty($uids)) {
+            foreach ($uids as $uid) {
+                $segmentos[] = ['uid'=>(int)$uid, 'ini'=>$primeiraEntrada, 'fim'=>$ultimaSaida];
             }
         } else {
-            // Caso 2: colunas separadas de data e hora (ex.: dia + hora)
-            // Construímos um timestamp virtual para filtrar
-            $sqlTr = "
-                SELECT
-                    ".($trFromCol ? "`$trFromCol`" : "NULL")." AS col_de,
-                    ".($trToCol   ? "`$trToCol`"   : "NULL")." AS col_para,
-                    `$trDateCol` AS dia_col,
-                    `$trTimeCol` AS hora_col,
-                    TIMESTAMP(`$trDateCol`, `$trTimeCol`) AS ts
-                FROM transicao_tarefas
-                WHERE tarefa_id = :t
-                  AND TIMESTAMP(`$trDateCol`, `$trTimeCol`) BETWEEN :ini AND :fim
-                ORDER BY ts ASC
-            ";
-            $stTr = $ligacao->prepare($sqlTr);
-            $stTr->execute([':t'=>$tarefaId, ':ini'=>$primeiraEntrada, ':fim'=>$ultimaSaida]);
+            $segmentos = [];
+        }
+    }
 
-            while ($r = $stTr->fetch(PDO::FETCH_ASSOC)) {
-                $trans[] = [
-                    'de'   => $r['col_de'] ?? '',
-                    'para' => $r['col_para'] ?? '',
-                    'data' => (string)$r['dia_col'],
-                    'hora' => (string)$r['hora_col']
-                ];
+    // 2) Pausas por utilizador (no intervalo do departamento)
+    $pausasByUser = [];
+    foreach ($pausas as $p) {
+        $u = (int)$p['id'];
+        $pausasByUser[$u][] = ['ini'=>$p['inicio'], 'fim'=>$p['fim']];
+    }
+
+    // 3) Janelas de trabalho (entrada/saída) dos utilizadores envolvidos
+    $uidsSet = [];
+    foreach ($segmentos as $s) $uidsSet[(int)$s['uid']] = true;
+    $uidsList = array_keys($uidsSet);
+
+    $workByUser = [];
+    if (!empty($uidsList)) {
+        $ph = implode(',', array_fill(0, count($uidsList), '?'));
+        // Tentativas de nomes de colunas prováveis
+        $attempts = [
+            ['data_entrada', 'data_saida'],
+            ['entrada', 'saida'],
+            ['hora_entrada', 'hora_saida'],
+            ['inicio', 'fim'],
+            ['dataEntrada', 'dataSaida'],
+        ];
+
+        $paramsBase = $uidsList;
+        $paramsBase[] = $primeiraEntrada;
+        $paramsBase[] = $ultimaSaida;
+
+        foreach ($attempts as [$colIn, $colOut]) {
+            try {
+                $sqlWork = "
+                    SELECT utilizador AS uid, $colIn AS ini, COALESCE($colOut, NOW()) AS fim
+                    FROM utilizador_entradaesaida
+                    WHERE utilizador IN ($ph)
+                      AND COALESCE($colOut, NOW()) > ?
+                      AND $colIn < ?
+                    ORDER BY uid ASC, $colIn ASC
+                ";
+                $stW = $ligacao->prepare($sqlWork);
+                $stW->execute($paramsBase);
+
+                $encontrou = false;
+                while ($w = $stW->fetch(PDO::FETCH_ASSOC)) {
+                    $u = (int)$w['uid'];
+                    $workByUser[$u][] = ['ini'=>$w['ini'], 'fim'=>$w['fim']];
+                    $encontrou = true;
+                }
+                if ($encontrou) { break; } // esta tentativa funcionou
+            } catch (Throwable $e) {
+                // tenta o próximo par de colunas
             }
         }
     }
 
+    // 4) Agregar tempos por utilizador
+    $agg = []; // uid => ['work'=>seg, 'pausas'=>seg]
+    foreach ($segmentos as $seg) {
+        $uid = (int)$seg['uid'];
+        $ini = $seg['ini'];
+        $fim = $seg['fim'];
 
-    // ---------- 7) Montar funcionários ----------
-    $funcOut = [];
-    foreach ($funcs as $f) {
-        $uid      = (int)$f['uid'];
-        $nome     = (string)($f['nome'] ?? ("Utilizador #".$uid));
-        $segBruto = (int)($f['seg'] ?? 0);
-        $segPause = (int)($pausasPorUser[$uid] ?? 0);
-        $segLiq   = max(0, $segBruto - $segPause);
+        if (!isset($agg[$uid])) $agg[$uid] = ['work'=>0, 'pausas'=>0];
 
-        $funcOut[] = [
-            'id'         => $uid,
-            'nome'       => $nome,
-            'total_fmt'  => $fmt($segBruto),
-            'pausas_fmt' => $fmt($segPause),
-            'liquido_fmt'=> $fmt($segLiq),
+        // 4.1) Tempo de trabalho = soma das interseções [ini,fim] com janelas de trabalho
+        if (!empty($workByUser[$uid])) {
+            foreach ($workByUser[$uid] as $w) {
+                $agg[$uid]['work'] += $overlapSeconds($ini, $fim, $w['ini'], $w['fim']);
+            }
+        }
+
+        // 4.2) Pausas = soma das interseções [ini,fim] com pausas do utilizador
+        if (!empty($pausasByUser[$uid])) {
+            foreach ($pausasByUser[$uid] as $p) {
+                $agg[$uid]['pausas'] += $overlapSeconds($ini, $fim, $p['ini'], $p['fim']);
+            }
+        }
+    }
+
+    // 5) Nomes dos utilizadores
+    $nomesById = [];
+    if (!empty($uidsList)) {
+        $ph = implode(',', array_fill(0, count($uidsList), '?'));
+        $stN = $ligacao->prepare("SELECT utilizador AS id, nome FROM funcionarios WHERE utilizador IN ($ph)");
+        $stN->execute($uidsList);
+        while ($r = $stN->fetch(PDO::FETCH_ASSOC)) {
+            $nomesById[(int)$r['id']] = (string)$r['nome'];
+        }
+    }
+
+    // 6) Tabela funcionarios
+    $funcionarios = [];
+    foreach ($agg as $uid => $vals) {
+        $work  = (int)$vals['work'];
+        $pause = (int)$vals['pausas'];
+        $liq   = max(0, $work - $pause);
+        $funcionarios[] = [
+            'id'                 => (int)$uid,
+            'nome'               => $nomesById[$uid] ?? ("Utilizador #".$uid),
+            'total_trabalho_fmt' => $fmt($work),
+            'total_fmt'          => $fmt($work), // <- compat com frontend
+            'pausas_fmt'         => $fmt($pause),
+            'liquido_fmt'        => $fmt($liq),
         ];
     }
 
+    // ---------- 7) Saída ----------
     echo json_encode([
         'resumo' => [
             'tempo_total_fmt' => $fmt($segTotal),
             'primeira_entrada'=> $primeiraEntrada,
-            'ultima_saida'    => $ultimaSaida,
+            'ultima_saida'    => $ultimaSaida, // <- sem acento
         ],
-        'funcionarios'  => $funcOut,
-        'pausasPorTipo' => $pausasTipo,
-        'transicoes'    => $trans
+        'transicoes'   => $trans,
+        'pausas'       => $pausas,
+        'funcionarios' => $funcionarios
     ]);
 
 } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['erro' => $e->getMessage()]);
 }
+    
