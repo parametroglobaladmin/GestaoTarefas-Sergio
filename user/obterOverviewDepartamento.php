@@ -25,6 +25,12 @@ try {
         return "{$h}h {$m}m {$s}s";
     };
 
+    $sanitizeUid = function ($u): ?string {
+        $u = trim((string)$u);
+        if ($u === '' || strtoupper($u) === 'EM ESPERA') return null;
+        return $u; // manter string (acrómino ou número em string)
+    };
+
     // ---------- 1) Janelas desta tarefa neste departamento ----------
     $sqlJan = "
         SELECT data_entrada, COALESCE(data_saida, NOW()) AS data_saida
@@ -77,9 +83,13 @@ try {
 
         while ($r = $stTr->fetch(PDO::FETCH_ASSOC)) {
             $ts = (string)$r['ts'];
+            $deRaw   = (string)($r['de']   ?? '');
+            $paraRaw = (string)($r['para'] ?? '');
+
+            // No JSON de saída queremos ver "EM ESPERA" se vier vazio
             $trans[] = [
-                'de'   => (string)($r['de']   ?? ''),
-                'para' => (string)($r['para'] ?? ''),
+                'de'   => $deRaw,
+                'para' => $paraRaw !== '' ? $paraRaw : 'EM ESPERA',
                 'data' => substr($ts, 0, 10),
                 'hora' => substr($ts, 11, 8),
             ];
@@ -102,25 +112,31 @@ try {
             ]);
 
             while ($r = $stTr2->fetch(PDO::FETCH_ASSOC)) {
+                $deRaw   = (string)($r['de']   ?? '');
+                $paraRaw = (string)($r['para'] ?? '');
+                $dia  = (string)($r['dia']  ?? '');
+                $hora = (string)($r['hora'] ?? '');
+
                 $trans[] = [
-                    'de'   => (string)($r['de']   ?? ''),
-                    'para' => (string)($r['para'] ?? ''),
-                    'data' => (string)($r['dia']  ?? ''),
-                    'hora' => (string)($r['hora'] ?? ''),
+                    'de'   => $deRaw,
+                    'para' => $paraRaw !== '' ? $paraRaw : 'EM ESPERA',
+                    'data' => $dia,
+                    'hora' => $hora,
                 ];
             }
+
         } catch (Throwable $e2) {
             // Se ambas falharem, $trans fica vazio.
         }
     }
 
-    // ---------- 3.b) Pausas dessa tarefa no período (uma linha por pausa com utilizador) ----------
+    // ---------- 3.b) Pausas dessa tarefa no período ----------
     $pausas = [];
     $sqlPausas = "
         SELECT
             p.funcionario AS uid,
             COALESCE(f.nome, CONCAT('Utilizador #', p.funcionario)) AS nome,
-            mp.tipo AS tipo_pausa,
+            mp.codigo AS tipo_pausa,
             GREATEST(p.data_pausa, :ini) AS inicio,
             LEAST(COALESCE(p.data_retorno, NOW()), :fim) AS fim
         FROM pausas_tarefas p
@@ -151,7 +167,6 @@ try {
         $ini = (string)$row['inicio'];
         $fim = (string)$row['fim'];
 
-        // calcular segundos da pausa já recortada ao intervalo
         $stSeg = $ligacao->prepare("SELECT TIMESTAMPDIFF(SECOND, :a, :b)");
         $stSeg->execute([':a' => $ini, ':b' => $fim]);
         $seg = (int)$stSeg->fetchColumn();
@@ -159,7 +174,7 @@ try {
         if ($seg <= 0) continue;
 
         $pausas[] = [
-            'id'          => (int)$row['uid'],
+            'id'          => (string)$row['uid'],            // <- manter STRING
             'nome'        => (string)$row['nome'],
             'tipo'        => (string)($row['tipo_pausa'] ?? ''),
             'inicio'      => $ini,
@@ -168,8 +183,7 @@ try {
         ];
     }
 
-    // ---------- 3.c) Tempo líquido por utilizador no departamento ----------
-    // Interseção de intervalos (strings datetime -> segundos)
+    // ---------- 3.c) Tempo líquido por utilizador ----------
     $overlapSeconds = function(string $a1, string $a2, string $b1, string $b2): int {
         $x1 = strtotime($a1); $x2 = strtotime($a2);
         $y1 = strtotime($b1); $y2 = strtotime($b2);
@@ -179,38 +193,44 @@ try {
         return max(0, $end - $start);
     };
 
-    // 1) Construir segmentos por utilizador com base nas transições
+    // 1) Construir segmentos de tempo por utilizador (a partir das transições)
     $segmentos = [];
     $timeline = [];
     foreach ($trans as $t) {
+        $ts = $t['data'] . ' ' . $t['hora'];
         $timeline[] = [
-            'ts'   => $t['data'] . ' ' . $t['hora'],
-            'de'   => $t['de'],
-            'para' => $t['para'],
+            'ts'   => $ts,
+            'de'   => $sanitizeUid($t['de']),
+            'para' => $sanitizeUid($t['para']), // 'EM ESPERA' vira null aqui
         ];
     }
-    usort($timeline, function($a,$b){ return strcmp($a['ts'], $b['ts']); });
+    usort($timeline, fn($a,$b) => strcmp($a['ts'], $b['ts']));
 
     if (!empty($timeline)) {
-        // [primeiraEntrada -> primeira transição] = 'de' da primeira
+        // [primeiraEntrada -> primeira transição] = 'de' da primeira (se válido)
         $first = $timeline[0];
-        $uidDe = (int)$first['de'];
-        $segmentos[] = ['uid'=>$uidDe, 'ini'=>$primeiraEntrada, 'fim'=>$first['ts']];
+        if ($first['de'] !== null) {
+            $segmentos[] = ['uid'=>$first['de'], 'ini'=>$primeiraEntrada, 'fim'=>$first['ts']];
+        }
 
-        // entre transições = 'para' da transição anterior
+        // entre transições = 'para' da transição anterior (se válido)
         for ($i=0; $i < count($timeline)-1; $i++) {
             $cur  = $timeline[$i];
             $next = $timeline[$i+1];
-            $uidPara = (int)$cur['para'];
-            $segmentos[] = ['uid'=>$uidPara, 'ini'=>$cur['ts'], 'fim'=>$next['ts']];
+            if ($cur['para'] !== null) {
+                $segmentos[] = ['uid'=>$cur['para'], 'ini'=>$cur['ts'], 'fim'=>$next['ts']];
+            }
         }
 
-        // [última transição -> ultimaSaida] = 'para' da última
+        // [última transição -> ultimaSaida] = 'para' da última (se válido)
         $last = $timeline[count($timeline)-1];
-        $uidParaLast = (int)$last['para'];
-        $segmentos[] = ['uid'=>$uidParaLast, 'ini'=>$last['ts'], 'fim'=>$ultimaSaida];
-    } else {
-        // Sem transições: usar utilizadores de departamento_tarefa
+        if ($last['para'] !== null) {
+            $segmentos[] = ['uid'=>$last['para'], 'ini'=>$last['ts'], 'fim'=>$ultimaSaida];
+        }
+    }
+
+    // Se não houve segmentos válidos pelas transições, usar utilizadores de departamento_tarefa
+    if (empty($segmentos)) {
         $sqlUsersDT = "
             SELECT DISTINCT utilizador AS uid
             FROM departamento_tarefa
@@ -224,31 +244,29 @@ try {
         ]);
         $uids = $stUDT->fetchAll(PDO::FETCH_COLUMN);
 
-        if (!empty($uids)) {
-            foreach ($uids as $uid) {
-                $segmentos[] = ['uid'=>(int)$uid, 'ini'=>$primeiraEntrada, 'fim'=>$ultimaSaida];
+        foreach ($uids as $uid) {
+            $uidStr = $sanitizeUid($uid);
+            if ($uidStr !== null) {
+                $segmentos[] = ['uid'=>$uidStr, 'ini'=>$primeiraEntrada, 'fim'=>$ultimaSaida];
             }
-        } else {
-            $segmentos = [];
         }
     }
 
-    // 2) Pausas por utilizador (no intervalo do departamento)
+    // 2) Pausas agrupadas por utilizador (keys string)
     $pausasByUser = [];
     foreach ($pausas as $p) {
-        $u = (int)$p['id'];
+        $u = (string)$p['id'];
         $pausasByUser[$u][] = ['ini'=>$p['inicio'], 'fim'=>$p['fim']];
     }
 
-    // 3) Janelas de trabalho (entrada/saída) dos utilizadores envolvidos
+    // 3) Janelas de trabalho dos utilizadores (entrada/saída)
     $uidsSet = [];
-    foreach ($segmentos as $s) $uidsSet[(int)$s['uid']] = true;
+    foreach ($segmentos as $s) $uidsSet[(string)$s['uid']] = true;
     $uidsList = array_keys($uidsSet);
 
     $workByUser = [];
     if (!empty($uidsList)) {
         $ph = implode(',', array_fill(0, count($uidsList), '?'));
-        // Tentativas de nomes de colunas prováveis
         $attempts = [
             ['data_entrada', 'data_saida'],
             ['entrada', 'saida'],
@@ -276,34 +294,32 @@ try {
 
                 $encontrou = false;
                 while ($w = $stW->fetch(PDO::FETCH_ASSOC)) {
-                    $u = (int)$w['uid'];
+                    $u = (string)$w['uid'];
                     $workByUser[$u][] = ['ini'=>$w['ini'], 'fim'=>$w['fim']];
                     $encontrou = true;
                 }
-                if ($encontrou) { break; } // esta tentativa funcionou
+                if ($encontrou) break;
             } catch (Throwable $e) {
                 // tenta o próximo par de colunas
             }
         }
     }
 
-    // 4) Agregar tempos por utilizador
-    $agg = []; // uid => ['work'=>seg, 'pausas'=>seg]
+    // 4) Agregar tempos por utilizador (keys string)
+    $agg = [];
     foreach ($segmentos as $seg) {
-        $uid = (int)$seg['uid'];
+        $uid = (string)$seg['uid'];
         $ini = $seg['ini'];
         $fim = $seg['fim'];
 
         if (!isset($agg[$uid])) $agg[$uid] = ['work'=>0, 'pausas'=>0];
 
-        // 4.1) Tempo de trabalho = soma das interseções [ini,fim] com janelas de trabalho
         if (!empty($workByUser[$uid])) {
             foreach ($workByUser[$uid] as $w) {
                 $agg[$uid]['work'] += $overlapSeconds($ini, $fim, $w['ini'], $w['fim']);
             }
         }
 
-        // 4.2) Pausas = soma das interseções [ini,fim] com pausas do utilizador
         if (!empty($pausasByUser[$uid])) {
             foreach ($pausasByUser[$uid] as $p) {
                 $agg[$uid]['pausas'] += $overlapSeconds($ini, $fim, $p['ini'], $p['fim']);
@@ -311,47 +327,74 @@ try {
         }
     }
 
-    // 5) Nomes dos utilizadores
+    // 5) Nomes dos utilizadores (map por string)
     $nomesById = [];
     if (!empty($uidsList)) {
         $ph = implode(',', array_fill(0, count($uidsList), '?'));
         $stN = $ligacao->prepare("SELECT utilizador AS id, nome FROM funcionarios WHERE utilizador IN ($ph)");
         $stN->execute($uidsList);
         while ($r = $stN->fetch(PDO::FETCH_ASSOC)) {
-            $nomesById[(int)$r['id']] = (string)$r['nome'];
+            $nomesById[(string)$r['id']] = (string)$r['nome'];
         }
     }
+    // 🔹 Agrupar pausas por utilizador
+    $pausasPorUser = [];
+    foreach ($pausas as $p) {
+        $uid = (string)$p['id'];
+        if (!isset($pausasPorUser[$uid])) {
+            $pausasPorUser[$uid] = [
+                'nome' => $p['nome'],
+                'pausas' => []
+            ];
+        }
+        $pausasPorUser[$uid]['pausas'][] = [
+            'tipo' => $p['tipo'],
+            'inicio' => $p['inicio'],
+            'fim' => $p['fim'],
+            'duracao_fmt' => $p['duracao_fmt']
+        ];
+    }
 
-    // 6) Tabela funcionarios
+
+        // 6) Construir tabela final
     $funcionarios = [];
     foreach ($agg as $uid => $vals) {
         $work  = (int)$vals['work'];
         $pause = (int)$vals['pausas'];
         $liq   = max(0, $work - $pause);
         $funcionarios[] = [
-            'id'                 => (int)$uid,
+            'id'                 => (string)$uid,
             'nome'               => $nomesById[$uid] ?? ("Utilizador #".$uid),
             'total_trabalho_fmt' => $fmt($work),
-            'total_fmt'          => $fmt($work), // <- compat com frontend
+            'total_fmt'          => $fmt($work), // compat frontend
             'pausas_fmt'         => $fmt($pause),
             'liquido_fmt'        => $fmt($liq),
         ];
     }
 
-    // ---------- 7) Saída ----------
+    // 🔹 FILTRAR funcionários com todos os tempos a 0
+    $funcionarios = array_filter($funcionarios, function($f) {
+        return !(
+            $f['total_trabalho_fmt'] === '0h 0m 0s' &&
+            $f['pausas_fmt'] === '0h 0m 0s' &&
+            $f['liquido_fmt'] === '0h 0m 0s'
+        );
+    });
+
+    // ---------- 7) Saída JSON ----------
     echo json_encode([
         'resumo' => [
             'tempo_total_fmt' => $fmt($segTotal),
             'primeira_entrada'=> $primeiraEntrada,
-            'ultima_saida'    => $ultimaSaida, // <- sem acento
+            'ultima_saida'    => $ultimaSaida,
         ],
-        'transicoes'   => $trans,
-        'pausas'       => $pausas,
-        'funcionarios' => $funcionarios
+        'transicoes'   => $trans,        // mantém "EM ESPERA" apenas para exibição
+        'pausas'       => $pausasPorUser,
+        'funcionarios' => array_values($funcionarios) // reindexar para evitar chaves perdidas
     ]);
+
 
 } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['erro' => $e->getMessage()]);
 }
-    

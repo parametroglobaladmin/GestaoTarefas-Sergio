@@ -532,7 +532,7 @@ function renderOverviewDepartamento(payload) {
       <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Tempo total no dept.</b><br>${resumo.tempo_total_fmt}</div>
       <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Primeira entrada</b><br>${resumo.primeira_entrada}</div>
       <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Última saída</b><br>${resumo.ultima_saida}</div>
-      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b># Transições</b><br>${transicoes.length}</div>
+      <div style="background:#f8f8f8; padding:12px; border-radius:8px;"><b>Transições</b><br>${transicoes.length}</div>
     </div>
   `);
 
@@ -554,7 +554,7 @@ function renderOverviewDepartamento(payload) {
   wrap.push(`
     <h3>Funcionários que trabalharam</h3>
     <table>
-      <thead><tr><th>Funcionário</th><th>Tempo (bruto)</th><th>Pausas no dept.</th><th>Tempo líquido</th></tr></thead>
+      <thead><tr><th>Funcionário</th><th>Tempo (bruto)</th><th>Pausas no departamento</th><th>Tempo líquido</th></tr></thead>
       <tbody>${funcRows || '<tr><td colspan="4">Sem registos</td></tr>'}</tbody>
     </table>
   `);
@@ -565,12 +565,39 @@ function renderOverviewDepartamento(payload) {
   ).join('');
 
   wrap.push(`
-    <h3 style="margin-top:18px">Transições dentro do dept.</h3>
+    <h3 style="margin-top:18px">Transições dentro do departamento</h3>
     <table>
       <thead><tr><th>De</th><th>Para</th><th>Dia</th><th>Hora</th></tr></thead>
       <tbody>${transRows || '<tr><td colspan="4">Sem transições</td></tr>'}</tbody>
     </table>
   `);
+
+  // Pausas por utilizador
+  const pausasPorUser = p.pausas || {};
+  const pausaBlocos = Object.values(pausasPorUser).map(user => {
+    const linhas = (user.pausas || []).map(p =>
+      `<tr>
+        <td>${p.tipo || '-'}</td>
+        <td>${p.inicio || '-'}</td>
+        <td>${p.fim || '-'}</td>
+        <td>${p.duracao_fmt || '-'}</td>
+      </tr>`
+    ).join('');
+
+    return `
+      <h4 style="margin-top:16px">${user.nome}</h4>
+      <table>
+        <thead><tr><th>Tipo de pausa</th><th>Início</th><th>Fim</th><th>Duração</th></tr></thead>
+        <tbody>${linhas || '<tr><td colspan="4">Sem pausas</td></tr>'}</tbody>
+      </table>
+    `;
+  }).join('');
+
+  wrap.push(`
+    <h3 style="margin-top:18px">Pausas dentro do departamento</h3>
+    ${pausaBlocos || '<p>Sem pausas registadas.</p>'}
+  `);
+
 
   // coloca no overlay
   document.getElementById("overlayGantt").innerHTML = wrap.join('');
