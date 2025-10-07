@@ -979,40 +979,41 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
             <?php $temFiltro = !empty($_GET['data_filtrar']); ?>
             <div style="flex: 1.2; min-width: 520px; max-height: 400px; overflow: auto;">
               <table class="tabela-pausas-mensal" style="border-collapse: collapse; width: 100%;">
-                <thead>
+                <thead style="background-color: #cfa728; color: #000;"> <!-- amarelo forte -->
                   <tr>
-                    <th style="position: sticky; left: 0; background: #fff; z-index: 2; border: 1px solid #ddd; padding: 8px; white-space:nowrap;">
+                    <th style="position: sticky; left: 0; background: #cfa728; z-index: 2; border: 1px solid #ddd; padding: 8px; white-space:nowrap;">
                       Tipo de Pausa
                     </th>
                     <?php foreach ($diasJanela as $d): ?>
-                      <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap;">
+                      <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap; background:#cfa728;">
                         <?= htmlspecialchars(date('d/m', strtotime($d))) ?>
                       </th>
                     <?php endforeach; ?>
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap;">Total</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap; background:#cfa728;">Total</th>
                     <?php if ($temFiltro): ?>
-                      <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap;">Detalhes</th>
+                      <th style="border: 1px solid #ddd; padding: 8px; text-align:center; white-space:nowrap; background:#cfa728;">Detalhes</th>
                     <?php endif; ?>
                   </tr>
                 </thead>
-                <tbody>
+
+                <tbody style="background-color: #e7d48b;"> <!-- amarelo claro -->
                   <?php foreach ($pausasPorTipoPorDia as $tipo => $linhaDias): ?>
                     <?php $totalTipo = array_sum($linhaDias); ?>
                     <tr>
-                      <td style="position: sticky; left: 0; background: #fff; z-index: 1; border: 1px solid #ddd; padding: 8px; font-weight:600;">
+                      <td style="position: sticky; left: 0; background:#e7d48b; z-index: 1; border: 1px solid #ddd; padding: 8px; font-weight:600;">
                         <?= htmlspecialchars($tipo) ?>
                       </td>
                       <?php foreach ($diasJanela as $d): ?>
                         <?php $seg = (int)($linhaDias[$d] ?? 0); ?>
-                        <td style="border: 1px solid #ddd; padding: 8px; text-align:center; font-variant-numeric: tabular-nums;">
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align:center; font-variant-numeric: tabular-nums; background:#e7d48b;">
                           <?= fmt_hms($seg) ?>
                         </td>
                       <?php endforeach; ?>
-                      <td style="border: 1px solid #ddd; padding: 8px; text-align:center; font-weight:600;">
+                      <td style="border: 1px solid #ddd; padding: 8px; text-align:center; font-weight:600; background:#e7d48b;">
                         <?= fmt_hms($totalTipo) ?>
                       </td>
                       <?php if ($temFiltro): ?>
-                        <td style="text-align:center; border: 1px solid #ddd;">
+                        <td style="text-align:center; border: 1px solid #ddd; background:#e7d48b;">
                           <button type="button" class="toggle-detalhes" data-target="detalhes-<?= md5($tipo) ?>" 
                                   style="background:none; border:none; cursor:pointer; font-size:16px;">
                             ▼
@@ -1021,19 +1022,17 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
                       <?php endif; ?>
                     </tr>
 
-                    <!-- Dropdown oculto com detalhes -->
                     <?php if ($temFiltro): ?>
-                      <!-- Dropdown oculto -->
                       <tr id="detalhes-<?= md5($tipo) ?>" class="detalhes-row" style="display:none;">
                         <td colspan="<?= count($diasJanela) + 3 ?>" style="border:1px solid #ddd; padding: 8px; background:#f9f9f9;">
                           <table style="width:100%; border-collapse: collapse;">
-                            <thead>
+                            <thead style="background:#cfa728;">
                               <tr>
                                 <th style="border:1px solid #ddd; padding:6px;">Tarefa</th>
                                 <th style="border:1px solid #ddd; padding:6px;">Tempo</th>
                               </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="background:#fff;">
                               <?php foreach ($detalhesPorTipo[$tipo] ?? [] as $det): ?>
                                 <tr>
                                   <td style="border:1px solid #ddd; padding:6px;"><?= htmlspecialchars($det['tarefa']) ?></td>
@@ -1288,6 +1287,16 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
     const dias = <?= json_encode(array_keys($trabalhoPorDia)) ?>;
     const pausas = <?= json_encode(array_column($trabalhoPorDia, 'pausas')) ?>;
     const efetivas = <?= json_encode(array_column($trabalhoPorDia, 'efetivas')) ?>;
+
+    const hoje = new Date().toISOString().split('T')[0];
+    const indicesValidos = dias
+      .map((d, i) => ({ d, i }))
+      .filter(obj => obj.d !== hoje)
+      .map(obj => obj.i);
+
+    const diasFiltrados = indicesValidos.map(i => dias[i]);
+    const pausasFiltradas = indicesValidos.map(i => pausas[i]);
+    const efetivasFiltradas = indicesValidos.map(i => efetivas[i]);
 
     new Chart(document.getElementById('graficoTrabalho'), {
       type: 'bar',
