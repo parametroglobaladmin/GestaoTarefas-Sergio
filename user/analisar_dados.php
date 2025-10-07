@@ -181,7 +181,7 @@ if ($utilizadorSelecionado) {
         JOIN motivos_pausa mp ON pt.motivo_id = mp.id
         WHERE pt.funcionario = ?
           AND pt.data_pausa IS NOT NULL
-          AND mp.tipo IN ('PararContadores', 'Semopcao')
+          AND mp.estatistica = 'ativo'
     ";
 
     $paramsPausas = [$utilizadorSelecionado];
