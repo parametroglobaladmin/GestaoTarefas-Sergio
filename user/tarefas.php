@@ -924,6 +924,15 @@ atualizarTemposTabela();
 
 <script>
 function finalizarDiaComTempo() {
+
+  const pausaPararContadores = <?= json_encode(!empty($_SESSION['tarefa_pausada_por_pararcontadores'])) ?>;
+  const pausaSemOpcao       = <?= json_encode(!empty($_SESSION['tarefa_pausada_por_semopcao'])) ?>;
+
+  if (pausaPararContadores || pausaSemOpcao) {
+    alert("Não podes finalizar o dia com tarefas em pausa que não sejam Almoço, Lanche ou WC.");
+    return;
+  }
+  
   const id = <?= json_encode($tarefaAtiva['id'] ?? null) ?>;
 
   const td = document.querySelector(`.tempo-decorrido[data-id="${id}"]`);
