@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
               if ($existe > 0) {
                   // Já existe uma tarefa com o mesmo código
-                  $erro="❌ Já existe uma tarefa com esse código.";
+                  $erro="❌ Já existe uma tarefa com esse nome.";
               }else{
 
               $stmt = $ligacao->prepare("INSERT INTO tarefas (tarefa, descricao, utilizador) VALUES (?, ?, ?)");
