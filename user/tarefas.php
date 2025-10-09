@@ -52,6 +52,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $erro="O utilizador não tem departamento associado";
             }else{
 
+              $stmtVerifica = $ligacao->prepare("SELECT COUNT(*) FROM tarefas WHERE tarefa = ?");
+              $stmtVerifica->execute([$tarefa]);
+              $existe = $stmtVerifica->fetchColumn();
+
+              if ($existe > 0) {
+                  // Já existe uma tarefa com o mesmo código
+                  $erro="❌ Já existe uma tarefa com esse código.";
+              }else{
+
               $stmt = $ligacao->prepare("INSERT INTO tarefas (tarefa, descricao, utilizador) VALUES (?, ?, ?)");
               $stmt->execute([$tarefa, $descricao, $utilizador]);
               $idTarefa = $ligacao->lastInsertId();
@@ -85,6 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
               header("Location: abrirtarefa.php?id=" . $idTarefa);
               exit();
+              }
             }
         } catch (PDOException $e) {
             $erro = "❌ Erro ao criar tarefa: " . $e->getMessage();
