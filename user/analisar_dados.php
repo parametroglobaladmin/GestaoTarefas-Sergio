@@ -647,6 +647,59 @@ while ($row = $detalhesStmt->fetch(PDO::FETCH_ASSOC)) {
     ];
 }
 
+$detalhesDiaEspecifico = null;
+$pausasDiaEspecifico = [];
+$tarefasDiaEspecifico = [];
+
+if ($utilizadorSelecionado && $dataFiltrar) {
+    $stmt = $ligacao->prepare("
+        SELECT
+            MIN(hora_entrada) AS primeira_entrada,
+            MAX(NULLIF(NULLIF(hora_saida, '0000-00-00 00:00:00'), '00:00:00')) AS ultima_saida
+        FROM utilizador_entradaesaida
+        WHERE utilizador = :utilizador
+          AND data = :dia
+    ");
+    $stmt->execute([
+        'utilizador' => $utilizadorSelecionado,
+        'dia'         => $dataFiltrar,
+    ]);
+    $detalhesDiaEspecifico = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+
+    $stmt = $ligacao->prepare("
+        SELECT
+            mp.descricao AS tipo,
+            SEC_TO_TIME(SUM(TIME_TO_SEC(pt.tempo_pausa))) AS duracao
+        FROM pausas_tarefas pt
+        JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+        WHERE pt.funcionario = :utilizador
+          AND DATE(pt.data_pausa) = :dia
+        GROUP BY mp.descricao
+        ORDER BY mp.descricao
+    ");
+    $stmt->execute([
+        'utilizador' => $utilizadorSelecionado,
+        'dia'         => $dataFiltrar,
+    ]);
+    $pausasDiaEspecifico = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt = $ligacao->prepare("
+        SELECT
+            tarefa,
+            TIME(data_fim) AS hora_fim
+        FROM tarefas
+        WHERE utilizador = :utilizador
+          AND estado = 'concluida'
+          AND DATE(data_fim) = :dia
+        ORDER BY data_fim
+    ");
+    $stmt->execute([
+        'utilizador' => $utilizadorSelecionado,
+        'dia'         => $dataFiltrar,
+    ]);
+    $tarefasDiaEspecifico = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 $sql = "
 SELECT
   (SELECT COUNT(*)
@@ -685,6 +738,12 @@ $stmt->execute([
 ]);
 $row= $stmt->fetch(PDO::FETCH_ASSOC);
 $result = $row['total_intergabinete'] + $row['total_concluidas'];
+
+$dataEspecificaFormatada = null;
+if ($dataFiltrar) {
+    $timestampData = strtotime($dataFiltrar);
+    $dataEspecificaFormatada = $timestampData ? date('d/m/Y', $timestampData) : $dataFiltrar;
+}
 ?>
 
 <!DOCTYPE html>
@@ -844,6 +903,46 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
   }
   .txt-vermelho { color:#dc3545; font-weight:600; }
   .txt-verde    { color:#28a745; font-weight:600; }
+
+  .tabela-dia-especifico {
+    margin-top: 30px;
+    background: #fff7da;
+    border: 1px solid #e0c472;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .tabela-dia-especifico h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  .tabela-dia-especifico table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .tabela-dia-especifico th,
+  .tabela-dia-especifico td {
+    border: 1px solid #e0c472;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .tabela-dia-especifico th {
+    background: #e7d48b;
+    color: #333;
+  }
+
+  .lista-simples {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .lista-simples li {
+    margin-bottom: 4px;
+  }
 
   </style>
 </head>
@@ -1066,6 +1165,66 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
             });
             </script>
           </div>
+
+          <?php if (!empty($_GET['data_filtrar'])): ?>
+            <div class="tabela-dia-especifico">
+              <h3>Resumo do dia <?= htmlspecialchars($dataEspecificaFormatada ?? $_GET['data_filtrar']) ?></h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 18%;">Hora de Entrada</th>
+                    <th style="width: 18%;">Hora de Saída</th>
+                    <th style="width: 32%;">Pausas</th>
+                    <th style="width: 32%;">Tarefas Executadas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <?php if (!empty($detalhesDiaEspecifico['primeira_entrada'])): ?>
+                        <?= htmlspecialchars(date('H:i', strtotime($detalhesDiaEspecifico['primeira_entrada']))) ?>
+                      <?php else: ?>
+                        —
+                      <?php endif; ?>
+                    </td>
+                    <td>
+                      <?php if (!empty($detalhesDiaEspecifico['ultima_saida'])): ?>
+                        <?= htmlspecialchars(date('H:i', strtotime($detalhesDiaEspecifico['ultima_saida']))) ?>
+                      <?php else: ?>
+                        —
+                      <?php endif; ?>
+                    </td>
+                    <td>
+                      <?php if (!empty($pausasDiaEspecifico)): ?>
+                        <ul class="lista-simples">
+                          <?php foreach ($pausasDiaEspecifico as $pausa): ?>
+                            <li>
+                              <?= htmlspecialchars($pausa['tipo']) ?> — <?= htmlspecialchars($pausa['duracao'] ?? '00:00:00') ?>
+                            </li>
+                          <?php endforeach; ?>
+                        </ul>
+                      <?php else: ?>
+                        <span>Sem pausas registadas.</span>
+                      <?php endif; ?>
+                    </td>
+                    <td>
+                      <?php if (!empty($tarefasDiaEspecifico)): ?>
+                        <ul class="lista-simples">
+                          <?php foreach ($tarefasDiaEspecifico as $tarefa): ?>
+                            <li>
+                              <?= htmlspecialchars($tarefa['tarefa']) ?><?php if (!empty($tarefa['hora_fim'])): ?> (<?= htmlspecialchars(substr($tarefa['hora_fim'], 0, 5)) ?>)<?php endif; ?>
+                            </li>
+                          <?php endforeach; ?>
+                        </ul>
+                      <?php else: ?>
+                        <span>Sem tarefas concluídas.</span>
+                      <?php endif; ?>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          <?php endif; ?>
 
           <div class="faltas-wrapper">
             <!-- Coluna: Faltas Passadas -->
