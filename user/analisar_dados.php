@@ -794,12 +794,25 @@ if ($utilizadorSelecionado && $dataFiltrar) {
             $rotulo = 'Pausa';
         }
 
+        $tipoMinusculo = strtolower($tipoPausa);
+        $tipoSemAcentos = $tipoMinusculo;
+        if ($tipoMinusculo !== '') {
+            $convertido = function_exists('iconv') ? @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $tipoPausa) : false;
+            if ($convertido !== false && $convertido !== null) {
+                $tipoSemAcentos = strtolower($convertido);
+            }
+        }
+
+        $isRefeicao = in_array($tipoMinusculo, ['lanche', 'almoço', 'almoco'], true)
+            || in_array($tipoSemAcentos, ['lanche', 'almoco'], true);
+
         if (!empty($inicio) || !empty($fim)) {
             $linhasDiaEspecifico[] = [
                 'tipo' => 'pausa',
                 'descricao' => $rotulo,
                 'inicio' => $inicio,
                 'fim' => $fim,
+                'is_refeicao' => $isRefeicao,
             ];
         }
     }
@@ -1426,10 +1439,25 @@ if ($dataFiltrar) {
                   <tbody>
                     <?php foreach ($blocosDiaEspecifico as $bloco): ?>
                       <?php if (!empty($bloco['apenas_pausas'])): ?>
-                        <tr class="linha-intervalo">
-                          <td colspan="3">(PAUSAS REGISTADAS)</td>
-                        </tr>
+                        <?php
+                          $temPausaPadrao = false;
+                          foreach ($bloco['pausas'] as $pausa) {
+                              if (empty($pausa['is_refeicao'])) {
+                                  $temPausaPadrao = true;
+                                  break;
+                              }
+                          }
+                          $cabecalhoImpresso = false;
+                        ?>
                         <?php foreach ($bloco['pausas'] as $pausa): ?>
+                          <?php if (empty($pausa['is_refeicao'])): ?>
+                            <?php if ($temPausaPadrao && !$cabecalhoImpresso): ?>
+                              <tr class="linha-intervalo">
+                                <td colspan="3">(PAUSAS REGISTADAS)</td>
+                              </tr>
+                              <?php $cabecalhoImpresso = true; ?>
+                            <?php endif; ?>
+                          <?php endif; ?>
                           <tr class="linha-pausa">
                             <td><?= htmlspecialchars(fmt_hm($pausa['inicio'] ?? null)) ?></td>
                             <td><?= htmlspecialchars(fmt_hm($pausa['fim'] ?? null)) ?></td>
@@ -1452,10 +1480,25 @@ if ($dataFiltrar) {
                             <td>...</td>
                             <td><?= htmlspecialchars($bloco['descricao']) ?></td>
                           </tr>
-                          <tr class="linha-intervalo">
-                            <td colspan="3">(PAUSAS REGISTADAS no intervalo "<?= htmlspecialchars($inicioFmt) ?>" ate "<?= htmlspecialchars($fimFmt) ?>")</td>
-                          </tr>
+                          <?php
+                            $temPausaPadrao = false;
+                            foreach ($bloco['pausas'] as $pausa) {
+                                if (empty($pausa['is_refeicao'])) {
+                                    $temPausaPadrao = true;
+                                    break;
+                                }
+                            }
+                            $cabecalhoImpresso = false;
+                          ?>
                           <?php foreach ($bloco['pausas'] as $pausa): ?>
+                            <?php if (empty($pausa['is_refeicao'])): ?>
+                              <?php if ($temPausaPadrao && !$cabecalhoImpresso): ?>
+                                <tr class="linha-intervalo">
+                                  <td colspan="3">(PAUSAS REGISTADAS no intervalo "<?= htmlspecialchars($inicioFmt) ?>" ate "<?= htmlspecialchars($fimFmt) ?>")</td>
+                                </tr>
+                                <?php $cabecalhoImpresso = true; ?>
+                              <?php endif; ?>
+                            <?php endif; ?>
                             <tr class="linha-pausa">
                               <td><?= htmlspecialchars(fmt_hm($pausa['inicio'] ?? null)) ?></td>
                               <td><?= htmlspecialchars(fmt_hm($pausa['fim'] ?? null)) ?></td>
