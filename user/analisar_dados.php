@@ -680,6 +680,8 @@ $detalhesDiaEspecifico = null;
 $pausasDiaEspecifico = [];
 $tarefasDiaEspecifico = [];
 $linhasDiaEspecifico = [];
+$linhasDiaEspecificoTarefas = [];
+$linhasDiaEspecificoPausas = [];
 
 if ($utilizadorSelecionado && $dataFiltrar) {
     $stmt = $ligacao->prepare("
@@ -698,6 +700,7 @@ if ($utilizadorSelecionado && $dataFiltrar) {
 
     $stmt = $ligacao->prepare("
         SELECT
+            COALESCE(NULLIF(TRIM(t.tarefa), ''), mp.descricao) AS encomenda,
             mp.descricao AS tipo,
             TIME(pt.data_pausa) AS hora_inicio,
             TIME(
@@ -708,6 +711,7 @@ if ($utilizadorSelecionado && $dataFiltrar) {
             ) AS hora_fim
         FROM pausas_tarefas pt
         JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+        LEFT JOIN tarefas t ON t.id = pt.tarefa_id
         WHERE pt.funcionario = :utilizador
           AND DATE(pt.data_pausa) = :dia
           AND mp.descricao <> 'Intergabinete'
@@ -777,11 +781,22 @@ if ($utilizadorSelecionado && $dataFiltrar) {
     foreach ($pausasDiaEspecifico as $pausa) {
         $inicio = $pausa['hora_inicio'] ?? null;
         $fim = $pausa['hora_fim'] ?? null;
+        $rotulo = trim($pausa['encomenda'] ?? '');
+
+        if ($rotulo === '') {
+            $rotulo = trim($pausa['tipo'] ?? '');
+        }
+
+        if ($rotulo !== '') {
+            $rotulo .= ' - Pausa';
+        } else {
+            $rotulo = 'Pausa';
+        }
 
         if (!empty($inicio) || !empty($fim)) {
             $linhasDiaEspecifico[] = [
                 'tipo' => 'pausa',
-                'descricao' => $pausa['tipo'],
+                'descricao' => $rotulo,
                 'inicio' => $inicio,
                 'fim' => $fim,
             ];
@@ -809,6 +824,40 @@ if ($utilizadorSelecionado && $dataFiltrar) {
 
         return $inicioA <=> $inicioB;
     });
+
+    $ultimaSaidaNormalizada = null;
+    if (!empty($detalhesDiaEspecifico['ultima_saida'])) {
+        $ultimaSaidaNormalizada = date('H:i:s', strtotime($detalhesDiaEspecifico['ultima_saida']));
+    }
+
+    $totalLinhas = count($linhasDiaEspecifico);
+    for ($i = 0; $i < $totalLinhas; $i++) {
+        if (!empty($linhasDiaEspecifico[$i]['fim'])) {
+            continue;
+        }
+
+        $proximoInicio = null;
+        for ($j = $i + 1; $j < $totalLinhas; $j++) {
+            $inicioSeguinte = $linhasDiaEspecifico[$j]['inicio'] ?? null;
+            if ($inicioSeguinte !== null && $inicioSeguinte !== '') {
+                $proximoInicio = $inicioSeguinte;
+                break;
+            }
+        }
+
+        if ($proximoInicio !== null) {
+            $linhasDiaEspecifico[$i]['fim'] = $proximoInicio;
+        } elseif ($ultimaSaidaNormalizada !== null) {
+            $linhasDiaEspecifico[$i]['fim'] = $ultimaSaidaNormalizada;
+        }
+    }
+    $linhasDiaEspecificoTarefas = array_values(array_filter($linhasDiaEspecifico, function ($linha) {
+        return ($linha['tipo'] ?? '') === 'tarefa';
+    }));
+
+    $linhasDiaEspecificoPausas = array_values(array_filter($linhasDiaEspecifico, function ($linha) {
+        return ($linha['tipo'] ?? '') === 'pausa';
+    }));
 }
 
 $sql = "
@@ -1313,21 +1362,27 @@ if ($dataFiltrar) {
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach ($linhasDiaEspecifico as $linha): ?>
-                      <?php if ($linha['tipo'] === 'pausa'): ?>
+                    <?php foreach ($linhasDiaEspecificoTarefas as $linha): ?>
+                      <tr>
+                        <td><?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?></td>
+                        <td><?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?></td>
+                        <td><?= htmlspecialchars($linha['descricao']) ?></td>
+                      </tr>
+                    <?php endforeach; ?>
+
+                    <?php if (!empty($linhasDiaEspecificoPausas)): ?>
+                      <tr class="linha-divisor">
+                        <td colspan="3" style="text-align:center; font-weight:600; background:#d9c168;">(PAUSAS REGISTADAS)</td>
+                      </tr>
+
+                      <?php foreach ($linhasDiaEspecificoPausas as $linha): ?>
                         <tr class="linha-pausa">
-                          <td><?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?></td>
-                          <td><?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?></td>
-                          <td><?= htmlspecialchars($linha['descricao']) ?> - Pausa</td>
-                        </tr>
-                      <?php else: ?>
-                        <tr>
                           <td><?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?></td>
                           <td><?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?></td>
                           <td><?= htmlspecialchars($linha['descricao']) ?></td>
                         </tr>
-                      <?php endif; ?>
-                    <?php endforeach; ?>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
                   </tbody>
                 </table>
               <?php else: ?>
