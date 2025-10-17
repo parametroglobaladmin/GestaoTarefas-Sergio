@@ -15,6 +15,13 @@ function fmt_hms($segundos) {
     return sprintf('%02d:%02d:%02d', $horas, $minutos, $seg);
 }
 
+function fmt_hm(int $segundos): string {
+    $horas = intdiv($segundos, 3600);
+    $minutos = intdiv($segundos % 3600, 60);
+
+    return sprintf('%02d:%02d', $horas, $minutos);
+}
+
 // Carregar lista de funcionários
 $stmt = $ligacao->prepare("
   SELECT
@@ -685,6 +692,228 @@ $stmt->execute([
 ]);
 $row= $stmt->fetch(PDO::FETCH_ASSOC);
 $result = $row['total_intergabinete'] + $row['total_concluidas'];
+
+$cronogramaDia = [];
+$horaEntradaDia = null;
+$horaSaidaDia = null;
+$tempoTrabalhoSeg = 0;
+$tempoPausasSeg = 0;
+$tempoTrabalhoFmt = '00:00';
+$tempoPausasFmt = '00:00';
+$tempoTrabalhoMin = 0;
+$tempoPausasMin = 0;
+
+if ($utilizadorSelecionado && $dataFiltrar) {
+    $stmt = $ligacao->prepare("SELECT hora_entrada, hora_saida FROM utilizador_entradaesaida WHERE utilizador = ? AND data = ? ORDER BY hora_entrada ASC");
+    $stmt->execute([$utilizadorSelecionado, $dataFiltrar]);
+    $entradasSaidasDia = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($entradasSaidasDia) {
+        $horaEntradaDia = $entradasSaidasDia[0]['hora_entrada'];
+        $horaSaidaDia = $entradasSaidasDia[0]['hora_saida'];
+
+        foreach ($entradasSaidasDia as $registoES) {
+            if (!empty($registoES['hora_entrada']) && (!$horaEntradaDia || $registoES['hora_entrada'] < $horaEntradaDia)) {
+                $horaEntradaDia = $registoES['hora_entrada'];
+            }
+            if (!empty($registoES['hora_saida']) && (!$horaSaidaDia || $registoES['hora_saida'] > $horaSaidaDia)) {
+                $horaSaidaDia = $registoES['hora_saida'];
+            }
+        }
+    }
+
+    $diaInicio = $dataFiltrar . ' 00:00:00';
+    $diaFim = $dataFiltrar . ' 23:59:59';
+
+    $sqlTarefasDia = "
+        SELECT
+            dt.tarefa_id,
+            t.tarefa AS nome_tarefa,
+            dt.data_entrada,
+            COALESCE(dt.data_saida, :diaFimLimite) AS data_saida
+        FROM departamento_tarefa dt
+        JOIN tarefas t ON t.id = dt.tarefa_id
+        WHERE dt.utilizador = :utilizador
+          AND dt.data_entrada <= :diaFim
+          AND COALESCE(dt.data_saida, :diaFimLimite2) >= :diaInicio
+        ORDER BY dt.data_entrada ASC
+    ";
+
+    $stmt = $ligacao->prepare($sqlTarefasDia);
+    $stmt->execute([
+        ':utilizador' => $utilizadorSelecionado,
+        ':diaInicio' => $diaInicio,
+        ':diaFim' => $diaFim,
+        ':diaFimLimite' => $diaFim,
+        ':diaFimLimite2' => $diaFim,
+    ]);
+    $tarefasDia = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($tarefasDia) {
+        $idsTarefas = array_unique(array_map(function ($linha) {
+            return (int)$linha['tarefa_id'];
+        }, $tarefasDia));
+
+        $pausasPorTarefa = [];
+
+        if (!empty($idsTarefas)) {
+            $placeholders = [];
+            $paramsPausas = [
+                ':utilizador' => $utilizadorSelecionado,
+                ':diaInicio' => $diaInicio,
+                ':diaFim' => $diaFim,
+                ':diaFimSelect' => $diaFim,
+            ];
+
+            foreach ($idsTarefas as $idx => $idTarefa) {
+                $chave = ':t' . $idx;
+                $placeholders[] = $chave;
+                $paramsPausas[$chave] = $idTarefa;
+            }
+
+            $sqlPausasDia = "
+                SELECT
+                    p.tarefa_id,
+                    p.data_pausa,
+                    COALESCE(p.data_retorno, :diaFimSelect) AS data_retorno,
+                    COALESCE(mp.descricao, 'Pausa') AS motivo
+                FROM pausas_tarefas p
+                LEFT JOIN motivos_pausa mp ON mp.id = p.motivo_id
+                WHERE p.funcionario = :utilizador
+                  AND p.data_pausa <= :diaFim
+                  AND COALESCE(p.data_retorno, :diaFimSelect) >= :diaInicio
+                  AND p.tarefa_id IN (" . implode(',', $placeholders) . ")
+                ORDER BY p.data_pausa ASC
+            ";
+
+            $stmtPausas = $ligacao->prepare($sqlPausasDia);
+            $stmtPausas->execute($paramsPausas);
+
+            while ($pausa = $stmtPausas->fetch(PDO::FETCH_ASSOC)) {
+                $tid = (int)$pausa['tarefa_id'];
+                if (!isset($pausasPorTarefa[$tid])) {
+                    $pausasPorTarefa[$tid] = [];
+                }
+                $pausasPorTarefa[$tid][] = [
+                    'inicio' => $pausa['data_pausa'],
+                    'fim' => $pausa['data_retorno'],
+                    'motivo' => $pausa['motivo'] ?? 'Pausa',
+                ];
+            }
+        }
+
+        foreach ($tarefasDia as $tarefa) {
+            $inicioSegmento = strtotime($tarefa['data_entrada'] ?? '');
+            $fimSegmento = strtotime($tarefa['data_saida'] ?? '');
+
+            if ($inicioSegmento === false || $fimSegmento === false) {
+                continue;
+            }
+
+            $limiteInicio = strtotime($diaInicio);
+            $limiteFim = strtotime($diaFim);
+
+            if ($limiteInicio !== false && $inicioSegmento < $limiteInicio) {
+                $inicioSegmento = $limiteInicio;
+            }
+            if ($limiteFim !== false && $fimSegmento > $limiteFim) {
+                $fimSegmento = $limiteFim;
+            }
+
+            if ($horaEntradaDia) {
+                $entradaTs = strtotime($horaEntradaDia);
+                if ($entradaTs !== false && $inicioSegmento < $entradaTs) {
+                    $inicioSegmento = $entradaTs;
+                }
+            }
+
+            if ($horaSaidaDia) {
+                $saidaTs = strtotime($horaSaidaDia);
+                if ($saidaTs !== false && $fimSegmento > $saidaTs) {
+                    $fimSegmento = $saidaTs;
+                }
+            }
+
+            if ($fimSegmento <= $inicioSegmento) {
+                continue;
+            }
+
+            $pausasSegmento = $pausasPorTarefa[(int)$tarefa['tarefa_id']] ?? [];
+            usort($pausasSegmento, function ($a, $b) {
+                return strtotime($a['inicio']) <=> strtotime($b['inicio']);
+            });
+
+            $cursor = $inicioSegmento;
+
+            foreach ($pausasSegmento as $pausa) {
+                $inicioPausa = strtotime($pausa['inicio'] ?? '');
+                $fimPausa = strtotime($pausa['fim'] ?? '');
+
+                if ($inicioPausa === false || $fimPausa === false) {
+                    continue;
+                }
+
+                if ($inicioPausa < $inicioSegmento) {
+                    $inicioPausa = $inicioSegmento;
+                }
+                if ($fimPausa > $fimSegmento) {
+                    $fimPausa = $fimSegmento;
+                }
+
+                if ($fimPausa <= $inicioPausa) {
+                    continue;
+                }
+
+                if ($inicioPausa > $cursor) {
+                    $cronogramaDia[] = [
+                        'de' => $cursor,
+                        'ate' => $inicioPausa,
+                        'descricao' => $tarefa['nome_tarefa'],
+                        'tipo' => 'tarefa',
+                    ];
+                    $tempoTrabalhoSeg += ($inicioPausa - $cursor);
+                }
+
+                $cronogramaDia[] = [
+                    'de' => $inicioPausa,
+                    'ate' => $fimPausa,
+                    'descricao' => 'Pausa - ' . ($pausa['motivo'] ?? 'Pausa'),
+                    'tipo' => 'pausa',
+                ];
+                $tempoPausasSeg += ($fimPausa - $inicioPausa);
+                $cursor = $fimPausa;
+            }
+
+            if ($cursor < $fimSegmento) {
+                $cronogramaDia[] = [
+                    'de' => $cursor,
+                    'ate' => $fimSegmento,
+                    'descricao' => $tarefa['nome_tarefa'],
+                    'tipo' => 'tarefa',
+                ];
+                $tempoTrabalhoSeg += ($fimSegmento - $cursor);
+            }
+        }
+
+        if ($cronogramaDia) {
+            usort($cronogramaDia, function ($a, $b) {
+                if ($a['de'] === $b['de']) {
+                    return $a['ate'] <=> $b['ate'];
+                }
+                return $a['de'] <=> $b['de'];
+            });
+
+            $cronogramaDia = array_values(array_filter($cronogramaDia, function ($linha) {
+                return isset($linha['de'], $linha['ate']) && $linha['ate'] > $linha['de'];
+            }));
+
+            $tempoTrabalhoFmt = fmt_hm($tempoTrabalhoSeg);
+            $tempoPausasFmt = fmt_hm($tempoPausasSeg);
+            $tempoTrabalhoMin = intdiv($tempoTrabalhoSeg, 60);
+            $tempoPausasMin = intdiv($tempoPausasSeg, 60);
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -838,6 +1067,47 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
     gap: 30px;
     align-items: start;
     margin-top: 30px;
+  }
+  .tabela-cronograma {
+    margin-top: 25px;
+    background: #fff8dc;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .tabela-cronograma h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+  .tabela-cronograma table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+  .tabela-cronograma th,
+  .tabela-cronograma td {
+    border: 1px solid #d7c477;
+    padding: 8px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .tabela-cronograma tbody tr.trabalho {
+    background-color: #f3f8ec;
+  }
+  .tabela-cronograma tbody tr.pausa {
+    background-color: #fbe4e4;
+  }
+  .tabela-cronograma .resumo-horas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-weight: 600;
+  }
+  .tabela-cronograma .resumo-horas span {
+    background: #fff;
+    border: 1px solid #d7c477;
+    border-radius: 6px;
+    padding: 6px 10px;
   }
   @media (max-width: 1100px){
     .faltas-wrapper{ grid-template-columns: 1fr; }
@@ -1066,6 +1336,55 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
             });
             </script>
           </div>
+
+          <?php if (!empty($dataFiltrar) && $utilizadorSelecionado): ?>
+            <?php
+              $entradaTs = $horaEntradaDia ? strtotime($horaEntradaDia) : false;
+              $saidaTs = $horaSaidaDia ? strtotime($horaSaidaDia) : false;
+              $dataTs = strtotime($dataFiltrar);
+
+              $entradaFmt = $entradaTs ? date('H:i', $entradaTs) : '—';
+              $saidaFmt = $saidaTs ? date('H:i', $saidaTs) : '—';
+              $dataFmt = $dataTs ? date('d/m/Y', $dataTs) : $dataFiltrar;
+            ?>
+            <div class="tabela-cronograma">
+              <h3>Resumo cronológico de <?= htmlspecialchars($dataFmt) ?></h3>
+              <div class="resumo-horas">
+                <span>Hora de Entrada: <?= htmlspecialchars($entradaFmt) ?></span>
+                <span>Hora de Saída: <?= htmlspecialchars($saidaFmt) ?></span>
+                <span>Tempo de Trabalho: <?= htmlspecialchars($tempoTrabalhoFmt) ?> (<?= htmlspecialchars((string)$tempoTrabalhoMin) ?> min)</span>
+                <span>Tempo de Pausas: <?= htmlspecialchars($tempoPausasFmt) ?> (<?= htmlspecialchars((string)$tempoPausasMin) ?> min)</span>
+              </div>
+
+              <?php if (!empty($cronogramaDia)): ?>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>De</th>
+                      <th>Até</th>
+                      <th>Descrição</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($cronogramaDia as $linha): ?>
+                      <?php
+                        $classe = $linha['tipo'] === 'pausa' ? 'pausa' : 'trabalho';
+                        $inicioFmt = date('H:i', (int)$linha['de']);
+                        $fimFmt = date('H:i', (int)$linha['ate']);
+                      ?>
+                      <tr class="<?= $classe ?>">
+                        <td><?= htmlspecialchars($inicioFmt) ?></td>
+                        <td><?= htmlspecialchars($fimFmt) ?></td>
+                        <td style="text-align:left;"><?= htmlspecialchars($linha['descricao']) ?></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              <?php else: ?>
+                <p style="margin-top:12px;">Sem registos de tarefas ou pausas para o dia selecionado.</p>
+              <?php endif; ?>
+            </div>
+          <?php endif; ?>
 
           <div class="faltas-wrapper">
             <!-- Coluna: Faltas Passadas -->
