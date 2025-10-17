@@ -699,14 +699,17 @@ if ($utilizadorSelecionado && $dataFiltrar) {
 
     $stmt = $ligacao->prepare("
         SELECT
-            tarefa,
-            TIME(COALESCE(data_inicio, data_inicio_cronometro, data_fim)) AS hora_inicio,
-            TIME(data_fim) AS hora_fim
-        FROM tarefas
-        WHERE utilizador = :utilizador
-          AND estado = 'concluida'
-          AND DATE(data_fim) = :dia
-        ORDER BY COALESCE(data_inicio, data_inicio_cronometro, data_fim)
+            t.tarefa,
+            COALESCE(
+                NULLIF(rd.inicio_tarefa, '00:00:00'),
+                NULLIF(rd.hora_inicio, '00:00:00')
+            ) AS hora_inicio,
+            NULLIF(rd.fim_tarefa, '00:00:00') AS hora_fim
+        FROM registo_diario rd
+        JOIN tarefas t ON t.id = rd.id_tarefa
+        WHERE rd.utilizador = :utilizador
+          AND rd.data_trabalho = :dia
+        ORDER BY hora_inicio ASC, hora_fim ASC
     ");
     $stmt->execute([
         'utilizador' => $utilizadorSelecionado,
