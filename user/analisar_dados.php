@@ -782,14 +782,14 @@ if ($utilizadorSelecionado && $dataFiltrar) {
     foreach ($pausasDiaEspecifico as $pausa) {
         $inicio = $pausa['hora_inicio'] ?? null;
         $fim = $pausa['hora_fim'] ?? null;
-        $rotulo = trim($pausa['encomenda'] ?? '');
 
-        if ($rotulo === '') {
-            $rotulo = trim($pausa['tipo'] ?? '');
+        $tipoPausa = trim($pausa['tipo'] ?? '');
+        if ($tipoPausa === '') {
+            $tipoPausa = trim($pausa['encomenda'] ?? '');
         }
 
-        if ($rotulo !== '') {
-            $rotulo .= ' - Pausa';
+        if ($tipoPausa !== '') {
+            $rotulo = 'Pausa - ' . $tipoPausa;
         } else {
             $rotulo = 'Pausa';
         }
