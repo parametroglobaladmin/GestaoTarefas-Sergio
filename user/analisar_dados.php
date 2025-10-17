@@ -1446,15 +1446,15 @@ if ($dataFiltrar) {
                           $inicioFmt = fmt_hm($bloco['inicio'] ?? null);
                           $fimFmt = fmt_hm($bloco['fim'] ?? null);
                         ?>
-                        <tr>
-                          <td><?= htmlspecialchars($inicioFmt) ?></td>
-                          <td>...</td>
-                          <td><?= htmlspecialchars($bloco['descricao']) ?></td>
-                        </tr>
-                        <tr class="linha-intervalo">
-                          <td colspan="3">(PAUSAS REGISTADAS no intervalo "<?= htmlspecialchars($inicioFmt) ?>" ate "<?= htmlspecialchars($fimFmt) ?>")</td>
-                        </tr>
                         <?php if (!empty($bloco['pausas'])): ?>
+                          <tr>
+                            <td><?= htmlspecialchars($inicioFmt) ?></td>
+                            <td>...</td>
+                            <td><?= htmlspecialchars($bloco['descricao']) ?></td>
+                          </tr>
+                          <tr class="linha-intervalo">
+                            <td colspan="3">(PAUSAS REGISTADAS no intervalo "<?= htmlspecialchars($inicioFmt) ?>" ate "<?= htmlspecialchars($fimFmt) ?>")</td>
+                          </tr>
                           <?php foreach ($bloco['pausas'] as $pausa): ?>
                             <tr class="linha-pausa">
                               <td><?= htmlspecialchars(fmt_hm($pausa['inicio'] ?? null)) ?></td>
@@ -1462,16 +1462,18 @@ if ($dataFiltrar) {
                               <td><?= htmlspecialchars($pausa['descricao']) ?></td>
                             </tr>
                           <?php endforeach; ?>
+                          <tr>
+                            <td>....</td>
+                            <td><?= htmlspecialchars($fimFmt) ?></td>
+                            <td><?= htmlspecialchars($bloco['descricao']) ?></td>
+                          </tr>
                         <?php else: ?>
-                          <tr class="linha-sem-pausas">
-                            <td colspan="3">Sem pausas registadas neste intervalo.</td>
+                          <tr>
+                            <td><?= htmlspecialchars($inicioFmt) ?></td>
+                            <td><?= htmlspecialchars($fimFmt) ?></td>
+                            <td><?= htmlspecialchars($bloco['descricao']) ?></td>
                           </tr>
                         <?php endif; ?>
-                        <tr>
-                          <td>....</td>
-                          <td><?= htmlspecialchars($fimFmt) ?></td>
-                          <td><?= htmlspecialchars($bloco['descricao']) ?></td>
-                        </tr>
                       <?php endif; ?>
                     <?php endforeach; ?>
                   </tbody>
