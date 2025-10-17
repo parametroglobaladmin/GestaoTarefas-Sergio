@@ -789,10 +789,25 @@ if ($utilizadorSelecionado && $dataFiltrar) {
     }
 
     usort($linhasDiaEspecifico, function ($a, $b) {
-        $inicioA = $a['inicio'] ?? '23:59:59';
-        $inicioB = $b['inicio'] ?? '23:59:59';
+        $inicioA = hora_para_segundos($a['inicio'] ?? null);
+        $inicioB = hora_para_segundos($b['inicio'] ?? null);
 
-        return strcmp($inicioA, $inicioB);
+        if ($inicioA === null) {
+            $inicioA = PHP_INT_MAX;
+        }
+
+        if ($inicioB === null) {
+            $inicioB = PHP_INT_MAX;
+        }
+
+        if ($inicioA === $inicioB) {
+            $fimA = hora_para_segundos($a['fim'] ?? null) ?? PHP_INT_MAX;
+            $fimB = hora_para_segundos($b['fim'] ?? null) ?? PHP_INT_MAX;
+
+            return $fimA <=> $fimB;
+        }
+
+        return $inicioA <=> $inicioB;
     });
 }
 
