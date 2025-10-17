@@ -682,6 +682,7 @@ $tarefasDiaEspecifico = [];
 $linhasDiaEspecifico = [];
 $linhasDiaEspecificoTarefas = [];
 $linhasDiaEspecificoPausas = [];
+$blocosDiaEspecifico = [];
 
 if ($utilizadorSelecionado && $dataFiltrar) {
     $stmt = $ligacao->prepare("
@@ -858,6 +859,55 @@ if ($utilizadorSelecionado && $dataFiltrar) {
     $linhasDiaEspecificoPausas = array_values(array_filter($linhasDiaEspecifico, function ($linha) {
         return ($linha['tipo'] ?? '') === 'pausa';
     }));
+
+    $pausasDisponiveis = $linhasDiaEspecificoPausas;
+
+    foreach ($linhasDiaEspecificoTarefas as $tarefa) {
+        $inicioTarefa = $tarefa['inicio'] ?? null;
+        $fimTarefa = $tarefa['fim'] ?? null;
+        $inicioSeg = hora_para_segundos($inicioTarefa);
+        $fimSeg = hora_para_segundos($fimTarefa);
+
+        $pausasAssociadas = [];
+
+        foreach ($pausasDisponiveis as $indice => $pausa) {
+            $inicioPausaSeg = hora_para_segundos($pausa['inicio'] ?? null);
+            $fimPausaSeg = hora_para_segundos($pausa['fim'] ?? null);
+
+            $inicioDentro = ($inicioSeg === null || $inicioPausaSeg === null || $inicioPausaSeg >= $inicioSeg);
+            $fimDentro = ($fimSeg === null || $fimPausaSeg === null || $fimPausaSeg <= $fimSeg);
+
+            if ($inicioDentro && $fimDentro) {
+                $pausasAssociadas[] = $pausa;
+                unset($pausasDisponiveis[$indice]);
+            }
+        }
+
+        $blocosDiaEspecifico[] = [
+            'descricao' => $tarefa['descricao'],
+            'inicio' => $inicioTarefa,
+            'fim' => $fimTarefa,
+            'pausas' => $pausasAssociadas,
+        ];
+    }
+
+    if (empty($linhasDiaEspecificoTarefas) && !empty($linhasDiaEspecificoPausas)) {
+        $blocosDiaEspecifico[] = [
+            'descricao' => null,
+            'inicio' => null,
+            'fim' => null,
+            'pausas' => $linhasDiaEspecificoPausas,
+            'apenas_pausas' => true,
+        ];
+    } elseif (!empty($pausasDisponiveis)) {
+        $blocosDiaEspecifico[] = [
+            'descricao' => null,
+            'inicio' => null,
+            'fim' => null,
+            'pausas' => array_values($pausasDisponiveis),
+            'apenas_pausas' => true,
+        ];
+    }
 }
 
 $sql = "
@@ -1119,6 +1169,18 @@ if ($dataFiltrar) {
     font-weight: 600;
   }
 
+  .tabela-dia-especifico .linha-intervalo td {
+    background: #d9c168;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .tabela-dia-especifico .linha-sem-pausas td {
+    background: #fff7d6;
+    font-style: italic;
+    text-align: center;
+  }
+
   </style>
 </head>
 
@@ -1352,7 +1414,7 @@ if ($dataFiltrar) {
                 <?php endif; ?>
               </p>
 
-              <?php if (!empty($linhasDiaEspecifico)): ?>
+              <?php if (!empty($blocosDiaEspecifico)): ?>
                 <table>
                   <thead>
                     <tr>
@@ -1362,27 +1424,56 @@ if ($dataFiltrar) {
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach ($linhasDiaEspecificoTarefas as $linha): ?>
-                      <tr>
-                        <td><?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?></td>
-                        <td><?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?></td>
-                        <td><?= htmlspecialchars($linha['descricao']) ?></td>
-                      </tr>
-                    <?php endforeach; ?>
-
-                    <?php if (!empty($linhasDiaEspecificoPausas)): ?>
-                      <tr class="linha-divisor">
-                        <td colspan="3" style="text-align:center; font-weight:600; background:#d9c168;">(PAUSAS REGISTADAS)</td>
-                      </tr>
-
-                      <?php foreach ($linhasDiaEspecificoPausas as $linha): ?>
-                        <tr class="linha-pausa">
-                          <td><?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?></td>
-                          <td><?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?></td>
-                          <td><?= htmlspecialchars($linha['descricao']) ?></td>
+                    <?php foreach ($blocosDiaEspecifico as $bloco): ?>
+                      <?php if (!empty($bloco['apenas_pausas'])): ?>
+                        <tr class="linha-intervalo">
+                          <td colspan="3">(PAUSAS REGISTADAS)</td>
                         </tr>
-                      <?php endforeach; ?>
-                    <?php endif; ?>
+                        <?php foreach ($bloco['pausas'] as $pausa): ?>
+                          <tr class="linha-pausa">
+                            <td><?= htmlspecialchars(fmt_hm($pausa['inicio'] ?? null)) ?></td>
+                            <td><?= htmlspecialchars(fmt_hm($pausa['fim'] ?? null)) ?></td>
+                            <td><?= htmlspecialchars($pausa['descricao']) ?></td>
+                          </tr>
+                        <?php endforeach; ?>
+                        <?php if (empty($bloco['pausas'])): ?>
+                          <tr class="linha-sem-pausas">
+                            <td colspan="3">Sem pausas registadas.</td>
+                          </tr>
+                        <?php endif; ?>
+                      <?php else: ?>
+                        <?php
+                          $inicioFmt = fmt_hm($bloco['inicio'] ?? null);
+                          $fimFmt = fmt_hm($bloco['fim'] ?? null);
+                        ?>
+                        <tr>
+                          <td><?= htmlspecialchars($inicioFmt) ?></td>
+                          <td>...</td>
+                          <td><?= htmlspecialchars($bloco['descricao']) ?></td>
+                        </tr>
+                        <tr class="linha-intervalo">
+                          <td colspan="3">(PAUSAS REGISTADAS no intervalo "<?= htmlspecialchars($inicioFmt) ?>" ate "<?= htmlspecialchars($fimFmt) ?>")</td>
+                        </tr>
+                        <?php if (!empty($bloco['pausas'])): ?>
+                          <?php foreach ($bloco['pausas'] as $pausa): ?>
+                            <tr class="linha-pausa">
+                              <td><?= htmlspecialchars(fmt_hm($pausa['inicio'] ?? null)) ?></td>
+                              <td><?= htmlspecialchars(fmt_hm($pausa['fim'] ?? null)) ?></td>
+                              <td><?= htmlspecialchars($pausa['descricao']) ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                        <?php else: ?>
+                          <tr class="linha-sem-pausas">
+                            <td colspan="3">Sem pausas registadas neste intervalo.</td>
+                          </tr>
+                        <?php endif; ?>
+                        <tr>
+                          <td>....</td>
+                          <td><?= htmlspecialchars($fimFmt) ?></td>
+                          <td><?= htmlspecialchars($bloco['descricao']) ?></td>
+                        </tr>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
                   </tbody>
                 </table>
               <?php else: ?>
