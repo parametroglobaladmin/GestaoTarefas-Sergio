@@ -23,6 +23,27 @@ function fmt_hm($hora) {
     return substr($hora, 0, 5);
 }
 
+function hora_para_segundos($hora) {
+    if ($hora === null || $hora === '') {
+        return null;
+    }
+
+    if (strpos($hora, ' ') !== false) {
+        $hora = substr($hora, strrpos($hora, ' ') + 1);
+    }
+
+    $partes = explode(':', $hora);
+    if (count($partes) < 2) {
+        return null;
+    }
+
+    $horas = (int)$partes[0];
+    $minutos = (int)($partes[1] ?? 0);
+    $segundos = (int)($partes[2] ?? 0);
+
+    return $horas * 3600 + $minutos * 60 + $segundos;
+}
+
 // Carregar lista de funcionários
 $stmt = $ligacao->prepare("
   SELECT
@@ -689,6 +710,7 @@ if ($utilizadorSelecionado && $dataFiltrar) {
         JOIN motivos_pausa mp ON mp.id = pt.motivo_id
         WHERE pt.funcionario = :utilizador
           AND DATE(pt.data_pausa) = :dia
+          AND mp.descricao <> 'Intergabinete'
         ORDER BY pt.data_pausa
     ");
     $stmt->execute([
@@ -696,6 +718,27 @@ if ($utilizadorSelecionado && $dataFiltrar) {
         'dia'         => $dataFiltrar,
     ]);
     $pausasDiaEspecifico = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $entradaPrimeiroSegundos = hora_para_segundos($detalhesDiaEspecifico['primeira_entrada'] ?? null);
+    $limiteIgnorarPausas = $entradaPrimeiroSegundos !== null ? $entradaPrimeiroSegundos + 180 : null;
+
+    $pausasDiaEspecifico = array_values(array_filter($pausasDiaEspecifico, function ($pausa) use ($limiteIgnorarPausas) {
+        if (($pausa['tipo'] ?? '') === 'Intergabinete') {
+            return false;
+        }
+
+        if ($limiteIgnorarPausas === null) {
+            return true;
+        }
+
+        $inicioSegundos = hora_para_segundos($pausa['hora_inicio'] ?? null);
+
+        if ($inicioSegundos === null) {
+            return true;
+        }
+
+        return $inicioSegundos > $limiteIgnorarPausas;
+    }));
 
     $stmt = $ligacao->prepare("
         SELECT
