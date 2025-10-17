@@ -15,6 +15,14 @@ function fmt_hms($segundos) {
     return sprintf('%02d:%02d:%02d', $horas, $minutos, $seg);
 }
 
+function fmt_hm($hora) {
+    if ($hora === null || $hora === '') {
+        return '—';
+    }
+
+    return substr($hora, 0, 5);
+}
+
 // Carregar lista de funcionários
 $stmt = $ligacao->prepare("
   SELECT
@@ -650,6 +658,7 @@ while ($row = $detalhesStmt->fetch(PDO::FETCH_ASSOC)) {
 $detalhesDiaEspecifico = null;
 $pausasDiaEspecifico = [];
 $tarefasDiaEspecifico = [];
+$linhasDiaEspecifico = [];
 
 if ($utilizadorSelecionado && $dataFiltrar) {
     $stmt = $ligacao->prepare("
@@ -669,13 +678,18 @@ if ($utilizadorSelecionado && $dataFiltrar) {
     $stmt = $ligacao->prepare("
         SELECT
             mp.descricao AS tipo,
-            SEC_TO_TIME(SUM(TIME_TO_SEC(pt.tempo_pausa))) AS duracao
+            TIME(pt.data_pausa) AS hora_inicio,
+            TIME(
+                COALESCE(
+                    pt.data_retorno,
+                    DATE_ADD(pt.data_pausa, INTERVAL TIME_TO_SEC(pt.tempo_pausa) SECOND)
+                )
+            ) AS hora_fim
         FROM pausas_tarefas pt
         JOIN motivos_pausa mp ON mp.id = pt.motivo_id
         WHERE pt.funcionario = :utilizador
           AND DATE(pt.data_pausa) = :dia
-        GROUP BY mp.descricao
-        ORDER BY mp.descricao
+        ORDER BY pt.data_pausa
     ");
     $stmt->execute([
         'utilizador' => $utilizadorSelecionado,
@@ -686,18 +700,54 @@ if ($utilizadorSelecionado && $dataFiltrar) {
     $stmt = $ligacao->prepare("
         SELECT
             tarefa,
+            TIME(COALESCE(data_inicio, data_inicio_cronometro, data_fim)) AS hora_inicio,
             TIME(data_fim) AS hora_fim
         FROM tarefas
         WHERE utilizador = :utilizador
           AND estado = 'concluida'
           AND DATE(data_fim) = :dia
-        ORDER BY data_fim
+        ORDER BY COALESCE(data_inicio, data_inicio_cronometro, data_fim)
     ");
     $stmt->execute([
         'utilizador' => $utilizadorSelecionado,
         'dia'         => $dataFiltrar,
     ]);
     $tarefasDiaEspecifico = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($tarefasDiaEspecifico as $tarefa) {
+        $inicio = $tarefa['hora_inicio'] ?? null;
+        $fim = $tarefa['hora_fim'] ?? null;
+
+        if (!empty($inicio) || !empty($fim)) {
+            $linhasDiaEspecifico[] = [
+                'tipo' => 'tarefa',
+                'descricao' => $tarefa['tarefa'],
+                'inicio' => $inicio,
+                'fim' => $fim,
+            ];
+        }
+    }
+
+    foreach ($pausasDiaEspecifico as $pausa) {
+        $inicio = $pausa['hora_inicio'] ?? null;
+        $fim = $pausa['hora_fim'] ?? null;
+
+        if (!empty($inicio) || !empty($fim)) {
+            $linhasDiaEspecifico[] = [
+                'tipo' => 'pausa',
+                'descricao' => $pausa['tipo'],
+                'inicio' => $inicio,
+                'fim' => $fim,
+            ];
+        }
+    }
+
+    usort($linhasDiaEspecifico, function ($a, $b) {
+        $inicioA = $a['inicio'] ?? '23:59:59';
+        $inicioB = $b['inicio'] ?? '23:59:59';
+
+        return strcmp($inicioA, $inicioB);
+    });
 }
 
 $sql = "
@@ -920,6 +970,7 @@ if ($dataFiltrar) {
   .tabela-dia-especifico table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 12px;
   }
 
   .tabela-dia-especifico th,
@@ -935,13 +986,27 @@ if ($dataFiltrar) {
     color: #333;
   }
 
-  .lista-simples {
-    margin: 0;
-    padding-left: 18px;
+  .tabela-dia-especifico .entrada-saida {
+    margin: 0 0 10px;
+    font-weight: 600;
   }
 
-  .lista-simples li {
-    margin-bottom: 4px;
+  .tabela-dia-especifico .entrada-saida strong {
+    font-weight: 700;
+  }
+
+  .tabela-dia-especifico .saida {
+    margin-top: 12px;
+  }
+
+  .tabela-dia-especifico .sem-registos {
+    margin: 0 0 10px;
+    font-style: italic;
+  }
+
+  .tabela-dia-especifico .linha-pausa td {
+    background: #fff1bd;
+    font-weight: 600;
   }
 
   </style>
@@ -1169,60 +1234,52 @@ if ($dataFiltrar) {
           <?php if (!empty($_GET['data_filtrar'])): ?>
             <div class="tabela-dia-especifico">
               <h3>Resumo do dia <?= htmlspecialchars($dataEspecificaFormatada ?? $_GET['data_filtrar']) ?></h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th style="width: 18%;">Hora de Entrada</th>
-                    <th style="width: 18%;">Hora de Saída</th>
-                    <th style="width: 32%;">Pausas</th>
-                    <th style="width: 32%;">Tarefas Executadas</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <?php if (!empty($detalhesDiaEspecifico['primeira_entrada'])): ?>
-                        <?= htmlspecialchars(date('H:i', strtotime($detalhesDiaEspecifico['primeira_entrada']))) ?>
+              <p class="entrada-saida"><strong>Hora entrada - </strong>
+                <?php if (!empty($detalhesDiaEspecifico['primeira_entrada'])): ?>
+                  <?= htmlspecialchars(date('H:i', strtotime($detalhesDiaEspecifico['primeira_entrada']))) ?>
+                <?php else: ?>
+                  —
+                <?php endif; ?>
+              </p>
+
+              <?php if (!empty($linhasDiaEspecifico)): ?>
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="width: 20%;">De</th>
+                      <th style="width: 20%;">Até</th>
+                      <th>Tarefa executada</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($linhasDiaEspecifico as $linha): ?>
+                      <?php if ($linha['tipo'] === 'pausa'): ?>
+                        <tr class="linha-pausa">
+                          <td colspan="3">
+                            Pausa- <?= htmlspecialchars($linha['descricao']) ?>-<?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?> ate <?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?>
+                          </td>
+                        </tr>
                       <?php else: ?>
-                        —
+                        <tr>
+                          <td><?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?></td>
+                          <td><?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?></td>
+                          <td><?= htmlspecialchars($linha['descricao']) ?></td>
+                        </tr>
                       <?php endif; ?>
-                    </td>
-                    <td>
-                      <?php if (!empty($detalhesDiaEspecifico['ultima_saida'])): ?>
-                        <?= htmlspecialchars(date('H:i', strtotime($detalhesDiaEspecifico['ultima_saida']))) ?>
-                      <?php else: ?>
-                        —
-                      <?php endif; ?>
-                    </td>
-                    <td>
-                      <?php if (!empty($pausasDiaEspecifico)): ?>
-                        <ul class="lista-simples">
-                          <?php foreach ($pausasDiaEspecifico as $pausa): ?>
-                            <li>
-                              <?= htmlspecialchars($pausa['tipo']) ?> — <?= htmlspecialchars($pausa['duracao'] ?? '00:00:00') ?>
-                            </li>
-                          <?php endforeach; ?>
-                        </ul>
-                      <?php else: ?>
-                        <span>Sem pausas registadas.</span>
-                      <?php endif; ?>
-                    </td>
-                    <td>
-                      <?php if (!empty($tarefasDiaEspecifico)): ?>
-                        <ul class="lista-simples">
-                          <?php foreach ($tarefasDiaEspecifico as $tarefa): ?>
-                            <li>
-                              <?= htmlspecialchars($tarefa['tarefa']) ?><?php if (!empty($tarefa['hora_fim'])): ?> (<?= htmlspecialchars(substr($tarefa['hora_fim'], 0, 5)) ?>)<?php endif; ?>
-                            </li>
-                          <?php endforeach; ?>
-                        </ul>
-                      <?php else: ?>
-                        <span>Sem tarefas concluídas.</span>
-                      <?php endif; ?>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              <?php else: ?>
+                <p class="sem-registos">Sem tarefas nem pausas registadas para este dia.</p>
+              <?php endif; ?>
+
+              <p class="entrada-saida saida"><strong>Hora saída - </strong>
+                <?php if (!empty($detalhesDiaEspecifico['ultima_saida'])): ?>
+                  <?= htmlspecialchars(date('H:i', strtotime($detalhesDiaEspecifico['ultima_saida']))) ?>
+                <?php else: ?>
+                  —
+                <?php endif; ?>
+              </p>
             </div>
           <?php endif; ?>
 
