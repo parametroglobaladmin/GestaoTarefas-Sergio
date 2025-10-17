@@ -15,6 +15,35 @@ function fmt_hms($segundos) {
     return sprintf('%02d:%02d:%02d', $horas, $minutos, $seg);
 }
 
+function fmt_hm($hora) {
+    if ($hora === null || $hora === '') {
+        return '—';
+    }
+
+    return substr($hora, 0, 5);
+}
+
+function hora_para_segundos($hora) {
+    if ($hora === null || $hora === '') {
+        return null;
+    }
+
+    if (strpos($hora, ' ') !== false) {
+        $hora = substr($hora, strrpos($hora, ' ') + 1);
+    }
+
+    $partes = explode(':', $hora);
+    if (count($partes) < 2) {
+        return null;
+    }
+
+    $horas = (int)$partes[0];
+    $minutos = (int)($partes[1] ?? 0);
+    $segundos = (int)($partes[2] ?? 0);
+
+    return $horas * 3600 + $minutos * 60 + $segundos;
+}
+
 // Carregar lista de funcionários
 $stmt = $ligacao->prepare("
   SELECT
@@ -647,6 +676,141 @@ while ($row = $detalhesStmt->fetch(PDO::FETCH_ASSOC)) {
     ];
 }
 
+$detalhesDiaEspecifico = null;
+$pausasDiaEspecifico = [];
+$tarefasDiaEspecifico = [];
+$linhasDiaEspecifico = [];
+
+if ($utilizadorSelecionado && $dataFiltrar) {
+    $stmt = $ligacao->prepare("
+        SELECT
+            MIN(hora_entrada) AS primeira_entrada,
+            MAX(NULLIF(NULLIF(hora_saida, '0000-00-00 00:00:00'), '00:00:00')) AS ultima_saida
+        FROM utilizador_entradaesaida
+        WHERE utilizador = :utilizador
+          AND data = :dia
+    ");
+    $stmt->execute([
+        'utilizador' => $utilizadorSelecionado,
+        'dia'         => $dataFiltrar,
+    ]);
+    $detalhesDiaEspecifico = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+
+    $stmt = $ligacao->prepare("
+        SELECT
+            mp.descricao AS tipo,
+            TIME(pt.data_pausa) AS hora_inicio,
+            TIME(
+                COALESCE(
+                    pt.data_retorno,
+                    DATE_ADD(pt.data_pausa, INTERVAL TIME_TO_SEC(pt.tempo_pausa) SECOND)
+                )
+            ) AS hora_fim
+        FROM pausas_tarefas pt
+        JOIN motivos_pausa mp ON mp.id = pt.motivo_id
+        WHERE pt.funcionario = :utilizador
+          AND DATE(pt.data_pausa) = :dia
+          AND mp.descricao <> 'Intergabinete'
+        ORDER BY pt.data_pausa
+    ");
+    $stmt->execute([
+        'utilizador' => $utilizadorSelecionado,
+        'dia'         => $dataFiltrar,
+    ]);
+    $pausasDiaEspecifico = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $entradaPrimeiroSegundos = hora_para_segundos($detalhesDiaEspecifico['primeira_entrada'] ?? null);
+    $limiteIgnorarPausas = $entradaPrimeiroSegundos !== null ? $entradaPrimeiroSegundos + 180 : null;
+
+    $pausasDiaEspecifico = array_values(array_filter($pausasDiaEspecifico, function ($pausa) use ($limiteIgnorarPausas) {
+        if (($pausa['tipo'] ?? '') === 'Intergabinete') {
+            return false;
+        }
+
+        if ($limiteIgnorarPausas === null) {
+            return true;
+        }
+
+        $inicioSegundos = hora_para_segundos($pausa['hora_inicio'] ?? null);
+
+        if ($inicioSegundos === null) {
+            return true;
+        }
+
+        return $inicioSegundos > $limiteIgnorarPausas;
+    }));
+
+    $stmt = $ligacao->prepare("
+        SELECT
+            t.tarefa,
+            COALESCE(
+                NULLIF(rd.inicio_tarefa, '00:00:00'),
+                NULLIF(rd.hora_inicio, '00:00:00')
+            ) AS hora_inicio,
+            NULLIF(rd.fim_tarefa, '00:00:00') AS hora_fim
+        FROM registo_diario rd
+        JOIN tarefas t ON t.id = rd.id_tarefa
+        WHERE rd.utilizador = :utilizador
+          AND rd.data_trabalho = :dia
+        ORDER BY hora_inicio ASC, hora_fim ASC
+    ");
+    $stmt->execute([
+        'utilizador' => $utilizadorSelecionado,
+        'dia'         => $dataFiltrar,
+    ]);
+    $tarefasDiaEspecifico = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($tarefasDiaEspecifico as $tarefa) {
+        $inicio = $tarefa['hora_inicio'] ?? null;
+        $fim = $tarefa['hora_fim'] ?? null;
+
+        if (!empty($inicio) || !empty($fim)) {
+            $linhasDiaEspecifico[] = [
+                'tipo' => 'tarefa',
+                'descricao' => $tarefa['tarefa'],
+                'inicio' => $inicio,
+                'fim' => $fim,
+            ];
+        }
+    }
+
+    foreach ($pausasDiaEspecifico as $pausa) {
+        $inicio = $pausa['hora_inicio'] ?? null;
+        $fim = $pausa['hora_fim'] ?? null;
+
+        if (!empty($inicio) || !empty($fim)) {
+            $linhasDiaEspecifico[] = [
+                'tipo' => 'pausa',
+                'descricao' => $pausa['tipo'],
+                'inicio' => $inicio,
+                'fim' => $fim,
+            ];
+        }
+    }
+
+    usort($linhasDiaEspecifico, function ($a, $b) {
+        $inicioA = hora_para_segundos($a['inicio'] ?? null);
+        $inicioB = hora_para_segundos($b['inicio'] ?? null);
+
+        if ($inicioA === null) {
+            $inicioA = PHP_INT_MAX;
+        }
+
+        if ($inicioB === null) {
+            $inicioB = PHP_INT_MAX;
+        }
+
+        if ($inicioA === $inicioB) {
+            $fimA = hora_para_segundos($a['fim'] ?? null) ?? PHP_INT_MAX;
+            $fimB = hora_para_segundos($b['fim'] ?? null) ?? PHP_INT_MAX;
+
+            return $fimA <=> $fimB;
+        }
+
+        return $inicioA <=> $inicioB;
+    });
+}
+
 $sql = "
 SELECT
   (SELECT COUNT(*)
@@ -685,6 +849,12 @@ $stmt->execute([
 ]);
 $row= $stmt->fetch(PDO::FETCH_ASSOC);
 $result = $row['total_intergabinete'] + $row['total_concluidas'];
+
+$dataEspecificaFormatada = null;
+if ($dataFiltrar) {
+    $timestampData = strtotime($dataFiltrar);
+    $dataEspecificaFormatada = $timestampData ? date('d/m/Y', $timestampData) : $dataFiltrar;
+}
 ?>
 
 <!DOCTYPE html>
@@ -844,6 +1014,61 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
   }
   .txt-vermelho { color:#dc3545; font-weight:600; }
   .txt-verde    { color:#28a745; font-weight:600; }
+
+  .tabela-dia-especifico {
+    margin-top: 30px;
+    background: #fff7da;
+    border: 1px solid #e0c472;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .tabela-dia-especifico h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  .tabela-dia-especifico table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+  }
+
+  .tabela-dia-especifico th,
+  .tabela-dia-especifico td {
+    border: 1px solid #e0c472;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .tabela-dia-especifico th {
+    background: #e7d48b;
+    color: #333;
+  }
+
+  .tabela-dia-especifico .entrada-saida {
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+
+  .tabela-dia-especifico .entrada-saida strong {
+    font-weight: 700;
+  }
+
+  .tabela-dia-especifico .saida {
+    margin-top: 12px;
+  }
+
+  .tabela-dia-especifico .sem-registos {
+    margin: 0 0 10px;
+    font-style: italic;
+  }
+
+  .tabela-dia-especifico .linha-pausa td {
+    background: #fff1bd;
+    font-weight: 600;
+  }
 
   </style>
 </head>
@@ -1066,6 +1291,58 @@ $result = $row['total_intergabinete'] + $row['total_concluidas'];
             });
             </script>
           </div>
+
+          <?php if (!empty($_GET['data_filtrar'])): ?>
+            <div class="tabela-dia-especifico">
+              <h3>Resumo do dia <?= htmlspecialchars($dataEspecificaFormatada ?? $_GET['data_filtrar']) ?></h3>
+              <p class="entrada-saida"><strong>Hora entrada - </strong>
+                <?php if (!empty($detalhesDiaEspecifico['primeira_entrada'])): ?>
+                  <?= htmlspecialchars(date('H:i', strtotime($detalhesDiaEspecifico['primeira_entrada']))) ?>
+                <?php else: ?>
+                  —
+                <?php endif; ?>
+              </p>
+
+              <?php if (!empty($linhasDiaEspecifico)): ?>
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="width: 20%;">De</th>
+                      <th style="width: 20%;">Até</th>
+                      <th>Tarefa executada</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($linhasDiaEspecifico as $linha): ?>
+                      <?php if ($linha['tipo'] === 'pausa'): ?>
+                        <tr class="linha-pausa">
+                          <td><?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?></td>
+                          <td><?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?></td>
+                          <td><?= htmlspecialchars($linha['descricao']) ?> - Pausa</td>
+                        </tr>
+                      <?php else: ?>
+                        <tr>
+                          <td><?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?></td>
+                          <td><?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?></td>
+                          <td><?= htmlspecialchars($linha['descricao']) ?></td>
+                        </tr>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              <?php else: ?>
+                <p class="sem-registos">Sem tarefas nem pausas registadas para este dia.</p>
+              <?php endif; ?>
+
+              <p class="entrada-saida saida"><strong>Hora saída - </strong>
+                <?php if (!empty($detalhesDiaEspecifico['ultima_saida'])): ?>
+                  <?= htmlspecialchars(date('H:i', strtotime($detalhesDiaEspecifico['ultima_saida']))) ?>
+                <?php else: ?>
+                  —
+                <?php endif; ?>
+              </p>
+            </div>
+          <?php endif; ?>
 
           <div class="faltas-wrapper">
             <!-- Coluna: Faltas Passadas -->
