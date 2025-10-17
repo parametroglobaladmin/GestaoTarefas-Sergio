@@ -139,6 +139,7 @@ if ($utilizadorSelecionado) {
         WHERE utilizador = ?
           AND hora_entrada IS NOT NULL
           AND hora_saida IS NOT NULL
+          AND data <> CURDATE()
     ";
 
     $paramsES = [$utilizadorSelecionado];
@@ -182,6 +183,7 @@ if ($utilizadorSelecionado) {
         WHERE pt.funcionario = ?
           AND pt.data_pausa IS NOT NULL
           AND mp.estatistica = 'ativo'
+          AND DATE(pt.data_pausa) <> CURDATE()
     ";
 
     $paramsPausas = [$utilizadorSelecionado];
