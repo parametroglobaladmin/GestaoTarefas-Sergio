@@ -1000,6 +1000,36 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                 return isset($linha['de'], $linha['ate']) && $linha['ate'] > $linha['de'];
             }));
 
+            $cronogramaDedup = [];
+            $tempoTrabalhoSeg = 0;
+            $tempoPausasSeg = 0;
+
+            foreach ($cronogramaDia as $linha) {
+                $duracao = (int)$linha['ate'] - (int)$linha['de'];
+                if ($duracao <= 0) {
+                    continue;
+                }
+
+                $ultimo = $cronogramaDedup ? $cronogramaDedup[count($cronogramaDedup) - 1] : null;
+                if ($ultimo &&
+                    $ultimo['de'] === $linha['de'] &&
+                    $ultimo['ate'] === $linha['ate'] &&
+                    $ultimo['descricao'] === $linha['descricao'] &&
+                    $ultimo['tipo'] === $linha['tipo']) {
+                    continue;
+                }
+
+                $cronogramaDedup[] = $linha;
+
+                if ($linha['tipo'] === 'pausa') {
+                    $tempoPausasSeg += $duracao;
+                } else {
+                    $tempoTrabalhoSeg += $duracao;
+                }
+            }
+
+            $cronogramaDia = $cronogramaDedup;
+
             $tempoTrabalhoFmt = fmt_hm($tempoTrabalhoSeg);
             $tempoPausasFmt = fmt_hm($tempoPausasSeg);
             $tempoTrabalhoMin = intdiv($tempoTrabalhoSeg, 60);
