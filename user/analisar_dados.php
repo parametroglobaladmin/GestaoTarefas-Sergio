@@ -1301,9 +1301,9 @@ if ($dataFiltrar) {
                     <?php foreach ($linhasDiaEspecifico as $linha): ?>
                       <?php if ($linha['tipo'] === 'pausa'): ?>
                         <tr class="linha-pausa">
-                          <td colspan="3">
-                            Pausa- <?= htmlspecialchars($linha['descricao']) ?>-<?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?> ate <?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?>
-                          </td>
+                          <td><?= htmlspecialchars(fmt_hm($linha['inicio'] ?? null)) ?></td>
+                          <td><?= htmlspecialchars(fmt_hm($linha['fim'] ?? null)) ?></td>
+                          <td><?= htmlspecialchars($linha['descricao']) ?> - Pausa</td>
                         </tr>
                       <?php else: ?>
                         <tr>
