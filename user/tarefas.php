@@ -164,6 +164,39 @@ foreach ($funcionarios as $tarefa) {
     }
 }
 
+// Limpar referências de sessão obsoletas relativas a pausas restritivas
+$idPararSessao = $_SESSION['tarefa_pausada_por_pararcontadores'] ?? null;
+if ($idPararSessao !== null) {
+    $encontrouParar = false;
+    foreach ($funcionarios as $tarefa) {
+        $tipoMotivo = strtolower($tarefa['tipo_motivo'] ?? '');
+        if ((int)$tarefa['id'] === (int)$idPararSessao && $tipoMotivo === 'pararcontadores') {
+            $encontrouParar = true;
+            break;
+        }
+    }
+
+    if (!$encontrouParar) {
+        unset($_SESSION['tarefa_pausada_por_pararcontadores']);
+    }
+}
+
+$idSemOpcaoSessao = $_SESSION['tarefa_pausada_por_semopcao'] ?? null;
+if ($idSemOpcaoSessao !== null) {
+    $encontrouSemOpcao = false;
+    foreach ($funcionarios as $tarefa) {
+        $tipoMotivo = strtolower($tarefa['tipo_motivo'] ?? '');
+        if ((int)$tarefa['id'] === (int)$idSemOpcaoSessao && $tipoMotivo === 'semopcao') {
+            $encontrouSemOpcao = true;
+            break;
+        }
+    }
+
+    if (!$encontrouSemOpcao) {
+        unset($_SESSION['tarefa_pausada_por_semopcao']);
+    }
+}
+
 // Verificar se alguma tarefa está em pausa por "PararContadores"
 $pararTudo = false;
 $idTarefaParada = null;
