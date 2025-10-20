@@ -84,7 +84,11 @@ try {
         $stmtLimpaTemporarias->execute([$utilizador]);
 
 
-        // 1.6 Redireciona com mensagem de sucesso
+        // 1.6 Limpa informação de pausas restritivas da sessão para evitar bloqueios indevidos
+        unset($_SESSION['tarefa_pausada_por_pararcontadores']);
+        unset($_SESSION['tarefa_pausada_por_semopcao']);
+
+        // 1.7 Redireciona com mensagem de sucesso
         header("Location: tarefas.php?mensagem=Dia reaberto com sucesso");
         exit;
     }
@@ -192,12 +196,15 @@ try {
 
             // 7. Regista o início do novo dia no mesmo registo da tabela finalizar_dia
             $registaInicioDia = $ligacao->prepare("
-                UPDATE finalizar_dia 
-                SET tarefa_id = ?, 
-                    datahora_iniciodiaseguinte = NOW() 
+                UPDATE finalizar_dia
+                SET tarefa_id = ?,
+                    datahora_iniciodiaseguinte = NOW()
                 WHERE utilizador = ? AND datahora_iniciodiaseguinte IS NULL
             ");
             $registaInicioDia->execute([$registoAnterior['tarefa_id'], $utilizador]);
+
+            unset($_SESSION['tarefa_pausada_por_pararcontadores']);
+            unset($_SESSION['tarefa_pausada_por_semopcao']);
         }else if(empty($registoAnterior['tarefa_id'])){
             // 5. Recuperar pausas temporárias para este utilizador
             $stmtTemporarias = $ligacao->prepare("SELECT * FROM pausas_temporarias WHERE utilizador = ?");
@@ -248,6 +255,9 @@ try {
             // 6. Limpa as entradas da tabela de pausas temporárias
             $stmtLimpa = $ligacao->prepare("DELETE FROM pausas_temporarias WHERE utilizador = ?");
             $stmtLimpa->execute([$utilizador]);
+
+            unset($_SESSION['tarefa_pausada_por_pararcontadores']);
+            unset($_SESSION['tarefa_pausada_por_semopcao']);
         }
     } else {
         // 1. Buscar tarefa_id antes de limpar
@@ -312,15 +322,18 @@ try {
         // 6. Registra novamente o início do dia se a tarefa estiver definida
         if ($tarefaId) {
             $registaInicioDia = $ligacao->prepare("
-                UPDATE finalizar_dia 
-                SET tarefa_id = ?, 
-                    datahora_iniciodiaseguinte = NOW() 
-                WHERE utilizador = ? 
+                UPDATE finalizar_dia
+                SET tarefa_id = ?,
+                    datahora_iniciodiaseguinte = NOW()
+                WHERE utilizador = ?
                 AND datahora_iniciodiaseguinte IS NULL
             ");
             $registaInicioDia->execute([$tarefaId, $utilizador]);
         }
     }
+
+    unset($_SESSION['tarefa_pausada_por_pararcontadores']);
+    unset($_SESSION['tarefa_pausada_por_semopcao']);
     header("Location: tarefas.php?mensagem=Dia iniciado com sucesso");
     exit;
 } catch (PDOException $e) {
