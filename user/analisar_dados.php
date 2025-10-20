@@ -47,6 +47,29 @@ function time_to_seconds(?string $tempo): int {
     return ((int)$partes[0]) * 3600 + ((int)$partes[1]) * 60 + (int)$partes[2];
 }
 
+function normalize_identifier(?string $texto): string {
+    if ($texto === null) {
+        return '';
+    }
+
+    $texto = trim($texto);
+    if ($texto === '') {
+        return '';
+    }
+
+    if (function_exists('iconv')) {
+        $convertido = @iconv('UTF-8', 'ASCII//TRANSLIT', $texto);
+        if ($convertido !== false) {
+            $texto = $convertido;
+        }
+    }
+
+    $texto = strtolower($texto);
+    $texto = preg_replace('/[^a-z0-9]/', '', $texto);
+
+    return $texto;
+}
+
 function datetime_from_day_and_time(string $dia, ?string $valor): ?int {
     if ($valor === null) {
         return null;
@@ -857,6 +880,8 @@ $tempoTrabalhoSegCronograma = 0;
 $tempoPausasSegCronograma = 0;
 $totalPresencaSeg = 0;
 $totalPausaDiaSeg = 0;
+$tevePausaConsiderada = false;
+$maiorPararContadoresSeg = 0;
 
 if ($utilizadorSelecionado && $dataFiltrar) {
     $stmt = $ligacao->prepare("SELECT hora_entrada, hora_saida FROM utilizador_entradaesaida WHERE utilizador = ? AND data = ? ORDER BY hora_entrada ASC");
@@ -964,7 +989,8 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                         p.data_pausa,
                         p.data_retorno,
                         p.tempo_pausa,
-                        COALESCE(mp.descricao, 'Pausa') AS motivo
+                        COALESCE(mp.descricao, 'Pausa') AS motivo,
+                        COALESCE(mp.tipo, '') AS tipo_motivo
                     FROM pausas_tarefas p
                     LEFT JOIN motivos_pausa mp ON mp.id = p.motivo_id
                     WHERE p.funcionario = :utilizador
@@ -1008,7 +1034,24 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                         continue;
                     }
 
-                    $totalPausaDiaSeg += ($fimPausaTs - $inicioPausaTs);
+                    $duracaoPausa = $fimPausaTs - $inicioPausaTs;
+
+                    $identificadorMotivo = normalize_identifier($pausa['motivo'] ?? '');
+                    $identificadorTipo = normalize_identifier($pausa['tipo_motivo'] ?? '');
+                    $isSemOpcao = ($identificadorMotivo === 'semopcao') || ($identificadorTipo === 'semopcao');
+                    $isPararContadores = ($identificadorMotivo === 'pararcontadores') || ($identificadorTipo === 'pararcontadores');
+
+                    if ($isSemOpcao) {
+                        $tevePausaConsiderada = true;
+                        if ($duracaoPausa > 0) {
+                            $totalPausaDiaSeg += $duracaoPausa;
+                        }
+                    } elseif ($isPararContadores) {
+                        $tevePausaConsiderada = true;
+                        if ($duracaoPausa > $maiorPararContadoresSeg) {
+                            $maiorPararContadoresSeg = $duracaoPausa;
+                        }
+                    }
 
                     if (!isset($pausasPorTarefa[$tid])) {
                         $pausasPorTarefa[$tid] = [];
@@ -1019,6 +1062,12 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                         'fim' => $fimPausaTs,
                         'motivo' => $pausa['motivo'] ?? 'Pausa',
                     ];
+                }
+
+                if ($maiorPararContadoresSeg > 0) {
+                    $totalPausaDiaSeg += $maiorPararContadoresSeg;
+                    $tevePausaConsiderada = true;
+                    $maiorPararContadoresSeg = 0;
                 }
             }
         }
@@ -1169,7 +1218,11 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                 }
             }
 
-            $tempoPausasSeg = $totalPausaDiaSeg > 0 ? $totalPausaDiaSeg : $tempoPausasSegCronograma;
+            if ($tevePausaConsiderada) {
+                $tempoPausasSeg = $totalPausaDiaSeg;
+            } else {
+                $tempoPausasSeg = $tempoPausasSegCronograma;
+            }
 
             if ($totalPresencaSeg > 0) {
                 if ($tempoPausasSeg > $totalPresencaSeg) {
@@ -1178,7 +1231,7 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                 $tempoTrabalhoSeg = $totalPresencaSeg - $tempoPausasSeg;
             } else {
                 $tempoTrabalhoSeg = $tempoTrabalhoSegCronograma;
-                if ($tempoPausasSeg === 0) {
+                if (!$tevePausaConsiderada) {
                     $tempoPausasSeg = $tempoPausasSegCronograma;
                 }
             }
@@ -1193,14 +1246,18 @@ if ($utilizadorSelecionado && $dataFiltrar) {
             $tempoPausasMin = intdiv($tempoPausasSeg, 60);
         } else {
             if ($totalPresencaSeg > 0) {
-                $tempoPausasSeg = min($totalPausaDiaSeg, $totalPresencaSeg);
+                if ($tevePausaConsiderada) {
+                    $tempoPausasSeg = min($totalPausaDiaSeg, $totalPresencaSeg);
+                } else {
+                    $tempoPausasSeg = 0;
+                }
                 $tempoTrabalhoSeg = $totalPresencaSeg - $tempoPausasSeg;
 
                 $tempoTrabalhoFmt = fmt_hm($tempoTrabalhoSeg);
                 $tempoPausasFmt = fmt_hm($tempoPausasSeg);
                 $tempoTrabalhoMin = intdiv($tempoTrabalhoSeg, 60);
                 $tempoPausasMin = intdiv($tempoPausasSeg, 60);
-            } elseif ($totalPausaDiaSeg > 0) {
+            } elseif ($tevePausaConsiderada) {
                 $tempoPausasSeg = $totalPausaDiaSeg;
                 $tempoPausasFmt = fmt_hm($tempoPausasSeg);
                 $tempoPausasMin = intdiv($tempoPausasSeg, 60);
