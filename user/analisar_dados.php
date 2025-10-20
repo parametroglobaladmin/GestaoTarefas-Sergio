@@ -868,6 +868,7 @@ $row= $stmt->fetch(PDO::FETCH_ASSOC);
 $result = $row['total_intergabinete'] + $row['total_concluidas'];
 
 $cronogramaDia = [];
+$resumoTarefasDia = [];
 $horaEntradaDia = null;
 $horaSaidaDia = null;
 $tempoTrabalhoSeg = 0;
@@ -1204,6 +1205,7 @@ if ($utilizadorSelecionado && $dataFiltrar) {
 
             $tempoTrabalhoSegCronograma = 0;
             $tempoPausasSegCronograma = 0;
+            $totaisTarefasDia = [];
 
             foreach ($cronogramaDia as $linha) {
                 $duracao = (int)$linha['ate'] - (int)$linha['de'];
@@ -1215,6 +1217,26 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                     $tempoPausasSegCronograma += $duracao;
                 } else {
                     $tempoTrabalhoSegCronograma += $duracao;
+
+                    $descricao = trim((string)($linha['descricao'] ?? ''));
+                    if ($descricao === '') {
+                        $descricao = 'Tarefa';
+                    }
+
+                    if (!array_key_exists($descricao, $totaisTarefasDia)) {
+                        $totaisTarefasDia[$descricao] = 0;
+                    }
+
+                    $totaisTarefasDia[$descricao] += $duracao;
+                }
+            }
+
+            if (!empty($totaisTarefasDia)) {
+                foreach ($totaisTarefasDia as $descricao => $totalSegundos) {
+                    $resumoTarefasDia[] = [
+                        'descricao' => $descricao,
+                        'tempo' => fmt_hms($totalSegundos),
+                    ];
                 }
             }
 
@@ -1731,6 +1753,16 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                     <?php endforeach; ?>
                   </tbody>
                 </table>
+                <?php if (!empty($resumoTarefasDia)): ?>
+                  <div class="resumo-tarefas-dia" style="margin-top:12px; text-align:left;">
+                    <?php foreach ($resumoTarefasDia as $resumoTarefa): ?>
+                      <div>
+                        <?= htmlspecialchars($resumoTarefa['descricao']) ?>:
+                        <?= htmlspecialchars($resumoTarefa['tempo']) ?>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                <?php endif; ?>
               <?php else: ?>
                 <p style="margin-top:12px;">Sem registos de tarefas ou pausas para o dia selecionado.</p>
               <?php endif; ?>
