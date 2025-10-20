@@ -1755,12 +1755,26 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                 </table>
                 <?php if (!empty($resumoTarefasDia)): ?>
                   <div class="resumo-tarefas-dia" style="margin-top:12px; text-align:left;">
-                    <?php foreach ($resumoTarefasDia as $resumoTarefa): ?>
-                      <div>
-                        <?= htmlspecialchars($resumoTarefa['descricao']) ?>:
-                        <?= htmlspecialchars($resumoTarefa['tempo']) ?>
-                      </div>
-                    <?php endforeach; ?>
+                    <table style="border-collapse:collapse; min-width:260px;">
+                      <thead>
+                        <tr>
+                          <th style="background:#1f6fd9; color:#fff; padding:6px 10px; text-align:left; border:1px solid #1f6fd9;">Tarefa</th>
+                          <th style="background:#1f6fd9; color:#fff; padding:6px 10px; text-align:left; border:1px solid #1f6fd9;">Tempo de execução</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php foreach ($resumoTarefasDia as $resumoTarefa): ?>
+                          <tr>
+                            <td style="background:#e5efff; padding:6px 10px; border:1px solid #c5d9ff;">
+                              <?= htmlspecialchars($resumoTarefa['descricao']) ?>
+                            </td>
+                            <td style="background:#e5efff; padding:6px 10px; border:1px solid #c5d9ff;">
+                              <?= htmlspecialchars($resumoTarefa['tempo']) ?>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      </tbody>
+                    </table>
                   </div>
                 <?php endif; ?>
               <?php else: ?>
