@@ -38,8 +38,8 @@ foreach ($funcionariosEntradasESaidas as &$linha) {
         $fim = new DateTime($linha['hora_saida']);
 
 
-        $segundos = $fim->getTimestamp() - $inicio->getTimestamp();
-        $horasTrabalhadas = round($segundos / 3600, 2);
+        $segundos = max($fim->getTimestamp() - $inicio->getTimestamp(), 0);
+        $horasTrabalhadas = $segundos / 3600;
 
         $linha['horas_trabalhadas'] = $horasTrabalhadas;
     } else {
@@ -140,13 +140,16 @@ if ($utilizadorSelecionado) {
 
         $inicio = new DateTime($registo['hora_entrada']);
         $fim    = new DateTime($registo['hora_saida']);
-        $segundos = $fim->getTimestamp() - $inicio->getTimestamp();  // fim - inicio
-        $horasTotais = round($segundos / 3600, 2);
+        $segundos = max($fim->getTimestamp() - $inicio->getTimestamp(), 0);  // fim - inicio
+        $horasTotais = $segundos / 3600;
 
         $trabalhoPorDia[$dia] = [
             'total' => $horasTotais,
             'pausas' => 0,
             'efetivas' => $horasTotais, // será corrigido a seguir
+            'total_segundos' => $segundos,
+            'pausas_segundos' => 0,
+            'efetivas_segundos' => $segundos,
         ];
     }
 
@@ -180,21 +183,30 @@ if ($utilizadorSelecionado) {
 
     foreach ($pausas as $p) {
         $dia = $p['dia'];
-        $duracaoHoras = round($p['total_pausa_segundos'] / 3600, 2);
+        $pausaSegundos = (int) $p['total_pausa_segundos'];
+        $duracaoHoras = $pausaSegundos / 3600;
 
         if (!isset($trabalhoPorDia[$dia])) {
             $trabalhoPorDia[$dia] = [
                 'total' => 0,
                 'pausas' => 0,
-                'efetivas' => 0
+                'efetivas' => 0,
+                'total_segundos' => 0,
+                'pausas_segundos' => 0,
+                'efetivas_segundos' => 0,
             ];
         }
 
         $trabalhoPorDia[$dia]['pausas'] = $duracaoHoras;
-        $trabalhoPorDia[$dia]['efetivas'] = max(
-            $trabalhoPorDia[$dia]['total'] - $duracaoHoras,
+        $trabalhoPorDia[$dia]['pausas_segundos'] = $pausaSegundos;
+
+        $efetivasSegundos = max(
+            $trabalhoPorDia[$dia]['total_segundos'] - $pausaSegundos,
             0
         );
+
+        $trabalhoPorDia[$dia]['efetivas_segundos'] = $efetivasSegundos;
+        $trabalhoPorDia[$dia]['efetivas'] = $efetivasSegundos / 3600;
     }
 }
 
