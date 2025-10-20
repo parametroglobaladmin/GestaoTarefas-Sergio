@@ -47,6 +47,29 @@ function time_to_seconds(?string $tempo): int {
     return ((int)$partes[0]) * 3600 + ((int)$partes[1]) * 60 + (int)$partes[2];
 }
 
+function normalize_identifier(?string $texto): string {
+    if ($texto === null) {
+        return '';
+    }
+
+    $texto = trim($texto);
+    if ($texto === '') {
+        return '';
+    }
+
+    if (function_exists('iconv')) {
+        $convertido = @iconv('UTF-8', 'ASCII//TRANSLIT', $texto);
+        if ($convertido !== false) {
+            $texto = $convertido;
+        }
+    }
+
+    $texto = strtolower($texto);
+    $texto = preg_replace('/[^a-z0-9]/', '', $texto);
+
+    return $texto;
+}
+
 function datetime_from_day_and_time(string $dia, ?string $valor): ?int {
     if ($valor === null) {
         return null;
@@ -845,6 +868,7 @@ $row= $stmt->fetch(PDO::FETCH_ASSOC);
 $result = $row['total_intergabinete'] + $row['total_concluidas'];
 
 $cronogramaDia = [];
+$resumoTarefasDia = [];
 $horaEntradaDia = null;
 $horaSaidaDia = null;
 $tempoTrabalhoSeg = 0;
@@ -857,6 +881,8 @@ $tempoTrabalhoSegCronograma = 0;
 $tempoPausasSegCronograma = 0;
 $totalPresencaSeg = 0;
 $totalPausaDiaSeg = 0;
+$tevePausaConsiderada = false;
+$maiorPararContadoresSeg = 0;
 
 if ($utilizadorSelecionado && $dataFiltrar) {
     $stmt = $ligacao->prepare("SELECT hora_entrada, hora_saida FROM utilizador_entradaesaida WHERE utilizador = ? AND data = ? ORDER BY hora_entrada ASC");
@@ -964,7 +990,8 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                         p.data_pausa,
                         p.data_retorno,
                         p.tempo_pausa,
-                        COALESCE(mp.descricao, 'Pausa') AS motivo
+                        COALESCE(mp.descricao, 'Pausa') AS motivo,
+                        COALESCE(mp.tipo, '') AS tipo_motivo
                     FROM pausas_tarefas p
                     LEFT JOIN motivos_pausa mp ON mp.id = p.motivo_id
                     WHERE p.funcionario = :utilizador
@@ -1008,7 +1035,24 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                         continue;
                     }
 
-                    $totalPausaDiaSeg += ($fimPausaTs - $inicioPausaTs);
+                    $duracaoPausa = $fimPausaTs - $inicioPausaTs;
+
+                    $identificadorMotivo = normalize_identifier($pausa['motivo'] ?? '');
+                    $identificadorTipo = normalize_identifier($pausa['tipo_motivo'] ?? '');
+                    $isSemOpcao = ($identificadorMotivo === 'semopcao') || ($identificadorTipo === 'semopcao');
+                    $isPararContadores = ($identificadorMotivo === 'pararcontadores') || ($identificadorTipo === 'pararcontadores');
+
+                    if ($isSemOpcao) {
+                        $tevePausaConsiderada = true;
+                        if ($duracaoPausa > 0) {
+                            $totalPausaDiaSeg += $duracaoPausa;
+                        }
+                    } elseif ($isPararContadores) {
+                        $tevePausaConsiderada = true;
+                        if ($duracaoPausa > $maiorPararContadoresSeg) {
+                            $maiorPararContadoresSeg = $duracaoPausa;
+                        }
+                    }
 
                     if (!isset($pausasPorTarefa[$tid])) {
                         $pausasPorTarefa[$tid] = [];
@@ -1019,6 +1063,12 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                         'fim' => $fimPausaTs,
                         'motivo' => $pausa['motivo'] ?? 'Pausa',
                     ];
+                }
+
+                if ($maiorPararContadoresSeg > 0) {
+                    $totalPausaDiaSeg += $maiorPararContadoresSeg;
+                    $tevePausaConsiderada = true;
+                    $maiorPararContadoresSeg = 0;
                 }
             }
         }
@@ -1155,6 +1205,7 @@ if ($utilizadorSelecionado && $dataFiltrar) {
 
             $tempoTrabalhoSegCronograma = 0;
             $tempoPausasSegCronograma = 0;
+            $totaisTarefasDia = [];
 
             foreach ($cronogramaDia as $linha) {
                 $duracao = (int)$linha['ate'] - (int)$linha['de'];
@@ -1166,10 +1217,34 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                     $tempoPausasSegCronograma += $duracao;
                 } else {
                     $tempoTrabalhoSegCronograma += $duracao;
+
+                    $descricao = trim((string)($linha['descricao'] ?? ''));
+                    if ($descricao === '') {
+                        $descricao = 'Tarefa';
+                    }
+
+                    if (!array_key_exists($descricao, $totaisTarefasDia)) {
+                        $totaisTarefasDia[$descricao] = 0;
+                    }
+
+                    $totaisTarefasDia[$descricao] += $duracao;
                 }
             }
 
-            $tempoPausasSeg = $totalPausaDiaSeg > 0 ? $totalPausaDiaSeg : $tempoPausasSegCronograma;
+            if (!empty($totaisTarefasDia)) {
+                foreach ($totaisTarefasDia as $descricao => $totalSegundos) {
+                    $resumoTarefasDia[] = [
+                        'descricao' => $descricao,
+                        'tempo' => fmt_hms($totalSegundos),
+                    ];
+                }
+            }
+
+            if ($tevePausaConsiderada) {
+                $tempoPausasSeg = $totalPausaDiaSeg;
+            } else {
+                $tempoPausasSeg = $tempoPausasSegCronograma;
+            }
 
             if ($totalPresencaSeg > 0) {
                 if ($tempoPausasSeg > $totalPresencaSeg) {
@@ -1178,7 +1253,7 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                 $tempoTrabalhoSeg = $totalPresencaSeg - $tempoPausasSeg;
             } else {
                 $tempoTrabalhoSeg = $tempoTrabalhoSegCronograma;
-                if ($tempoPausasSeg === 0) {
+                if (!$tevePausaConsiderada) {
                     $tempoPausasSeg = $tempoPausasSegCronograma;
                 }
             }
@@ -1193,14 +1268,18 @@ if ($utilizadorSelecionado && $dataFiltrar) {
             $tempoPausasMin = intdiv($tempoPausasSeg, 60);
         } else {
             if ($totalPresencaSeg > 0) {
-                $tempoPausasSeg = min($totalPausaDiaSeg, $totalPresencaSeg);
+                if ($tevePausaConsiderada) {
+                    $tempoPausasSeg = min($totalPausaDiaSeg, $totalPresencaSeg);
+                } else {
+                    $tempoPausasSeg = 0;
+                }
                 $tempoTrabalhoSeg = $totalPresencaSeg - $tempoPausasSeg;
 
                 $tempoTrabalhoFmt = fmt_hm($tempoTrabalhoSeg);
                 $tempoPausasFmt = fmt_hm($tempoPausasSeg);
                 $tempoTrabalhoMin = intdiv($tempoTrabalhoSeg, 60);
                 $tempoPausasMin = intdiv($tempoPausasSeg, 60);
-            } elseif ($totalPausaDiaSeg > 0) {
+            } elseif ($tevePausaConsiderada) {
                 $tempoPausasSeg = $totalPausaDiaSeg;
                 $tempoPausasFmt = fmt_hm($tempoPausasSeg);
                 $tempoPausasMin = intdiv($tempoPausasSeg, 60);
@@ -1674,6 +1753,30 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                     <?php endforeach; ?>
                   </tbody>
                 </table>
+                <?php if (!empty($resumoTarefasDia)): ?>
+                  <div class="resumo-tarefas-dia" style="margin-top:12px; text-align:left;">
+                    <table style="border-collapse:collapse; min-width:260px;">
+                      <thead>
+                        <tr>
+                          <th style="background:#1f6fd9; color:#fff; padding:6px 10px; text-align:left; border:1px solid #1f6fd9;">Tarefa</th>
+                          <th style="background:#1f6fd9; color:#fff; padding:6px 10px; text-align:left; border:1px solid #1f6fd9;">Tempo de execução</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php foreach ($resumoTarefasDia as $resumoTarefa): ?>
+                          <tr>
+                            <td style="background:#e5efff; padding:6px 10px; border:1px solid #c5d9ff;">
+                              <?= htmlspecialchars($resumoTarefa['descricao']) ?>
+                            </td>
+                            <td style="background:#e5efff; padding:6px 10px; border:1px solid #c5d9ff;">
+                              <?= htmlspecialchars($resumoTarefa['tempo']) ?>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                  </div>
+                <?php endif; ?>
               <?php else: ?>
                 <p style="margin-top:12px;">Sem registos de tarefas ou pausas para o dia selecionado.</p>
               <?php endif; ?>
