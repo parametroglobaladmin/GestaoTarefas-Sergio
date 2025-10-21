@@ -21,6 +21,11 @@ $stmtUtilizadorCriarTarefa = $ligacao->prepare("SELECT * FROM funcionarios WHERE
 $stmtUtilizadorCriarTarefa->execute([$utilizador]);
 $dadosFuncionario = $stmtUtilizadorCriarTarefa->fetch(PDO::FETCH_ASSOC);
 
+if ($dadosFuncionario && !isset($dadosFuncionario['id'])) {
+    $numeroFallback = isset($dadosFuncionario['numero']) ? (int) $dadosFuncionario['numero'] : 0;
+    $dadosFuncionario['id'] = $numeroFallback > 0 ? $numeroFallback : 1;
+}
+
 $mensagem = isset($_GET['mensagem']) ? $_GET['mensagem'] : "";
 $erro = isset($_GET['erro']) ? $_GET['erro'] : "";
 
@@ -666,11 +671,9 @@ if ($tarefaAtiva) {
           <span style="font-size: 18px;">■</span> Finalizar Dia
         </button>
       <?php else: ?>
-        <form method="POST" action="iniciar_dia.php" style="display:inline;">
-          <button type="submit" class="botao-iniciar">
-            <span style="font-size: 18px;">▶</span> Iniciar Dia
-          </button>
-        </form>
+        <button type="button" class="botao-iniciar" onclick="verificarSaidaPendentes(<?= $dadosFuncionario['id'] ?? 'null' ?>)">
+          <span style="font-size: 18px;">▶</span> Iniciar Dia
+        </button>
       <?php endif; ?>
     </div>
 
@@ -962,6 +965,24 @@ function finalizarDiaComTempo() {
 </script>
 
 
+<div class="modal-overlay" id="modalSaidaPendente" style="display:none;">
+  <div class="modal-box">
+    <button class="fechar-modal" onclick="fecharModalSaida()">×</button>
+    <h3>Registar Hora de Saída</h3>
+    <p id="textoSaidaPendente">
+      Foi encontrado um dia anterior sem hora de saída.<br>
+      Por favor, indica a hora que saíste.
+    </p>
+    <form id="formSaidaPendente">
+      <input type="time" id="horaSaidaPendente" required style="width:100%; padding:8px; margin-top:10px;">
+      <div style="margin-top:15px; text-align:right;">
+        <button type="button" class="botao-pequeno" onclick="submeterSaidaPendente()">Guardar e Iniciar Dia</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 </body>
 
 <div class="modal-overlay" id="modalAlterarPassword">
@@ -1134,5 +1155,245 @@ function abrirTarefaComTempo(id) {
 
 
 
+
+<script>
+let utilizadorIdPendente = null;
+let dataPendente = null;
+let horaEntradaPendente = null;
+
+function verificarSaidaPendentes(idUtilizador) {
+  if (!idUtilizador) {
+    alert("Utilizador inválido.");
+    return;
+  }
+
+  utilizadorIdPendente = idUtilizador;
+
+  fetch("verificar_saida_pendente.php?id=" + encodeURIComponent(idUtilizador))
+    .then(res => res.json())
+    .then(data => {
+      if (data.erro) {
+        throw new Error(data.erro);
+      }
+
+      if (data.temPendentes) {
+        dataPendente = data.data || null;
+        horaEntradaPendente = data.horaEntrada || null;
+        prepararModalSaida();
+        abrirModalSaida();
+      } else {
+        iniciarDia();
+      }
+    })
+    .catch(err => alert("Erro ao verificar saídas pendentes: " + err.message));
+}
+
+function prepararModalSaida() {
+  const texto = document.getElementById("textoSaidaPendente");
+  const inputHora = document.getElementById("horaSaidaPendente");
+  const diaFormatado = formatarDataPortugues(dataPendente);
+  const horaMinima = extrairHoraMinima(horaEntradaPendente);
+
+  if (texto) {
+    const parteDia = diaFormatado ? `no dia <strong>${diaFormatado}</strong>` : "no dia em falta";
+    const parteEntrada = horaMinima ? ` (entrada registada às ${horaMinima})` : "";
+    texto.innerHTML = `Foi encontrado um dia anterior sem hora de saída.<br>Por favor, indica a hora que saíste ${parteDia}${parteEntrada}.`;
+  }
+
+  if (inputHora) {
+    inputHora.value = "";
+    configurarValidacaoHora(inputHora, horaMinima, dataPendente, horaEntradaPendente);
+  }
+}
+
+function extrairHoraMinima(valor) {
+  if (!valor) {
+    return "";
+  }
+
+  const match = String(valor).match(/(\d{1,2}):(\d{2})/);
+  if (!match) {
+    return "";
+  }
+
+  const horas = match[1].padStart(2, "0");
+  const minutos = match[2].padStart(2, "0");
+  return `${horas}:${minutos}`;
+}
+
+function formatarDataPortugues(isoDate) {
+  if (!isoDate) {
+    return "";
+  }
+
+  const normalizada = String(isoDate).trim().split(" ")[0];
+  const partes = normalizada.split("-");
+  if (partes.length !== 3) {
+    return "";
+  }
+
+  const [ano, mes, dia] = partes;
+  return `${dia.padStart(2, "0")}/${mes.padStart(2, "0")}/${ano}`;
+}
+
+function horaParaSegundos(valor) {
+  if (!valor) {
+    return NaN;
+  }
+
+  const match = String(valor).match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+  if (!match) {
+    return NaN;
+  }
+
+  const horas = parseInt(match[1], 10);
+  const minutos = parseInt(match[2], 10);
+  const segundos = match[3] ? parseInt(match[3], 10) : 0;
+
+  if (Number.isNaN(horas) || Number.isNaN(minutos) || Number.isNaN(segundos)) {
+    return NaN;
+  }
+
+  return horas * 3600 + minutos * 60 + segundos;
+}
+
+function obterReferenciaHoraEntrada(dataEntrada, horaEntradaCompleta, minimo) {
+  const dataNormalizada = (dataEntrada || "").split(" ")[0];
+  const hora = extrairHoraMinima(horaEntradaCompleta || minimo);
+
+  if (dataNormalizada && hora) {
+    return `${dataNormalizada} ${hora}`.trim();
+  }
+
+  if (hora) {
+    return hora;
+  }
+
+  return minimo || "";
+}
+
+function obterErroHoraInferior(valorAtual, minimo, dataEntrada, horaEntradaCompleta) {
+  if (!valorAtual || !minimo) {
+    return "";
+  }
+
+  const atualSegundos = horaParaSegundos(valorAtual);
+  const minimoSegundos = horaParaSegundos(minimo);
+
+  if (Number.isNaN(atualSegundos) || Number.isNaN(minimoSegundos)) {
+    return "";
+  }
+
+  if (atualSegundos < minimoSegundos) {
+    const referencia = obterReferenciaHoraEntrada(dataEntrada, horaEntradaCompleta, minimo);
+    if (referencia) {
+      return `A hora de saída não pode ser inferior à hora de entrada (${referencia}).`;
+    }
+    return "A hora de saída não pode ser inferior à hora de entrada.";
+  }
+
+  return "";
+}
+
+function configurarValidacaoHora(input, horaMinima, dataEntrada, horaEntradaCompleta) {
+  if (!input) {
+    return;
+  }
+
+  if (horaMinima) {
+    input.setAttribute("min", horaMinima);
+    input.dataset.horaEntradaMinima = horaMinima;
+  } else {
+    input.removeAttribute("min");
+    delete input.dataset.horaEntradaMinima;
+  }
+
+  if (dataEntrada) {
+    input.dataset.dataEntradaPendente = dataEntrada;
+  } else {
+    delete input.dataset.dataEntradaPendente;
+  }
+
+  if (horaEntradaCompleta) {
+    input.dataset.horaEntradaCompleta = horaEntradaCompleta;
+  } else {
+    delete input.dataset.horaEntradaCompleta;
+  }
+
+  const validar = () => {
+    const erro = obterErroHoraInferior(
+      input.value,
+      input.dataset.horaEntradaMinima,
+      input.dataset.dataEntradaPendente,
+      input.dataset.horaEntradaCompleta
+    );
+    input.setCustomValidity(erro);
+  };
+
+  if (!input.dataset.listenerHoraPendente) {
+    input.addEventListener("input", () => {
+      validar();
+      if (input.value) {
+        input.reportValidity();
+      }
+    });
+    input.addEventListener("invalid", validar);
+    input.dataset.listenerHoraPendente = "1";
+  }
+
+  validar();
+}
+
+function abrirModalSaida() {
+  document.getElementById("modalSaidaPendente").style.display = "flex";
+}
+
+function fecharModalSaida() {
+  document.getElementById("modalSaidaPendente").style.display = "none";
+}
+
+function submeterSaidaPendente() {
+  const inputHora = document.getElementById("horaSaidaPendente");
+  const hora = inputHora ? inputHora.value : "";
+  if (!hora) {
+    alert("Por favor, insere a hora de saída.");
+    return;
+  }
+
+  const horaMinima = extrairHoraMinima(horaEntradaPendente);
+  const erroHora = obterErroHoraInferior(hora, horaMinima, dataPendente, horaEntradaPendente);
+  if (erroHora) {
+    if (inputHora) {
+      inputHora.reportValidity();
+    }
+    alert(erroHora);
+    return;
+  }
+
+  fetch("registar_saida_pendente.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: "id=" + encodeURIComponent(utilizadorIdPendente) + "&hora=" + encodeURIComponent(hora)
+  })
+  .then(res => res.json())
+  .then(resposta => {
+    if (!resposta.ok) {
+      throw new Error(resposta.erro || "Erro ao registar hora de saída.");
+    }
+
+    fecharModalSaida();
+    iniciarDia();
+  })
+  .catch(err => alert("Erro ao registar hora de saída: " + err.message));
+}
+
+function iniciarDia() {
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = "iniciar_dia.php";
+  document.body.appendChild(form);
+  form.submit();
+}
+</script>
 
 </html>
