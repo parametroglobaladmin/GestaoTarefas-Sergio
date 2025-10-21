@@ -21,6 +21,11 @@ $stmtUtilizadorCriarTarefa = $ligacao->prepare("SELECT * FROM funcionarios WHERE
 $stmtUtilizadorCriarTarefa->execute([$utilizador]);
 $dadosFuncionario = $stmtUtilizadorCriarTarefa->fetch(PDO::FETCH_ASSOC);
 
+if ($dadosFuncionario && !isset($dadosFuncionario['id'])) {
+    $numeroFallback = isset($dadosFuncionario['numero']) ? (int) $dadosFuncionario['numero'] : 0;
+    $dadosFuncionario['id'] = $numeroFallback > 0 ? $numeroFallback : 1;
+}
+
 $mensagem = isset($_GET['mensagem']) ? $_GET['mensagem'] : "";
 $erro = isset($_GET['erro']) ? $_GET['erro'] : "";
 
@@ -666,11 +671,9 @@ if ($tarefaAtiva) {
           <span style="font-size: 18px;">■</span> Finalizar Dia
         </button>
       <?php else: ?>
-        <form method="POST" action="iniciar_dia.php" style="display:inline;">
-          <button type="submit" class="botao-iniciar">
-            <span style="font-size: 18px;">▶</span> Iniciar Dia
-          </button>
-        </form>
+        <button type="button" class="botao-iniciar" onclick="verificarSaidaPendentes(<?= $dadosFuncionario['id'] ?? 'null' ?>)">
+          <span style="font-size: 18px;">▶</span> Iniciar Dia
+        </button>
       <?php endif; ?>
     </div>
 
@@ -962,6 +965,21 @@ function finalizarDiaComTempo() {
 </script>
 
 
+<div class="modal-overlay" id="modalSaidaPendente" style="display:none;">
+  <div class="modal-box">
+    <button class="fechar-modal" onclick="fecharModalSaida()">×</button>
+    <h3>Registar Hora de Saída</h3>
+    <p>Foi encontrado um dia anterior sem hora de saída.<br>Por favor, indica a hora que saíste:</p>
+    <form id="formSaidaPendente">
+      <input type="time" id="horaSaidaPendente" required style="width:100%; padding:8px; margin-top:10px;">
+      <div style="margin-top:15px; text-align:right;">
+        <button type="button" class="botao-pequeno" onclick="submeterSaidaPendente()">Guardar e Iniciar Dia</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 </body>
 
 <div class="modal-overlay" id="modalAlterarPassword">
@@ -1134,5 +1152,65 @@ function abrirTarefaComTempo(id) {
 
 
 
+
+<script>
+let utilizadorIdPendente = null;
+
+function verificarSaidaPendentes(idUtilizador) {
+  if (!idUtilizador) {
+    alert("Utilizador inválido.");
+    return;
+  }
+
+  utilizadorIdPendente = idUtilizador;
+
+  fetch("verificar_saida_pendente.php?id=" + idUtilizador)
+    .then(res => res.json())
+    .then(data => {
+      if (data.temPendentes) {
+        abrirModalSaida();
+      } else {
+        iniciarDia();
+      }
+    })
+    .catch(err => alert("Erro ao verificar saídas pendentes: " + err.message));
+}
+
+function abrirModalSaida() {
+  document.getElementById("modalSaidaPendente").style.display = "flex";
+}
+
+function fecharModalSaida() {
+  document.getElementById("modalSaidaPendente").style.display = "none";
+}
+
+function submeterSaidaPendente() {
+  const hora = document.getElementById("horaSaidaPendente").value;
+  if (!hora) {
+    alert("Por favor, insere a hora de saída.");
+    return;
+  }
+
+  fetch("registar_saida_pendente.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: "id=" + encodeURIComponent(utilizadorIdPendente) + "&hora=" + encodeURIComponent(hora)
+  })
+  .then(res => res.text())
+  .then(() => {
+    fecharModalSaida();
+    iniciarDia();
+  })
+  .catch(err => alert("Erro ao registar hora de saída: " + err.message));
+}
+
+function iniciarDia() {
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = "iniciar_dia.php";
+  document.body.appendChild(form);
+  form.submit();
+}
+</script>
 
 </html>
