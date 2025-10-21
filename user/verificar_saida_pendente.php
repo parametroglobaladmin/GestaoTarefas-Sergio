@@ -4,6 +4,8 @@ header('Content-Type: application/json; charset=utf-8');
 
 require_once '../config_bd.php';
 
+$timezone = new DateTimeZone('Europe/Lisbon');
+
 if (!isset($_SESSION['utilizador_logado'])) {
     http_response_code(401);
     echo json_encode(['temPendentes' => false, 'erro' => 'Utilizador não autenticado.'], JSON_UNESCAPED_UNICODE);
@@ -12,6 +14,42 @@ if (!isset($_SESSION['utilizador_logado'])) {
 
 $idParam = $_GET['id'] ?? null;
 $utilizadorSessao = $_SESSION['utilizador_logado'];
+
+function normalizarHoraEntrada(?string $valor, DateTimeZone $timezone): ?string
+{
+    if ($valor === null) {
+        return null;
+    }
+
+    $valor = trim($valor);
+    if ($valor === '') {
+        return null;
+    }
+
+    $formatos = [
+        'H:i:s',
+        'H:i',
+        'Y-m-d H:i:s',
+        'Y-m-d H:i',
+        'Y-m-d\TH:i:s',
+        'Y-m-d\TH:i',
+    ];
+
+    foreach ($formatos as $formato) {
+        $obj = DateTime::createFromFormat($formato, $valor, $timezone);
+        if ($obj instanceof DateTime) {
+            return $obj->format('H:i:s');
+        }
+    }
+
+    if (preg_match('/(\d{2}:\d{2})(?::(\d{2}))?/', $valor, $matches)) {
+        $hora = $matches[1];
+        $segundos = $matches[2] ?? '00';
+        return sprintf('%s:%s', $hora, str_pad($segundos, 2, '0'));
+    }
+
+    return null;
+}
 
 function temColuna(PDO $ligacao, string $tabela, string $coluna): bool {
     static $cache = [];
@@ -70,10 +108,12 @@ try {
         $registo = $stmtFallback->fetch(PDO::FETCH_ASSOC);
     }
 
+    $horaEntradaNormalizada = normalizarHoraEntrada($registo['hora_entrada'] ?? null, $timezone);
+
     echo json_encode([
         'temPendentes' => (bool) $registo,
         'data' => $registo['data'] ?? null,
-        'horaEntrada' => $registo['hora_entrada'] ?? null,
+        'horaEntrada' => $horaEntradaNormalizada,
     ], JSON_UNESCAPED_UNICODE);
 } catch (PDOException $e) {
     http_response_code(500);

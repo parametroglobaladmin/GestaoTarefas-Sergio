@@ -43,12 +43,28 @@ function normalizarHora(?string $hora, DateTimeZone $timezone): ?string
         return null;
     }
 
-    $formatos = ['H:i:s', 'H:i'];
+    $formatos = [
+        'H:i:s',
+        'H:i',
+        'Y-m-d H:i:s',
+        'Y-m-d H:i',
+        'Y-m-d\TH:i:s',
+        'Y-m-d\TH:i',
+        'Y-m-d H:i:s.u',
+        'Y-m-d\TH:i:s.u',
+    ];
+
     foreach ($formatos as $formato) {
         $obj = DateTime::createFromFormat($formato, $hora, $timezone);
         if ($obj instanceof DateTime) {
             return $obj->format('H:i:s');
         }
+    }
+
+    if (preg_match('/(\d{2}:\d{2})(?::(\d{2}))?/', $hora, $matches)) {
+        $base = $matches[1];
+        $segundos = $matches[2] ?? '00';
+        return sprintf('%s:%s', $base, str_pad($segundos, 2, '0'));
     }
 
     return null;
@@ -125,7 +141,8 @@ try {
         responder(['ok' => true]);
     }
 
-    $dataEntrada = $pendente['data'];
+    $dataEntradaOriginal = $pendente['data'];
+    $dataEntradaDia = substr((string) $dataEntradaOriginal, 0, 10);
     $utilizadorRegisto = $pendente['utilizador'];
     $horaEntradaNormalizada = normalizarHora($pendente['hora_entrada'] ?? null, $timezone);
 
@@ -135,16 +152,27 @@ try {
     }
 
     if ($horaEntradaNormalizada !== null) {
-        $entradaDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dataEntrada . ' ' . $horaEntradaNormalizada, $timezone);
-        $saidaDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dataEntrada . ' ' . $horaFormatada, $timezone);
+        $entradaDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dataEntradaDia . ' ' . $horaEntradaNormalizada, $timezone);
+        $saidaDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dataEntradaDia . ' ' . $horaFormatada, $timezone);
 
         if ($entradaDateTime instanceof DateTime && $saidaDateTime instanceof DateTime && $saidaDateTime < $entradaDateTime) {
             $ligacao->rollBack();
-            responder(['ok' => false, 'erro' => 'A hora de saída não pode ser anterior à hora de entrada.'], 422);
+
+            $horaEntradaDisplay = substr($horaEntradaNormalizada, 0, 5);
+            $dataEntradaDisplay = $dataEntradaDia;
+            $mensagemErro = 'A hora de saída não pode ser inferior à hora de entrada';
+
+            if ($horaEntradaDisplay) {
+                $mensagemErro .= sprintf(' (%s %s).', $dataEntradaDisplay, $horaEntradaDisplay);
+            } else {
+                $mensagemErro .= '.';
+            }
+
+            responder(['ok' => false, 'erro' => $mensagemErro], 422);
         }
     }
 
-    $dataRetornoCompleta = $dataEntrada . ' ' . $horaFormatada;
+    $dataRetornoCompleta = $dataEntradaDia . ' ' . $horaFormatada;
 
     $stmtAtualizaSaida = $ligacao->prepare(
         "UPDATE utilizador_entradaesaida
@@ -158,7 +186,7 @@ try {
            FROM pausas_tarefas
           WHERE funcionario = ? AND DATE(data_pausa) = ? AND data_retorno IS NULL"
     );
-    $stmtPausas->execute([$utilizadorRegisto, $dataEntrada]);
+    $stmtPausas->execute([$utilizadorRegisto, $dataEntradaDia]);
     $pausas = $stmtPausas->fetchAll(PDO::FETCH_ASSOC);
 
     if ($pausas) {
@@ -190,7 +218,7 @@ try {
 
     $ligacao->commit();
 
-    responder(['ok' => true, 'data' => $dataEntrada, 'horaEntrada' => $horaEntradaNormalizada, 'horaSaida' => $horaFormatada]);
+    responder(['ok' => true, 'data' => $dataEntradaDia, 'horaEntrada' => $horaEntradaNormalizada, 'horaSaida' => $horaFormatada]);
 } catch (PDOException $e) {
     if ($ligacao->inTransaction()) {
         $ligacao->rollBack();

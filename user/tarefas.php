@@ -1202,7 +1202,7 @@ function prepararModalSaida() {
 
   if (inputHora) {
     inputHora.value = "";
-    configurarValidacaoHora(inputHora, horaMinima);
+    configurarValidacaoHora(inputHora, horaMinima, dataPendente, horaEntradaPendente);
   }
 }
 
@@ -1211,13 +1211,13 @@ function extrairHoraMinima(valor) {
     return "";
   }
 
-  const partes = String(valor).split(":");
-  if (partes.length < 2) {
+  const match = String(valor).match(/(\d{1,2}):(\d{2})/);
+  if (!match) {
     return "";
   }
 
-  const horas = partes[0].padStart(2, "0");
-  const minutos = partes[1].padStart(2, "0");
+  const horas = match[1].padStart(2, "0");
+  const minutos = match[2].padStart(2, "0");
   return `${horas}:${minutos}`;
 }
 
@@ -1241,14 +1241,14 @@ function horaParaSegundos(valor) {
     return NaN;
   }
 
-  const partes = String(valor).split(":").map((parte) => parte.trim());
-  if (partes.length < 2) {
+  const match = String(valor).match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+  if (!match) {
     return NaN;
   }
 
-  const horas = parseInt(partes[0], 10);
-  const minutos = parseInt(partes[1], 10);
-  const segundos = partes.length > 2 ? parseInt(partes[2], 10) : 0;
+  const horas = parseInt(match[1], 10);
+  const minutos = parseInt(match[2], 10);
+  const segundos = match[3] ? parseInt(match[3], 10) : 0;
 
   if (Number.isNaN(horas) || Number.isNaN(minutos) || Number.isNaN(segundos)) {
     return NaN;
@@ -1257,7 +1257,22 @@ function horaParaSegundos(valor) {
   return horas * 3600 + minutos * 60 + segundos;
 }
 
-function obterErroHoraInferior(valorAtual, minimo) {
+function obterReferenciaHoraEntrada(dataEntrada, horaEntradaCompleta, minimo) {
+  const dataNormalizada = (dataEntrada || "").split(" ")[0];
+  const hora = extrairHoraMinima(horaEntradaCompleta || minimo);
+
+  if (dataNormalizada && hora) {
+    return `${dataNormalizada} ${hora}`.trim();
+  }
+
+  if (hora) {
+    return hora;
+  }
+
+  return minimo || "";
+}
+
+function obterErroHoraInferior(valorAtual, minimo, dataEntrada, horaEntradaCompleta) {
   if (!valorAtual || !minimo) {
     return "";
   }
@@ -1270,13 +1285,17 @@ function obterErroHoraInferior(valorAtual, minimo) {
   }
 
   if (atualSegundos < minimoSegundos) {
-    return `A hora de saída não pode ser inferior a ${minimo}.`;
+    const referencia = obterReferenciaHoraEntrada(dataEntrada, horaEntradaCompleta, minimo);
+    if (referencia) {
+      return `A hora de saída não pode ser inferior à hora de entrada (${referencia}).`;
+    }
+    return "A hora de saída não pode ser inferior à hora de entrada.";
   }
 
   return "";
 }
 
-function configurarValidacaoHora(input, horaMinima) {
+function configurarValidacaoHora(input, horaMinima, dataEntrada, horaEntradaCompleta) {
   if (!input) {
     return;
   }
@@ -1289,8 +1308,25 @@ function configurarValidacaoHora(input, horaMinima) {
     delete input.dataset.horaEntradaMinima;
   }
 
+  if (dataEntrada) {
+    input.dataset.dataEntradaPendente = dataEntrada;
+  } else {
+    delete input.dataset.dataEntradaPendente;
+  }
+
+  if (horaEntradaCompleta) {
+    input.dataset.horaEntradaCompleta = horaEntradaCompleta;
+  } else {
+    delete input.dataset.horaEntradaCompleta;
+  }
+
   const validar = () => {
-    const erro = obterErroHoraInferior(input.value, input.dataset.horaEntradaMinima);
+    const erro = obterErroHoraInferior(
+      input.value,
+      input.dataset.horaEntradaMinima,
+      input.dataset.dataEntradaPendente,
+      input.dataset.horaEntradaCompleta
+    );
     input.setCustomValidity(erro);
   };
 
@@ -1325,7 +1361,7 @@ function submeterSaidaPendente() {
   }
 
   const horaMinima = extrairHoraMinima(horaEntradaPendente);
-  const erroHora = obterErroHoraInferior(hora, horaMinima);
+  const erroHora = obterErroHoraInferior(hora, horaMinima, dataPendente, horaEntradaPendente);
   if (erroHora) {
     if (inputHora) {
       inputHora.reportValidity();
