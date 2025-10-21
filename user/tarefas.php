@@ -969,7 +969,10 @@ function finalizarDiaComTempo() {
   <div class="modal-box">
     <button class="fechar-modal" onclick="fecharModalSaida()">×</button>
     <h3>Registar Hora de Saída</h3>
-    <p>Foi encontrado um dia anterior sem hora de saída.<br>Por favor, indica a hora que saíste:</p>
+    <p id="textoSaidaPendente">
+      Foi encontrado um dia anterior sem hora de saída.<br>
+      Por favor, indica a hora que saíste.
+    </p>
     <form id="formSaidaPendente">
       <input type="time" id="horaSaidaPendente" required style="width:100%; padding:8px; margin-top:10px;">
       <div style="margin-top:15px; text-align:right;">
@@ -1155,6 +1158,8 @@ function abrirTarefaComTempo(id) {
 
 <script>
 let utilizadorIdPendente = null;
+let dataPendente = null;
+let horaEntradaPendente = null;
 
 function verificarSaidaPendentes(idUtilizador) {
   if (!idUtilizador) {
@@ -1164,16 +1169,143 @@ function verificarSaidaPendentes(idUtilizador) {
 
   utilizadorIdPendente = idUtilizador;
 
-  fetch("verificar_saida_pendente.php?id=" + idUtilizador)
+  fetch("verificar_saida_pendente.php?id=" + encodeURIComponent(idUtilizador))
     .then(res => res.json())
     .then(data => {
+      if (data.erro) {
+        throw new Error(data.erro);
+      }
+
       if (data.temPendentes) {
+        dataPendente = data.data || null;
+        horaEntradaPendente = data.horaEntrada || null;
+        prepararModalSaida();
         abrirModalSaida();
       } else {
         iniciarDia();
       }
     })
     .catch(err => alert("Erro ao verificar saídas pendentes: " + err.message));
+}
+
+function prepararModalSaida() {
+  const texto = document.getElementById("textoSaidaPendente");
+  const inputHora = document.getElementById("horaSaidaPendente");
+  const diaFormatado = formatarDataPortugues(dataPendente);
+  const horaMinima = extrairHoraMinima(horaEntradaPendente);
+
+  if (texto) {
+    const parteDia = diaFormatado ? `no dia <strong>${diaFormatado}</strong>` : "no dia em falta";
+    const parteEntrada = horaMinima ? ` (entrada registada às ${horaMinima})` : "";
+    texto.innerHTML = `Foi encontrado um dia anterior sem hora de saída.<br>Por favor, indica a hora que saíste ${parteDia}${parteEntrada}.`;
+  }
+
+  if (inputHora) {
+    inputHora.value = "";
+    configurarValidacaoHora(inputHora, horaMinima);
+  }
+}
+
+function extrairHoraMinima(valor) {
+  if (!valor) {
+    return "";
+  }
+
+  const partes = String(valor).split(":");
+  if (partes.length < 2) {
+    return "";
+  }
+
+  const horas = partes[0].padStart(2, "0");
+  const minutos = partes[1].padStart(2, "0");
+  return `${horas}:${minutos}`;
+}
+
+function formatarDataPortugues(isoDate) {
+  if (!isoDate) {
+    return "";
+  }
+
+  const normalizada = String(isoDate).trim().split(" ")[0];
+  const partes = normalizada.split("-");
+  if (partes.length !== 3) {
+    return "";
+  }
+
+  const [ano, mes, dia] = partes;
+  return `${dia.padStart(2, "0")}/${mes.padStart(2, "0")}/${ano}`;
+}
+
+function horaParaSegundos(valor) {
+  if (!valor) {
+    return NaN;
+  }
+
+  const partes = String(valor).split(":").map((parte) => parte.trim());
+  if (partes.length < 2) {
+    return NaN;
+  }
+
+  const horas = parseInt(partes[0], 10);
+  const minutos = parseInt(partes[1], 10);
+  const segundos = partes.length > 2 ? parseInt(partes[2], 10) : 0;
+
+  if (Number.isNaN(horas) || Number.isNaN(minutos) || Number.isNaN(segundos)) {
+    return NaN;
+  }
+
+  return horas * 3600 + minutos * 60 + segundos;
+}
+
+function obterErroHoraInferior(valorAtual, minimo) {
+  if (!valorAtual || !minimo) {
+    return "";
+  }
+
+  const atualSegundos = horaParaSegundos(valorAtual);
+  const minimoSegundos = horaParaSegundos(minimo);
+
+  if (Number.isNaN(atualSegundos) || Number.isNaN(minimoSegundos)) {
+    return "";
+  }
+
+  if (atualSegundos < minimoSegundos) {
+    return `A hora de saída não pode ser inferior a ${minimo}.`;
+  }
+
+  return "";
+}
+
+function configurarValidacaoHora(input, horaMinima) {
+  if (!input) {
+    return;
+  }
+
+  if (horaMinima) {
+    input.setAttribute("min", horaMinima);
+    input.dataset.horaEntradaMinima = horaMinima;
+  } else {
+    input.removeAttribute("min");
+    delete input.dataset.horaEntradaMinima;
+  }
+
+  const validar = () => {
+    const erro = obterErroHoraInferior(input.value, input.dataset.horaEntradaMinima);
+    input.setCustomValidity(erro);
+  };
+
+  if (!input.dataset.listenerHoraPendente) {
+    input.addEventListener("input", () => {
+      validar();
+      if (input.value) {
+        input.reportValidity();
+      }
+    });
+    input.addEventListener("invalid", validar);
+    input.dataset.listenerHoraPendente = "1";
+  }
+
+  validar();
 }
 
 function abrirModalSaida() {
@@ -1185,9 +1317,20 @@ function fecharModalSaida() {
 }
 
 function submeterSaidaPendente() {
-  const hora = document.getElementById("horaSaidaPendente").value;
+  const inputHora = document.getElementById("horaSaidaPendente");
+  const hora = inputHora ? inputHora.value : "";
   if (!hora) {
     alert("Por favor, insere a hora de saída.");
+    return;
+  }
+
+  const horaMinima = extrairHoraMinima(horaEntradaPendente);
+  const erroHora = obterErroHoraInferior(hora, horaMinima);
+  if (erroHora) {
+    if (inputHora) {
+      inputHora.reportValidity();
+    }
+    alert(erroHora);
     return;
   }
 
@@ -1196,8 +1339,12 @@ function submeterSaidaPendente() {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: "id=" + encodeURIComponent(utilizadorIdPendente) + "&hora=" + encodeURIComponent(hora)
   })
-  .then(res => res.text())
-  .then(() => {
+  .then(res => res.json())
+  .then(resposta => {
+    if (!resposta.ok) {
+      throw new Error(resposta.erro || "Erro ao registar hora de saída.");
+    }
+
     fecharModalSaida();
     iniciarDia();
   })

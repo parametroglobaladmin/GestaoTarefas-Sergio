@@ -1,35 +1,23 @@
 <?php
 session_start();
-require_once '../config_bd.php';
+
+header('Content-Type: application/json; charset=utf-8');
 
 date_default_timezone_set('Europe/Lisbon');
 
-if (!isset($_SESSION['utilizador_logado'])) {
-    http_response_code(401);
-    echo 'Utilizador não autenticado.';
+require_once '../config_bd.php';
+
+$timezone = new DateTimeZone('Europe/Lisbon');
+
+function responder(array $dados, int $status = 200): void
+{
+    http_response_code($status);
+    echo json_encode($dados, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-$idParam = $_POST['id'] ?? null;
-$horaInput = $_POST['hora'] ?? '';
-$utilizadorSessao = $_SESSION['utilizador_logado'];
-
-if (trim($horaInput) === '') {
-    http_response_code(400);
-    echo 'Hora inválida.';
-    exit;
-}
-
-$horaObj = DateTime::createFromFormat('H:i', $horaInput, new DateTimeZone('Europe/Lisbon'));
-if (!$horaObj) {
-    http_response_code(400);
-    echo 'Hora inválida.';
-    exit;
-}
-
-$horaFormatada = $horaObj->format('H:i:s');
-
-function temColuna(PDO $ligacao, string $tabela, string $coluna): bool {
+function temColuna(PDO $ligacao, string $tabela, string $coluna): bool
+{
     static $cache = [];
     $cacheKey = $tabela . '.' . $coluna;
 
@@ -44,6 +32,49 @@ function temColuna(PDO $ligacao, string $tabela, string $coluna): bool {
     return $cache[$cacheKey];
 }
 
+function normalizarHora(?string $hora, DateTimeZone $timezone): ?string
+{
+    if ($hora === null) {
+        return null;
+    }
+
+    $hora = trim($hora);
+    if ($hora === '') {
+        return null;
+    }
+
+    $formatos = ['H:i:s', 'H:i'];
+    foreach ($formatos as $formato) {
+        $obj = DateTime::createFromFormat($formato, $hora, $timezone);
+        if ($obj instanceof DateTime) {
+            return $obj->format('H:i:s');
+        }
+    }
+
+    return null;
+}
+
+if (!isset($_SESSION['utilizador_logado'])) {
+    responder(['ok' => false, 'erro' => 'Utilizador não autenticado.'], 401);
+}
+
+$idParam = $_POST['id'] ?? null;
+$horaInput = $_POST['hora'] ?? '';
+$utilizadorSessao = $_SESSION['utilizador_logado'];
+
+if (trim($horaInput) === '') {
+    responder(['ok' => false, 'erro' => 'Hora inválida.'], 400);
+}
+
+$horaObj = DateTime::createFromFormat('H:i', $horaInput, $timezone)
+    ?: DateTime::createFromFormat('H:i:s', $horaInput, $timezone);
+
+if (!$horaObj instanceof DateTime) {
+    responder(['ok' => false, 'erro' => 'Hora inválida.'], 400);
+}
+
+$horaFormatada = $horaObj->format('H:i:s');
+
 try {
     $ligacao->beginTransaction();
 
@@ -55,7 +86,7 @@ try {
     if ($temColunaId && $idParam !== null && $idParam !== '') {
         if ($temColunaUtilizadorId) {
             $stmt = $ligacao->prepare(
-                "SELECT id, data, utilizador
+                "SELECT id, data, hora_entrada, utilizador
                    FROM utilizador_entradaesaida
                   WHERE utilizador_id = ? AND hora_saida IS NULL
                   ORDER BY data DESC, hora_entrada DESC
@@ -64,7 +95,7 @@ try {
             $stmt->execute([$idParam]);
         } else {
             $stmt = $ligacao->prepare(
-                "SELECT ue.id, ue.data, ue.utilizador
+                "SELECT ue.id, ue.data, ue.hora_entrada, ue.utilizador
                    FROM utilizador_entradaesaida ue
                    INNER JOIN funcionarios f ON f.utilizador = ue.utilizador
                   WHERE f.id = ? AND ue.hora_saida IS NULL
@@ -79,7 +110,7 @@ try {
 
     if (!$pendente) {
         $stmtFallback = $ligacao->prepare(
-            "SELECT id, data, utilizador
+            "SELECT id, data, hora_entrada, utilizador
                FROM utilizador_entradaesaida
               WHERE utilizador = ? AND hora_saida IS NULL
               ORDER BY data DESC, hora_entrada DESC
@@ -91,27 +122,36 @@ try {
 
     if (!$pendente) {
         $ligacao->commit();
-        echo 'ok';
-        exit;
+        responder(['ok' => true]);
     }
 
     $dataEntrada = $pendente['data'];
     $utilizadorRegisto = $pendente['utilizador'];
-    $dataRetornoCompleta = $dataEntrada . ' ' . $horaFormatada;
+    $horaEntradaNormalizada = normalizarHora($pendente['hora_entrada'] ?? null, $timezone);
 
     if (strcasecmp($utilizadorRegisto, $utilizadorSessao) !== 0) {
         $ligacao->rollBack();
-        http_response_code(403);
-        echo 'Operação não autorizada.';
-        exit;
+        responder(['ok' => false, 'erro' => 'Operação não autorizada.'], 403);
     }
+
+    if ($horaEntradaNormalizada !== null) {
+        $entradaDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dataEntrada . ' ' . $horaEntradaNormalizada, $timezone);
+        $saidaDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $dataEntrada . ' ' . $horaFormatada, $timezone);
+
+        if ($entradaDateTime instanceof DateTime && $saidaDateTime instanceof DateTime && $saidaDateTime < $entradaDateTime) {
+            $ligacao->rollBack();
+            responder(['ok' => false, 'erro' => 'A hora de saída não pode ser anterior à hora de entrada.'], 422);
+        }
+    }
+
+    $dataRetornoCompleta = $dataEntrada . ' ' . $horaFormatada;
 
     $stmtAtualizaSaida = $ligacao->prepare(
         "UPDATE utilizador_entradaesaida
             SET hora_saida = ?
           WHERE id = ?"
     );
-    $stmtAtualizaSaida->execute([$dataRetornoCompleta, $pendente['id']]);
+    $stmtAtualizaSaida->execute([$horaFormatada, $pendente['id']]);
 
     $stmtPausas = $ligacao->prepare(
         "SELECT id, tarefa_id, motivo_id
@@ -149,11 +189,12 @@ try {
     }
 
     $ligacao->commit();
-    echo 'ok';
+
+    responder(['ok' => true, 'data' => $dataEntrada, 'horaEntrada' => $horaEntradaNormalizada, 'horaSaida' => $horaFormatada]);
 } catch (PDOException $e) {
     if ($ligacao->inTransaction()) {
         $ligacao->rollBack();
     }
-    http_response_code(500);
-    echo 'Erro ao registar saída pendente: ' . $e->getMessage();
+
+    responder(['ok' => false, 'erro' => 'Erro ao registar saída pendente.'], 500);
 }

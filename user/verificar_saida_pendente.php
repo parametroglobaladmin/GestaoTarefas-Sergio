@@ -37,7 +37,7 @@ try {
     if ($temColunaId && $idParam !== null && $idParam !== '') {
         if ($temColunaUtilizadorId) {
             $stmt = $ligacao->prepare(
-                "SELECT id FROM utilizador_entradaesaida
+                "SELECT id, data, hora_entrada FROM utilizador_entradaesaida
                  WHERE utilizador_id = ? AND hora_saida IS NULL
                  ORDER BY data DESC, hora_entrada DESC
                  LIMIT 1"
@@ -45,7 +45,7 @@ try {
             $stmt->execute([$idParam]);
         } else {
             $stmt = $ligacao->prepare(
-                "SELECT ue.id
+                "SELECT ue.id, ue.data, ue.hora_entrada
                    FROM utilizador_entradaesaida ue
                    INNER JOIN funcionarios f ON f.utilizador = ue.utilizador
                   WHERE f.id = ? AND ue.hora_saida IS NULL
@@ -60,7 +60,7 @@ try {
 
     if (!$registo) {
         $stmtFallback = $ligacao->prepare(
-            "SELECT id
+            "SELECT id, data, hora_entrada
                FROM utilizador_entradaesaida
               WHERE utilizador = ? AND hora_saida IS NULL
               ORDER BY data DESC, hora_entrada DESC
@@ -70,7 +70,11 @@ try {
         $registo = $stmtFallback->fetch(PDO::FETCH_ASSOC);
     }
 
-    echo json_encode(['temPendentes' => (bool) $registo], JSON_UNESCAPED_UNICODE);
+    echo json_encode([
+        'temPendentes' => (bool) $registo,
+        'data' => $registo['data'] ?? null,
+        'horaEntrada' => $registo['hora_entrada'] ?? null,
+    ], JSON_UNESCAPED_UNICODE);
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode([
