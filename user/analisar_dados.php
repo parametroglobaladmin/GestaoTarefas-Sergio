@@ -1758,8 +1758,8 @@ if ($utilizadorSelecionado && $dataFiltrar) {
                     <table style="border-collapse:collapse; min-width:260px;">
                       <thead>
                         <tr>
-                          <th style="background:#1f6fd9; color:#fff; padding:6px 10px; text-align:left; border:1px solid #1f6fd9;">Tarefa</th>
-                          <th style="background:#1f6fd9; color:#fff; padding:6px 10px; text-align:left; border:1px solid #1f6fd9;">Tempo de execução</th>
+                          <th style="background:#1f6fd9; color:#fff; padding:6px 10px; text-align:center; border:1px solid #1f6fd9;">Tarefa</th>
+                          <th style="background:#1f6fd9; color:#fff; padding:6px 10px; text-align:center; border:1px solid #1f6fd9;">Tempo de execução</th>
                         </tr>
                       </thead>
                       <tbody>
