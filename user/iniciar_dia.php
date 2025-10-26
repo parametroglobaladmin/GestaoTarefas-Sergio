@@ -46,10 +46,7 @@ try {
             $stmtUpdateTarefa = $ligacao->prepare("
                 UPDATE tarefas
                 SET estado_cronometro = 'ativa',
-                    data_inicio_cronometro = CASE
-                        WHEN tempo_decorrido_utilizador IS NULL THEN NOW()
-                        ELSE NOW() - INTERVAL TIME_TO_SEC(tempo_decorrido_utilizador) SECOND
-                    END,
+                    data_inicio_cronometro = NOW(),
                     ultima_modificacao = NOW()
                 WHERE id = ?
             ");
@@ -140,11 +137,8 @@ try {
             // 4. Reativar a tarefa anterior (restaura o cronómetro com base no tempo anterior)
             $stmtUpdateTarefas = $ligacao->prepare("
                 UPDATE tarefas
-                SET estado_cronometro = 'ativa',
-                    data_inicio_cronometro = CASE
-                        WHEN tempo_decorrido_utilizador IS NULL THEN NOW()
-                        ELSE NOW() - INTERVAL TIME_TO_SEC(tempo_decorrido_utilizador) SECOND
-                    END,
+                 SET estado_cronometro = 'ativa', 
+                    data_inicio_cronometro = NOW() - INTERVAL TIME_TO_SEC(tempo_decorrido_utilizador) SECOND, 
                     ultima_modificacao = NOW()
                 WHERE id = ?
             ");
@@ -277,20 +271,7 @@ try {
         $stmt->execute([$utilizador]);
         $tarefaId = $stmt->fetchColumn();
 
-        if ($tarefaId) {
-            $stmtReativaTarefa = $ligacao->prepare("
-                UPDATE tarefas
-                SET estado_cronometro = 'ativa',
-                    data_inicio_cronometro = CASE
-                        WHEN tempo_decorrido_utilizador IS NULL THEN NOW()
-                        ELSE NOW() - INTERVAL TIME_TO_SEC(tempo_decorrido_utilizador) SECOND
-                    END,
-                    ultima_modificacao = NOW()
-                WHERE id = ?
-            ");
-            $stmtReativaTarefa->execute([$tarefaId]);
-        }
-
+        
         // 2. Reverte data de reabertura de hoje
         $stmt = $ligacao->prepare("
             UPDATE finalizar_dia
